@@ -71,6 +71,14 @@ class SuratKeluar extends Model
     /**
      * Relasi ke pembuat surat keluar.
      */
+    public function pembuat(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'dibuat_oleh');
+    }
+
+    /**
+     * Alias relasi ke pembuat surat keluar.
+     */
     public function dibuatOleh(): BelongsTo
     {
         return $this->belongsTo(User::class, 'dibuat_oleh');

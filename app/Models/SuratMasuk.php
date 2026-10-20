@@ -46,6 +46,14 @@ class SuratMasuk extends Model
     ];
 
     /**
+     * Relasi ke pengguna pencatat surat masuk.
+     */
+    public function pencatat(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'dicatat_oleh');
+    }
+
+    /**
      * Relasi ke pengguna yang mencatat surat masuk ini.
      */
     public function dicatatOleh(): BelongsTo
