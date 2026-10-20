@@ -71,7 +71,7 @@
     $jenis = strtoupper($item->jenis_surat ?? $item->jenis ?? 'SU');
 
     $userRole = Auth::user()->role ?? '';
-    $isPimpinan = in_array(strtolower($userRole), ['pimpinan', 'admin_adminpers', 'kasatkorcab', 'admin']);
+    $isPimpinan = in_array(strtolower($userRole), ['pimpinan', 'admin_adminpers', 'kasatkorcab', 'admin', 'super_admin']);
 @endphp
 
 <div class="page-container" style="max-width: 1040px; margin: 0 auto;">

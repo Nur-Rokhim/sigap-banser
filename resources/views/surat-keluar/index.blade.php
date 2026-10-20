@@ -133,6 +133,9 @@
                                     <a href="{{ route('surat-keluar.show', $item->id) }}" class="btn btn-secondary btn-sm" title="Lihat detail">
                                         Detail
                                     </a>
+                                    <a href="{{ route('surat-keluar.edit', $item->id) }}" class="btn btn-secondary btn-sm" title="Edit surat keluar" style="color: var(--accent); font-weight: 600;">
+                                        Edit
+                                    </a>
                                 </div>
                             </td>
                         </tr>

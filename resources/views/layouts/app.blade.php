@@ -777,7 +777,19 @@
                     </div>
                     <div class="user-details">
                         <span class="user-name">{{ Auth::user()->name ?? 'Petugas Banser' }}</span>
-                        <span class="user-role">{{ Auth::user()->role ?? 'Adminpers' }}</span>
+                        <span class="user-role">
+                            @php
+                                $r = strtolower(Auth::user()->role ?? '');
+                                echo match($r) {
+                                    'kasatkorcab' => 'Kasatkorcab (Verifikator)',
+                                    'kasetma'     => 'Kasetma (User Edit)',
+                                    'adminpers', 'admin_adminpers' => 'Ka. Biro Adminpers (User Edit)',
+                                    'super_admin' => 'Super Administrator',
+                                    'pimpinan'    => 'Pimpinan (Verifikator)',
+                                    default       => ucfirst(Auth::user()->role ?? 'Anggota'),
+                                };
+                            @endphp
+                        </span>
                     </div>
                     <form action="{{ route('logout') }}" method="POST" style="margin: 0;">
                         @csrf

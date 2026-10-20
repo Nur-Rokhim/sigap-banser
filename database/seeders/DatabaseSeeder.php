@@ -40,5 +40,44 @@ class DatabaseSeeder extends Seeder
                 'aktif' => true,
             ]
         );
+
+        // 4. Akun Kasatkorcab Selaku Verifikator
+        User::firstOrCreate(
+            ['username' => 'kasatkorcab'],
+            [
+                'name' => 'Kasatkorcab BANSER Blitar',
+                'email' => 'kasatkorcab@sigap-banser.id',
+                'password' => Hash::make('password'),
+                'role' => 'kasatkorcab',
+                'satuan_id' => $satkorcab->id,
+                'aktif' => true,
+            ]
+        );
+
+        // 5. Akun Kasetma Selaku User Edit
+        User::firstOrCreate(
+            ['username' => 'kasetma'],
+            [
+                'name' => 'Kasetma Satkorcab Blitar',
+                'email' => 'kasetma@sigap-banser.id',
+                'password' => Hash::make('password'),
+                'role' => 'kasetma',
+                'satuan_id' => $satkorcab->id,
+                'aktif' => true,
+            ]
+        );
+
+        // 6. Akun Ka. Biro Adminpers Selaku User Edit
+        User::firstOrCreate(
+            ['username' => 'adminpers'],
+            [
+                'name' => 'Ka. Biro Adminpers Satkorcab Blitar',
+                'email' => 'adminpers@sigap-banser.id',
+                'password' => Hash::make('password'),
+                'role' => 'adminpers',
+                'satuan_id' => $satkorcab->id,
+                'aktif' => true,
+            ]
+        );
     }
 }

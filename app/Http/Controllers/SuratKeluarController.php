@@ -9,6 +9,7 @@ use App\Models\DetailUndangan;
 use App\Models\JenisSurat;
 use App\Models\LogAktivitas;
 use App\Models\PenerimaTugas;
+use App\Models\Profil;
 use App\Models\SuratKeluar;
 use App\Services\NomorSuratService;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -105,17 +106,47 @@ class SuratKeluarController extends Controller
             'penerimaTugas.anggota',
         ])->findOrFail($id);
 
-        // Hanya draf yang boleh diedit; super_admin dan admin_adminpers boleh edit kapan saja
+        // Hanya draf yang boleh diedit; super_admin, adminpers, kasetma, kasatkorcab boleh edit
         $userRole = strtolower(Auth::user()->role ?? '');
-        $isAdmin  = in_array($userRole, ['super_admin', 'admin_adminpers', 'admin']);
+        $canEdit  = in_array($userRole, ['super_admin', 'admin_adminpers', 'admin', 'kasetma', 'adminpers', 'kasatkorcab']);
 
-        if (!$isAdmin && $suratKeluar->status !== 'draf') {
+        if (!$canEdit && $suratKeluar->status !== 'draf') {
             return redirect()->route('surat-keluar.show', $id)
                 ->with('error', 'Surat keluar yang sudah diajukan / disetujui tidak dapat diedit lagi.');
         }
 
         // Alias atribut untuk view
         $suratKeluar->jenis_surat = $suratKeluar->jenis ? $suratKeluar->jenis->kode : 'SU';
+        $suratKeluar->tanggal_surat = $suratKeluar->tgl_surat;
+
+        if ($suratKeluar->detailUndangan) {
+            $suratKeluar->acara_tanggal = $suratKeluar->detailUndangan->hari_tanggal;
+            $suratKeluar->acara_waktu   = $suratKeluar->detailUndangan->waktu;
+            $suratKeluar->acara_tempat  = $suratKeluar->detailUndangan->tempat;
+            $suratKeluar->acara_pakaian = $suratKeluar->detailUndangan->pakaian;
+            $suratKeluar->acara_nama    = $suratKeluar->detailUndangan->acara;
+        }
+
+        if ($suratKeluar->detailSph) {
+            $suratKeluar->dasar        = $suratKeluar->detailSph->dasar;
+            $suratKeluar->isi_perintah = $suratKeluar->detailSph->isi_perintah;
+            $suratKeluar->untuk_satuan = $suratKeluar->detailSph->untuk_satuan;
+        }
+
+        if ($suratKeluar->detailTugas) {
+            $suratKeluar->st_dasar      = $suratKeluar->detailTugas->dasar;
+            $suratKeluar->dasar         = $suratKeluar->detailTugas->dasar;
+            $suratKeluar->uraian_tugas  = $suratKeluar->detailTugas->uraian_tugas;
+            $suratKeluar->tgl_mulai     = $suratKeluar->detailTugas->tgl_mulai;
+            $suratKeluar->tgl_selesai   = $suratKeluar->detailTugas->tgl_selesai;
+            $suratKeluar->st_tempat     = $suratKeluar->detailTugas->tempat;
+        }
+
+        if ($suratKeluar->penerimaTugas && $suratKeluar->penerimaTugas->isNotEmpty()) {
+            $suratKeluar->penerima_tugas = $suratKeluar->penerimaTugas->map(function ($pt) {
+                return $pt->anggota ? $pt->anggota->nama . ' (NIA: ' . ($pt->anggota->nia ?? '-') . ')' : 'Anggota #' . $pt->anggota_id;
+            })->all();
+        }
 
         $jenisSurat = JenisSurat::where('aktif', true)->get();
         $anggotas   = Anggota::orderBy('nama', 'asc')->get();
@@ -173,8 +204,13 @@ class SuratKeluarController extends Controller
             )->all();
         }
 
-        $pdf = Pdf::loadView('surat-keluar.pdf', ['surat' => $suratKeluar])
-            ->setPaper('a4', 'portrait');
+        $profil = Profil::getProfil();
+
+        $pdf = Pdf::loadView('surat-keluar.pdf', [
+            'surat'       => $suratKeluar,
+            'suratKeluar' => $suratKeluar,
+            'profil'      => $profil,
+        ])->setPaper('a4', 'portrait');
 
         $namaFile = 'surat-keluar-' . ($suratKeluar->nomor_surat
             ? str_replace('/', '-', $suratKeluar->nomor_surat)
@@ -523,8 +559,12 @@ class SuratKeluarController extends Controller
             ->with('success', 'Surat keluar berhasil ditandai sebagai terkirim.');
     }
 
+
+
+
+
     /**
-     * Dukungan untuk pembaruan status surat keluar melalui permintaan PUT (RESTful).
+     * Dukungan untuk pembaruan status surat keluar atau data form melalui permintaan PUT (RESTful).
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -536,6 +576,7 @@ class SuratKeluarController extends Controller
         $status = $request->input('status');
         $generateNomor = $request->boolean('generate_nomor');
 
+        // Aksi transisi status
         if ($status === 'verifikasi' || $request->input('action') === 'ajukan') {
             return $this->ajukan($id);
         }
@@ -548,6 +589,63 @@ class SuratKeluarController extends Controller
             return $this->kirim($id);
         }
 
-        return redirect()->route('surat-keluar.show', $id);
+        // Pembaruan data isian surat keluar dari form edit
+        $surat = SuratKeluar::findOrFail($id);
+
+        $validated = $request->validate([
+            'tujuan'        => 'required|string|max:255',
+            'tanggal_surat' => 'required|date',
+            'perihal'       => 'required|string',
+        ]);
+
+        $surat->update([
+            'tujuan'    => $validated['tujuan'],
+            'tgl_surat' => $validated['tanggal_surat'],
+            'perihal'   => $validated['perihal'],
+        ]);
+
+        $kodeJenis = strtoupper($surat->jenis ? $surat->jenis->kode : 'SU');
+
+        if ($kodeJenis === 'SU') {
+            \App\Models\DetailUndangan::updateOrCreate(
+                ['surat_keluar_id' => $surat->id],
+                [
+                    'hari_tanggal' => $request->input('acara_tanggal'),
+                    'waktu'        => $request->input('acara_waktu'),
+                    'tempat'       => $request->input('acara_tempat'),
+                    'pakaian'      => $request->input('acara_pakaian'),
+                    'acara'        => $request->input('acara_nama'),
+                ]
+            );
+        } elseif ($kodeJenis === 'SPH') {
+            \App\Models\DetailSph::updateOrCreate(
+                ['surat_keluar_id' => $surat->id],
+                [
+                    'dasar'        => $request->input('dasar'),
+                    'isi_perintah' => $request->input('isi_perintah'),
+                    'untuk_satuan' => $request->input('untuk_satuan'),
+                ]
+            );
+        } elseif ($kodeJenis === 'ST') {
+            \App\Models\DetailTugas::updateOrCreate(
+                ['surat_keluar_id' => $surat->id],
+                [
+                    'dasar'        => $request->input('st_dasar'),
+                    'uraian_tugas' => $request->input('uraian_tugas'),
+                    'tgl_mulai'    => $request->input('tgl_mulai'),
+                    'tgl_selesai'  => $request->input('tgl_selesai'),
+                    'tempat'       => $request->input('st_tempat'),
+                ]
+            );
+        }
+
+        LogAktivitas::create([
+            'user_id' => Auth::id() ?? 1,
+            'aksi'    => "Memperbarui data surat keluar ID #{$surat->id} ({$surat->perihal})",
+            'waktu'   => Carbon::now(),
+        ]);
+
+        return redirect()->route('surat-keluar.show', $surat->id)
+            ->with('success', 'Data rincian surat keluar berhasil diperbarui.');
     }
 }
