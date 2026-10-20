@@ -129,13 +129,34 @@
                                 @endif
                             </td>
                             <td style="text-align: right;">
-                                <div style="display: inline-flex; gap: 6px; align-items: center;">
-                                    <a href="{{ route('surat-keluar.show', $item->id) }}" class="btn btn-secondary btn-sm" title="Lihat detail">
-                                        Detail
+                                <div style="display: inline-flex; gap: 5px; align-items: center; justify-content: flex-end;">
+                                    <!-- Icon Buku: Detail -->
+                                    <a href="{{ route('surat-keluar.show', $item->id) }}" class="btn-icon btn-icon-detail" title="Lihat detail surat keluar">
+                                        <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                                        </svg>
+                                        <span>Detail</span>
                                     </a>
-                                    <a href="{{ route('surat-keluar.edit', $item->id) }}" class="btn btn-secondary btn-sm" title="Edit surat keluar" style="color: var(--accent); font-weight: 600;">
-                                        Edit
+
+                                    <!-- Icon Bolpoint: Edit -->
+                                    <a href="{{ route('surat-keluar.edit', $item->id) }}" class="btn-icon btn-icon-edit" title="Edit surat keluar">
+                                        <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+                                        </svg>
+                                        <span>Edit</span>
                                     </a>
+
+                                    <!-- Icon Tempat Sampah: Hapus -->
+                                    <form action="{{ route('surat-keluar.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus surat keluar {{ $item->nomor_surat ?: ('Draf #' . $item->id) }}? Tindakan ini tidak dapat dibatalkan.');" style="margin: 0; display: inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn-icon btn-icon-delete" title="Hapus surat keluar">
+                                            <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                            </svg>
+                                            <span>Hapus</span>
+                                        </button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>

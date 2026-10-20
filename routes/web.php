@@ -42,6 +42,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/surat-masuk/{id}/edit', [SuratMasukController::class, 'edit'])->name('surat-masuk.edit');
     Route::put('/surat-masuk/{id}', [SuratMasukController::class, 'update'])->name('surat-masuk.update');
     Route::get('/surat-masuk/{id}/download', [SuratMasukController::class, 'downloadScan'])->name('surat-masuk.download');
+    Route::delete('/surat-masuk/{id}', [SuratMasukController::class, 'destroy'])->name('surat-masuk.destroy');
     Route::post('/surat-masuk/{id}/disposisi', [SuratMasukController::class, 'disposisi'])->name('surat-masuk.disposisi');
     Route::post('/surat-masuk/{id}/disposisi/store', [SuratMasukController::class, 'disposisi'])->name('surat-masuk.disposisi.store');
 
@@ -53,6 +54,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/surat-keluar/{id}/pdf', [SuratKeluarController::class, 'pdf'])->name('surat-keluar.pdf');
     Route::get('/surat-keluar/{id}', [SuratKeluarController::class, 'show'])->name('surat-keluar.show');
     Route::put('/surat-keluar/{id}', [SuratKeluarController::class, 'update'])->name('surat-keluar.update');
+    Route::delete('/surat-keluar/{id}', [SuratKeluarController::class, 'destroy'])->name('surat-keluar.destroy');
     Route::post('/surat-keluar/{id}/ajukan', [SuratKeluarController::class, 'ajukan'])->name('surat-keluar.ajukan');
     Route::post('/surat-keluar/{id}/setujui', [SuratKeluarController::class, 'setujui'])
         ->name('surat-keluar.setujui');

@@ -648,4 +648,35 @@ class SuratKeluarController extends Controller
         return redirect()->route('surat-keluar.show', $surat->id)
             ->with('success', 'Data rincian surat keluar berhasil diperbarui.');
     }
+
+    /**
+     * Hapus data surat keluar beserta rincian lampiran dan mandat penugasan terkait.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy($id)
+    {
+        $surat = SuratKeluar::findOrFail($id);
+        $nomorSurat = $surat->nomor_surat ?: ('Draf ID #' . $surat->id);
+        $perihal = $surat->perihal;
+
+        // Hapus detail terkait
+        if ($surat->detailUndangan) $surat->detailUndangan->delete();
+        if ($surat->detailSph) $surat->detailSph->delete();
+        if ($surat->detailTugas) $surat->detailTugas->delete();
+        $surat->penerimaTugas()->delete();
+
+        $surat->delete();
+
+        // Catat aktivitas
+        LogAktivitas::create([
+            'user_id' => Auth::id() ?? 1,
+            'aksi'    => "Menghapus data surat keluar: {$nomorSurat} ({$perihal})",
+            'waktu'   => Carbon::now(),
+        ]);
+
+        return redirect()->route('surat-keluar.index')
+            ->with('success', "Surat keluar {$nomorSurat} berhasil dihapus dari Buku Registrasi.");
+    }
 }

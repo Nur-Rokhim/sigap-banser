@@ -500,6 +500,60 @@
             font-weight: 700;
         }
 
+        /* Action Icon Buttons for Tables */
+        .btn-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            padding: 5px 9px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            background-color: var(--surface);
+            color: var(--ink);
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            line-height: 1.2;
+            white-space: nowrap;
+        }
+        .btn-icon:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+        }
+        .btn-icon-detail {
+            color: #1E40AF;
+            border-color: #BFDBFE;
+            background-color: #EFF6FF;
+        }
+        .btn-icon-detail:hover {
+            background-color: #DBEAFE;
+            color: #1D4ED8;
+            border-color: #93C5FD;
+        }
+        .btn-icon-edit {
+            color: #B45309;
+            border-color: #FDE68A;
+            background-color: #FFFBEB;
+        }
+        .btn-icon-edit:hover {
+            background-color: #FEF3C7;
+            color: #92400E;
+            border-color: #FCD34D;
+        }
+        .btn-icon-delete {
+            color: #DC2626;
+            border-color: #FECACA;
+            background-color: #FEF2F2;
+        }
+        .btn-icon-delete:hover {
+            background-color: #FEE2E2;
+            color: #B91C1C;
+            border-color: #FCA5A5;
+        }
+
         /* Badges */
         .badge {
             display: inline-flex;

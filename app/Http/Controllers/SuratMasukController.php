@@ -364,4 +364,39 @@ class SuratMasukController extends Controller
         return redirect()->route('surat-masuk.show', $surat->id)
             ->with('success', "Disposisi surat masuk berhasil diarahkan kepada {$validated['tujuan']}.");
     }
+
+    /**
+     * Hapus data surat masuk beserta file pindaian dan disposisi terkait.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy($id)
+    {
+        $surat = SuratMasuk::findOrFail($id);
+        $nomorSurat = $surat->no_surat ?: ('Surat ID #' . $surat->id);
+
+        // Hapus file scan jika tersimpan
+        if ($surat->file_scan) {
+            if (Storage::disk('local')->exists($surat->file_scan)) {
+                Storage::disk('local')->delete($surat->file_scan);
+            } elseif (Storage::disk('public')->exists($surat->file_scan)) {
+                Storage::disk('public')->delete($surat->file_scan);
+            }
+        }
+
+        // Hapus disposisi terkait
+        $surat->disposisi()->delete();
+        $surat->delete();
+
+        // Catat aktivitas
+        LogAktivitas::create([
+            'user_id' => Auth::id() ?? 1,
+            'aksi'    => "Menghapus data surat masuk nomor {$nomorSurat}",
+            'waktu'   => Carbon::now(),
+        ]);
+
+        return redirect()->route('surat-masuk.index')
+            ->with('success', "Surat masuk nomor {$nomorSurat} berhasil dihapus dari Buku Agenda.");
+    }
 }
