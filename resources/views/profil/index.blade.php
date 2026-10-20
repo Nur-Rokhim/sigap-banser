@@ -442,9 +442,9 @@
                                 <span class="status-pill empty">Belum Diunggah</span>
                             @endif
 
-                            <div class="preview-container">
+                            <div class="preview-container" id="preview-box-ttd_ketua_ansor">
                                 @if($profil->ttd_ketua_ansor)
-                                    <img src="{{ $profil->getFileUrl($profil->ttd_ketua_ansor) }}" alt="TTD Ketua Ansor">
+                                    <img src="{{ route('profil.berkas', 'ttd_ketua_ansor') }}?v={{ time() }}" alt="TTD Ketua Ansor" id="img-ttd_ketua_ansor">
                                 @else
                                     <div class="preview-placeholder">
                                         <svg width="28" height="28" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
@@ -452,10 +452,18 @@
                                     </div>
                                 @endif
                             </div>
+
+                            @if($profil->ttd_ketua_ansor)
+                                <label style="display: inline-flex; align-items: center; gap: 5px; font-size: 0.76rem; color: #D32F2F; cursor: pointer; margin-top: 4px;">
+                                    <input type="checkbox" name="hapus_ttd_ketua_ansor" value="1">
+                                    <span>Hapus berkas ini</span>
+                                </label>
+                            @endif
                         </div>
 
-                        <div>
-                            <input type="file" name="ttd_ketua_ansor" accept="image/*" class="custom-file-input">
+                        <div style="margin-top: 10px;">
+                            <input type="hidden" name="b64_ttd_ketua_ansor" id="b64-ttd_ketua_ansor">
+                            <input type="file" name="ttd_ketua_ansor" id="input-ttd_ketua_ansor" accept="image/*" class="custom-file-input">
                         </div>
                     </div>
 
@@ -474,9 +482,9 @@
                                 <span class="status-pill empty">Belum Diunggah</span>
                             @endif
 
-                            <div class="preview-container">
+                            <div class="preview-container" id="preview-box-ttd_kasatkorcab">
                                 @if($profil->ttd_kasatkorcab)
-                                    <img src="{{ $profil->getFileUrl($profil->ttd_kasatkorcab) }}" alt="TTD Kasatkorcab">
+                                    <img src="{{ route('profil.berkas', 'ttd_kasatkorcab') }}?v={{ time() }}" alt="TTD Kasatkorcab" id="img-ttd_kasatkorcab">
                                 @else
                                     <div class="preview-placeholder">
                                         <svg width="28" height="28" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
@@ -484,10 +492,18 @@
                                     </div>
                                 @endif
                             </div>
+
+                            @if($profil->ttd_kasatkorcab)
+                                <label style="display: inline-flex; align-items: center; gap: 5px; font-size: 0.76rem; color: #D32F2F; cursor: pointer; margin-top: 4px;">
+                                    <input type="checkbox" name="hapus_ttd_kasatkorcab" value="1">
+                                    <span>Hapus berkas ini</span>
+                                </label>
+                            @endif
                         </div>
 
-                        <div>
-                            <input type="file" name="ttd_kasatkorcab" accept="image/*" class="custom-file-input">
+                        <div style="margin-top: 10px;">
+                            <input type="hidden" name="b64_ttd_kasatkorcab" id="b64-ttd_kasatkorcab">
+                            <input type="file" name="ttd_kasatkorcab" id="input-ttd_kasatkorcab" accept="image/*" class="custom-file-input">
                         </div>
                     </div>
 
@@ -506,9 +522,9 @@
                                 <span class="status-pill empty">Belum Diunggah</span>
                             @endif
 
-                            <div class="preview-container">
+                            <div class="preview-container" id="preview-box-ttd_kasetma">
                                 @if($profil->ttd_kasetma)
-                                    <img src="{{ $profil->getFileUrl($profil->ttd_kasetma) }}" alt="TTD Kasetma">
+                                    <img src="{{ route('profil.berkas', 'ttd_kasetma') }}?v={{ time() }}" alt="TTD Kasetma" id="img-ttd_kasetma">
                                 @else
                                     <div class="preview-placeholder">
                                         <svg width="28" height="28" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
@@ -516,10 +532,18 @@
                                     </div>
                                 @endif
                             </div>
+
+                            @if($profil->ttd_kasetma)
+                                <label style="display: inline-flex; align-items: center; gap: 5px; font-size: 0.76rem; color: #D32F2F; cursor: pointer; margin-top: 4px;">
+                                    <input type="checkbox" name="hapus_ttd_kasetma" value="1">
+                                    <span>Hapus berkas ini</span>
+                                </label>
+                            @endif
                         </div>
 
-                        <div>
-                            <input type="file" name="ttd_kasetma" accept="image/*" class="custom-file-input">
+                        <div style="margin-top: 10px;">
+                            <input type="hidden" name="b64_ttd_kasetma" id="b64-ttd_kasetma">
+                            <input type="file" name="ttd_kasetma" id="input-ttd_kasetma" accept="image/*" class="custom-file-input">
                         </div>
                     </div>
                 </div>
@@ -553,9 +577,9 @@
                                 <span class="status-pill empty">Belum Diunggah</span>
                             @endif
 
-                            <div class="preview-container">
+                            <div class="preview-container" id="preview-box-stempel_ansor">
                                 @if($profil->stempel_ansor)
-                                    <img src="{{ $profil->getFileUrl($profil->stempel_ansor) }}" alt="Stempel GP Ansor">
+                                    <img src="{{ route('profil.berkas', 'stempel_ansor') }}?v={{ time() }}" alt="Stempel GP Ansor" id="img-stempel_ansor">
                                 @else
                                     <div class="preview-placeholder">
                                         <svg width="28" height="28" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
@@ -563,10 +587,18 @@
                                     </div>
                                 @endif
                             </div>
+
+                            @if($profil->stempel_ansor)
+                                <label style="display: inline-flex; align-items: center; gap: 5px; font-size: 0.76rem; color: #D32F2F; cursor: pointer; margin-top: 4px;">
+                                    <input type="checkbox" name="hapus_stempel_ansor" value="1">
+                                    <span>Hapus berkas ini</span>
+                                </label>
+                            @endif
                         </div>
 
-                        <div>
-                            <input type="file" name="stempel_ansor" accept="image/*" class="custom-file-input">
+                        <div style="margin-top: 10px;">
+                            <input type="hidden" name="b64_stempel_ansor" id="b64-stempel_ansor">
+                            <input type="file" name="stempel_ansor" id="input-stempel_ansor" accept="image/*" class="custom-file-input">
                         </div>
                     </div>
 
@@ -576,18 +608,18 @@
                             <div class="upload-card-label">Stempel Resmi Satkorcab BANSER</div>
                             <div class="upload-card-hint">Cap Stempel Satkorcab Banser</div>
 
-                            @if($profil->stempel_banser)
-                                <span class="status-pill ready">
+                            <span class="status-pill {{ $profil->stempel_banser ? 'ready' : 'empty' }}" id="pill-stempel_banser">
+                                @if($profil->stempel_banser)
                                     <svg width="12" height="12" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
                                     Berkas Tersedia
-                                </span>
-                            @else
-                                <span class="status-pill empty">Belum Diunggah</span>
-                            @endif
+                                @else
+                                    Belum Diunggah
+                                @endif
+                            </span>
 
-                            <div class="preview-container">
+                            <div class="preview-container" id="preview-box-stempel_banser">
                                 @if($profil->stempel_banser)
-                                    <img src="{{ $profil->getFileUrl($profil->stempel_banser) }}" alt="Stempel BANSER">
+                                    <img src="{{ route('profil.berkas', 'stempel_banser') }}?v={{ time() }}" alt="Stempel BANSER" id="img-stempel_banser">
                                 @else
                                     <div class="preview-placeholder">
                                         <svg width="28" height="28" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
@@ -595,10 +627,18 @@
                                     </div>
                                 @endif
                             </div>
+
+                            @if($profil->stempel_banser)
+                                <label style="display: inline-flex; align-items: center; gap: 5px; font-size: 0.76rem; color: #D32F2F; cursor: pointer; margin-top: 4px;">
+                                    <input type="checkbox" name="hapus_stempel_banser" value="1">
+                                    <span>Hapus berkas ini</span>
+                                </label>
+                            @endif
                         </div>
 
-                        <div>
-                            <input type="file" name="stempel_banser" accept="image/*" class="custom-file-input">
+                        <div style="margin-top: 10px;">
+                            <input type="hidden" name="b64_stempel_banser" id="b64-stempel_banser">
+                            <input type="file" name="stempel_banser" id="input-stempel_banser" accept="image/*" class="custom-file-input">
                         </div>
                     </div>
                 </div>
@@ -622,3 +662,91 @@
     </form>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const fields = [
+        'ttd_ketua_ansor',
+        'ttd_kasatkorcab',
+        'ttd_kasetma',
+        'stempel_ansor',
+        'stempel_banser'
+    ];
+
+    fields.forEach(function (field) {
+        const input = document.getElementById('input-' + field);
+        const previewBox = document.getElementById('preview-box-' + field);
+        const pill = document.getElementById('pill-' + field);
+        const b64Input = document.getElementById('b64-' + field);
+
+        if (!input || !previewBox) return;
+
+        input.addEventListener('change', function (e) {
+            const file = e.target.files && e.target.files[0];
+            if (!file) return;
+
+            if (!file.type.startsWith('image/')) {
+                alert('Format berkas tidak didukung. Mohon pilih gambar format PNG, JPG, atau WEBP.');
+                input.value = '';
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                const dataUrl = event.target.result;
+
+                // Tampilkan preview instan di layar
+                previewBox.innerHTML = '<img src="' + dataUrl + '" alt="Preview ' + field + '" style="max-width: 90%; max-height: 90px; object-fit: contain; animation: fadeIn 0.3s ease;">';
+
+                // Jika ukuran file melebihi 1.5 MB, lakukan auto-resize di canvas client-side
+                if (file.size > 1.5 * 1024 * 1024) {
+                    const img = new Image();
+                    img.onload = function () {
+                        const canvas = document.createElement('canvas');
+                        let w = img.width;
+                        let h = img.height;
+                        const maxDim = 1200;
+
+                        if (w > maxDim || h > maxDim) {
+                            if (w > h) {
+                                h = Math.round((h * maxDim) / w);
+                                w = maxDim;
+                            } else {
+                                w = Math.round((w * maxDim) / h);
+                                h = maxDim;
+                            }
+                        }
+
+                        canvas.width = w;
+                        canvas.height = h;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, w, h);
+
+                        const compressedUrl = canvas.toDataURL('image/png', 0.9);
+                        if (b64Input) {
+                            b64Input.value = compressedUrl;
+                        }
+
+                        if (pill) {
+                            pill.className = 'status-pill ready';
+                            pill.innerHTML = '<svg width="12" height="12" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg> Dioptimasi & Siap Simpan';
+                        }
+                    };
+                    img.src = dataUrl;
+                } else {
+                    if (b64Input) b64Input.value = '';
+                    if (pill) {
+                        const sizeKb = Math.round(file.size / 1024);
+                        pill.className = 'status-pill ready';
+                        pill.innerHTML = '<svg width="12" height="12" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg> Dipilih (' + sizeKb + ' KB)';
+                    }
+                }
+            };
+
+            reader.readAsDataURL(file);
+        });
+    });
+});
+</script>
+@endpush

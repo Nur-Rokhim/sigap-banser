@@ -62,5 +62,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/profil', [ProfilController::class, 'index'])->name('profil.index');
     Route::put('/profil', [ProfilController::class, 'update'])->name('profil.update');
     Route::post('/profil', [ProfilController::class, 'update'])->name('profil.store');
+    Route::get('/profil/berkas/{field}', [ProfilController::class, 'berkas'])->name('profil.berkas');
 });
 

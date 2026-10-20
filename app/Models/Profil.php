@@ -59,19 +59,34 @@ class Profil extends Model
 
     /**
      * Helper untuk mendapatkan URL berkas di storage publik.
+     *
+     * @param  string|null  $fieldOrPath
+     * @return string|null
      */
-    public function getFileUrl(?string $path): ?string
+    public function getFileUrl(?string $fieldOrPath): ?string
     {
-        if (!$path) {
+        if (!$fieldOrPath) {
             return null;
         }
 
-        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
-            return $path;
+        $allowedFields = ['ttd_ketua_ansor', 'ttd_kasatkorcab', 'ttd_kasetma', 'stempel_ansor', 'stempel_banser'];
+
+        // Jika parameter adalah nama kolom/field profil
+        if (in_array($fieldOrPath, $allowedFields)) {
+            return !empty($this->$fieldOrPath) ? route('profil.berkas', ['field' => $fieldOrPath]) : null;
         }
 
-        return Storage::disk('public')->exists($path)
-            ? Storage::disk('public')->url($path)
-            : asset($path);
+        // Jika path berkas yang tersimpan diberikan (misal: "profil/xxx.png")
+        foreach ($allowedFields as $field) {
+            if ($this->$field === $fieldOrPath) {
+                return route('profil.berkas', ['field' => $field]);
+            }
+        }
+
+        if (str_starts_with($fieldOrPath, 'http://') || str_starts_with($fieldOrPath, 'https://')) {
+            return $fieldOrPath;
+        }
+
+        return asset('storage/' . ltrim($fieldOrPath, '/'));
     }
 }
