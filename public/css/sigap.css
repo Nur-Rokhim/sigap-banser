@@ -1,0 +1,74 @@
+/**
+ * SIGAP BANSER - Sistem Informasi & Administrasi Persuratan
+ * Satkorcab Banser Kabupaten Blitar
+ * Design Tokens & Theme Stylesheet
+ */
+
+:root {
+    /* Color Tokens */
+    --hero1: #5A0E14;
+    --hero2: #240608;
+    --red: #E5232B;
+    --yellow: #F5EB0F;
+    --gold: #C9A24A;
+    --green: #0E9B4A;
+    --accent: #8E1B22;
+    --accent-hover: #72141A;
+    --blue: #1D68BD;
+    --gray: #6B7280;
+
+    /* Light Theme Surface */
+    --bg: #F3F2F0;
+    --surface: #FFFFFF;
+    --surface-alt: #F9F8F6;
+    --ink: #1F1A1C;
+    --ink-muted: #696263;
+    --border: #E0D9D4;
+    --border-light: #EFEBE8;
+
+    /* Elevation & Shapes */
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 10px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.04);
+    --shadow-lg: 0 12px 24px -4px rgba(0,0,0,0.12), 0 4px 8px -2px rgba(0,0,0,0.05);
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #150E0F;
+        --surface: #201516;
+        --surface-alt: #291B1D;
+        --ink: #F2E9E7;
+        --ink-muted: #A89F9E;
+        --border: #38292B;
+        --border-light: #2D1F21;
+        --accent: #D12A31;
+        --accent-hover: #E8363E;
+        --shadow-sm: 0 1px 3px rgba(0,0,0,0.4);
+        --shadow-md: 0 4px 10px rgba(0,0,0,0.5);
+        --shadow-lg: 0 12px 24px rgba(0,0,0,0.6);
+    }
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Public Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6, .font-heading {
+    font-family: 'Archivo', system-ui, -apple-system, sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+}
