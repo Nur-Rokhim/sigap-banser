@@ -65,5 +65,10 @@ Route::middleware('auth')->group(function () {
     Route::put('/profil', [ProfilController::class, 'update'])->name('profil.update');
     Route::post('/profil', [ProfilController::class, 'update'])->name('profil.store');
     Route::get('/profil/berkas/{field}', [ProfilController::class, 'berkas'])->name('profil.berkas');
+
+    // Modul Pengaturan Akun & Ganti Kata Sandi
+    Route::get('/pengaturan-akun', [\App\Http\Controllers\PengaturanAkunController::class, 'index'])->name('pengaturan.index');
+    Route::put('/pengaturan-akun/password', [\App\Http\Controllers\PengaturanAkunController::class, 'updatePassword'])->name('pengaturan.password.update');
+    Route::put('/pengaturan-akun/profil', [\App\Http\Controllers\PengaturanAkunController::class, 'updateProfil'])->name('pengaturan.profil.update');
 });
 

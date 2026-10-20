@@ -933,11 +933,13 @@
 
                 @auth
                 <div class="user-dropdown">
-                    <div class="user-avatar-badge" title="{{ Auth::user()->name }}">
+                    <a href="{{ route('pengaturan.index') }}" class="user-avatar-badge" title="Pengaturan Akun & Ganti Sandi" style="text-decoration: none;">
                         {{ strtoupper(substr(Auth::user()->name ?? 'B', 0, 1)) }}
-                    </div>
+                    </a>
                     <div class="user-details">
-                        <span class="user-name">{{ Auth::user()->name ?? 'Petugas Banser' }}</span>
+                        <a href="{{ route('pengaturan.index') }}" class="user-name" style="text-decoration: none; color: inherit;" title="Buka Pengaturan Akun">
+                            {{ Auth::user()->name ?? 'Petugas Banser' }}
+                        </a>
                         <span class="user-role">
                             @php
                                 $r = strtolower(Auth::user()->role ?? '');
@@ -952,10 +954,16 @@
                             @endphp
                         </span>
                     </div>
-                    <form action="{{ route('logout') }}" method="POST" style="margin: 0;">
-                        @csrf
-                        <button type="submit" class="btn-logout" title="Keluar dari sistem">Keluar</button>
-                    </form>
+                    <div style="display: flex; gap: 6px; align-items: center;">
+                        <a href="{{ route('pengaturan.index') }}" class="btn-logout" title="Pengaturan Akun & Ganti Sandi" style="background-color: rgba(201, 162, 74, 0.2); border-color: rgba(201, 162, 74, 0.4); color: var(--yellow); text-decoration: none; display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px;">
+                            <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                            <span>Sandi</span>
+                        </a>
+                        <form action="{{ route('logout') }}" method="POST" style="margin: 0;">
+                            @csrf
+                            <button type="submit" class="btn-logout" title="Keluar dari sistem">Keluar</button>
+                        </form>
+                    </div>
                 </div>
                 @endauth
             </div>
@@ -1017,6 +1025,17 @@
                 <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="opacity: 0.65; margin-left: -2px;">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
                 </svg>
+            </a>
+
+            <!-- 6. Pengaturan Akun & Sandi -->
+            <a href="{{ route('pengaturan.index') }}" 
+               class="nav-tab-item {{ request()->routeIs('pengaturan.*') ? 'active' : '' }}"
+               title="Pengaturan Akun & Ganti Kata Sandi">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+                <span>Pengaturan Akun</span>
             </a>
         </div>
     </nav>
