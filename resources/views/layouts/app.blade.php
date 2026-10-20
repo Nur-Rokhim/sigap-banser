@@ -554,6 +554,113 @@
             border-color: #FCA5A5;
         }
 
+        /* Modal Persetujuan Hapus Modern & Menarik */
+        .delete-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            animation: fadeInModal 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .delete-modal-card {
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(0,0,0,0.05);
+            max-width: 490px;
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            animation: zoomInModal 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes fadeInModal {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes zoomInModal {
+            from { transform: scale(0.92); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .delete-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 24px 24px 0 24px;
+        }
+        .delete-icon-pulse {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: #FEE2E2;
+            color: #DC2626;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 0 8px rgba(239, 68, 68, 0.15);
+            animation: pulseGlow 2s infinite;
+        }
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0.15); }
+            50% { box-shadow: 0 0 0 12px rgba(239, 68, 68, 0.25); }
+        }
+        .delete-modal-close {
+            background: transparent;
+            border: none;
+            font-size: 1.6rem;
+            color: #94A3B8;
+            cursor: pointer;
+            line-height: 1;
+            padding: 4px 8px;
+            border-radius: 6px;
+            transition: all 0.15s ease;
+        }
+        .delete-modal-close:hover {
+            color: #0F172A;
+            background: #F1F5F9;
+        }
+        .delete-modal-body {
+            padding: 18px 24px 20px 24px;
+        }
+        .delete-modal-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #0F172A;
+            margin: 0 0 8px 0;
+            font-family: 'Outfit', sans-serif;
+        }
+        .delete-modal-desc {
+            font-size: 0.95rem;
+            color: #475569;
+            margin: 0 0 16px 0;
+            line-height: 1.5;
+        }
+        .delete-warning-box {
+            background: #FEF2F2;
+            border: 1px solid #FECACA;
+            border-radius: 12px;
+            padding: 12px 14px;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+        .delete-modal-footer {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 12px;
+            padding: 16px 24px 24px 24px;
+            background: #F8FAFC;
+            border-top: 1px solid #E2E8F0;
+        }
+
         /* Badges */
         .badge {
             display: inline-flex;
@@ -974,6 +1081,51 @@
         </div>
     </footer>
 
+    <!-- Modal Konfirmasi Persetujuan Hapus Modern & Menarik -->
+    <div id="modalConfirmDelete" class="delete-modal-overlay" style="display: none;" onclick="if(event.target === this) closeDeleteModal()">
+        <div class="delete-modal-card" role="dialog" aria-modal="true" aria-labelledby="deleteModalTitle">
+            <div class="delete-modal-header">
+                <div class="delete-icon-pulse">
+                    <svg width="26" height="26" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                    </svg>
+                </div>
+                <button type="button" class="delete-modal-close" onclick="closeDeleteModal()" aria-label="Tutup modal">&times;</button>
+            </div>
+
+            <div class="delete-modal-body">
+                <h3 id="deleteModalTitle" class="delete-modal-title">Persetujuan Hapus Dokumen</h3>
+                <p class="delete-modal-desc">
+                    Apakah Anda yakin menyetujui penghapusan data <strong id="deleteTargetItem" style="color: var(--ink);"></strong>?
+                </p>
+                <div class="delete-warning-box">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: #DC2626; flex-shrink: 0; margin-top: 2px;">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                    </svg>
+                    <div style="font-size: 0.82rem; color: #991B1B; line-height: 1.45;">
+                        <strong>Peringatan Penting:</strong> Tindakan ini tidak dapat dibatalkan. Seluruh berkas pindaian, data rincian, dan riwayat yang berkaitan akan dihapus permanen dari sistem SIGAP BANSER.
+                    </div>
+                </div>
+            </div>
+
+            <div class="delete-modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeDeleteModal()">
+                    Batal
+                </button>
+                <form id="deleteConfirmForm" method="POST" style="margin: 0; display: inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger" style="display: inline-flex; align-items: center; gap: 7px; background-color: #DC2626; border-color: #DC2626; color: #fff;">
+                        <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                        </svg>
+                        <span>Ya, Setujui & Hapus</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- Vanilla JavaScript for interactive features -->
     <script>
         // Auto-dismiss flash messages after 5 seconds
@@ -991,6 +1143,33 @@
                         }, 500);
                     }, 5000);
                 });
+            }
+        });
+
+        // Global Modal Konfirmasi Hapus
+        window.openDeleteModal = function(actionUrl, itemName) {
+            const modal = document.getElementById('modalConfirmDelete');
+            const form = document.getElementById('deleteConfirmForm');
+            const target = document.getElementById('deleteTargetItem');
+            if (modal && form && target) {
+                form.action = actionUrl;
+                target.textContent = itemName;
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+        };
+
+        window.closeDeleteModal = function() {
+            const modal = document.getElementById('modalConfirmDelete');
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
+            }
+        };
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                window.closeDeleteModal();
             }
         });
     </script>

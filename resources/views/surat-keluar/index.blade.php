@@ -68,6 +68,7 @@
                         <th style="width: 50px; text-align: center;">No</th>
                         <th>Nomor Surat</th>
                         <th>Jenis</th>
+                        <th>Acuan (Surat Masuk)</th>
                         <th>Perihal & Tujuan</th>
                         <th>Tgl Surat</th>
                         <th>Status</th>
@@ -103,6 +104,30 @@
                                     <span class="badge" style="background-color: rgba(14, 155, 74, 0.12); color: var(--green); border: 1px solid rgba(14, 155, 74, 0.25);">ST - Tugas</span>
                                 @else
                                     <span class="badge badge-gray">{{ $j }}</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if($item->suratMasuk)
+                                    <div style="font-size: 0.85rem; max-width: 260px;">
+                                        <div style="font-weight: 700; color: var(--ink); display: flex; align-items: center; gap: 4px;">
+                                            <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: var(--accent); flex-shrink: 0;">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                            </svg>
+                                            <span title="Pemohon: {{ $item->suratMasuk->dari }}">{{ Str::limit($item->suratMasuk->dari, 28) }}</span>
+                                        </div>
+                                        <div style="color: var(--ink-muted); font-size: 0.8rem; margin-top: 2px; line-height: 1.3;" title="Perihal: {{ $item->suratMasuk->perihal }}">
+                                            {{ Str::limit($item->suratMasuk->perihal, 50) }}
+                                        </div>
+                                        <div style="margin-top: 4px;">
+                                            <span class="badge" style="background-color: rgba(90, 14, 20, 0.08); color: var(--hero1); font-size: 0.72rem; padding: 1px 6px;">
+                                                No: {{ Str::limit($item->suratMasuk->no_surat, 22) }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                @else
+                                    <span style="color: var(--ink-muted); font-size: 0.82rem; font-style: italic;">
+                                        - Tanpa Acuan -
+                                    </span>
                                 @endif
                             </td>
                             <td>
@@ -146,23 +171,22 @@
                                         <span>Edit</span>
                                     </a>
 
-                                    <!-- Icon Tempat Sampah: Hapus -->
-                                    <form action="{{ route('surat-keluar.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus surat keluar {{ $item->nomor_surat ?: ('Draf #' . $item->id) }}? Tindakan ini tidak dapat dibatalkan.');" style="margin: 0; display: inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn-icon btn-icon-delete" title="Hapus surat keluar">
-                                            <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                                            </svg>
-                                            <span>Hapus</span>
-                                        </button>
-                                    </form>
+                                    <!-- Icon Tempat Sampah: Hapus dengan Notif Modal Menarik -->
+                                    <button type="button" 
+                                            class="btn-icon btn-icon-delete" 
+                                            title="Hapus surat keluar"
+                                            onclick="openDeleteModal('{{ route('surat-keluar.destroy', $item->id) }}', 'Surat Keluar {{ $item->nomor_surat ?: ('Draf #' . $item->id) }} (Perihal: {{ addslashes($item->perihal) }})')">
+                                        <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                        </svg>
+                                        <span>Hapus</span>
+                                    </button>
                                 </div>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" style="text-align: center; padding: 48px 16px;">
+                            <td colspan="8" style="text-align: center; padding: 48px 16px;">
                                 <div style="color: var(--ink-muted);">
                                     <svg width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin-bottom: 12px; opacity: 0.5;">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>

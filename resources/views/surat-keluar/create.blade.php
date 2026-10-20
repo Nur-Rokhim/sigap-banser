@@ -207,6 +207,45 @@
                 <span class="card-title">2. Data Pokok Surat</span>
             </div>
             <div class="card-body">
+                <!-- Acuan Surat Masuk (Dasar Rujukan Pemohon & Perihal) -->
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label for="surat_masuk_id" class="form-label" style="display: flex; align-items: center; justify-content: space-between;">
+                        <span>Acuan Surat Masuk (Pemohon & Perihal Rujukan)</span>
+                        <span style="font-weight: normal; font-size: 0.78rem; color: var(--ink-muted);">Opsional</span>
+                    </label>
+                    <select id="surat_masuk_id" name="surat_masuk_id" class="form-control select @error('surat_masuk_id') is-invalid @enderror" onchange="onSuratMasukAcuanChange(this)">
+                        <option value="">-- Tanpa Acuan / Surat Inisiatif Mandiri --</option>
+                        @foreach($suratMasukList as $sm)
+                            <option value="{{ $sm->id }}" 
+                                    data-dari="{{ $sm->dari }}" 
+                                    data-perihal="{{ $sm->perihal }}"
+                                    data-nomor="{{ $sm->no_surat }}"
+                                    {{ old('surat_masuk_id') == $sm->id ? 'selected' : '' }}>
+                                [No: {{ $sm->no_surat }}] Pemohon: {{ $sm->dari }} — Perihal: {{ Str::limit($sm->perihal, 60) }}
+                            </option>
+                        @endforeach
+                    </select>
+                    <div class="form-hint">Pilih surat masuk jika surat keluar ini diterbitkan sebagai tindak lanjut atas permohonan atau surat yang masuk.</div>
+                    @error('surat_masuk_id')
+                        <div class="form-error">{{ $message }}</div>
+                    @enderror
+
+                    <!-- Preview Acuan Box -->
+                    <div id="acuanPreviewBox" style="display: none; margin-top: 10px; padding: 12px 14px; background: rgba(90, 14, 20, 0.04); border: 1px dashed var(--accent); border-radius: var(--radius-sm);">
+                        <div style="font-size: 0.8rem; font-weight: 700; color: var(--accent); margin-bottom: 4px; display: flex; align-items: center; gap: 5px;">
+                            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            Acuan Surat Masuk Terpilih:
+                        </div>
+                        <div style="font-size: 0.85rem; color: var(--ink);">
+                            <strong>Pemohon:</strong> <span id="acuanDariText">-</span> &bull; 
+                            <strong>No. Surat:</strong> <span id="acuanNomorText">-</span>
+                        </div>
+                        <div style="font-size: 0.82rem; color: var(--ink-muted); margin-top: 2px;">
+                            <strong>Perihal:</strong> <span id="acuanPerihalText">-</span>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="grid-2">
                     <!-- Tujuan Surat (Required) -->
                     <div class="form-group">
@@ -528,6 +567,24 @@
 
         // Initial setup
         toggleDynamicSections();
+
+        const smSelect = document.getElementById('surat_masuk_id');
+        if (smSelect && smSelect.value) {
+            onSuratMasukAcuanChange(smSelect);
+        }
     });
+
+    function onSuratMasukAcuanChange(selectElem) {
+        const selectedOption = selectElem.options[selectElem.selectedIndex];
+        const previewBox = document.getElementById('acuanPreviewBox');
+        if (selectElem.value && selectedOption) {
+            document.getElementById('acuanDariText').textContent = selectedOption.getAttribute('data-dari') || '-';
+            document.getElementById('acuanNomorText').textContent = selectedOption.getAttribute('data-nomor') || '-';
+            document.getElementById('acuanPerihalText').textContent = selectedOption.getAttribute('data-perihal') || '-';
+            if (previewBox) previewBox.style.display = 'block';
+        } else {
+            if (previewBox) previewBox.style.display = 'none';
+        }
+    }
 </script>
 @endpush

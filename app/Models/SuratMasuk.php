@@ -76,4 +76,12 @@ class SuratMasuk extends Model
     {
         return $this->hasMany(Disposisi::class, 'surat_masuk_id');
     }
+
+    /**
+     * Relasi ke surat keluar yang merujuk / beracuan pada surat masuk ini.
+     */
+    public function suratKeluar(): HasMany
+    {
+        return $this->hasMany(SuratKeluar::class, 'surat_masuk_id');
+    }
 }

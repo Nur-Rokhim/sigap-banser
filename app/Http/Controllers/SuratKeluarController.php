@@ -11,6 +11,7 @@ use App\Models\LogAktivitas;
 use App\Models\PenerimaTugas;
 use App\Models\Profil;
 use App\Models\SuratKeluar;
+use App\Models\SuratMasuk;
 use App\Services\NomorSuratService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
@@ -34,15 +35,20 @@ class SuratKeluarController extends Controller
      */
     public function index(Request $request)
     {
-        $query = SuratKeluar::with(['jenis', 'pembuat']);
+        $query = SuratKeluar::with(['jenis', 'pembuat', 'suratMasuk']);
 
-        // Filter pencarian berdasarkan nomor surat, tujuan, atau perihal
+        // Filter pencarian berdasarkan nomor surat, tujuan, perihal, atau acuan surat masuk
         $search = $request->input('search', $request->input('q'));
         if (!empty($search)) {
             $query->where(function ($q) use ($search) {
                 $q->where('nomor_surat', 'like', "%{$search}%")
                   ->orWhere('tujuan', 'like', "%{$search}%")
-                  ->orWhere('perihal', 'like', "%{$search}%");
+                  ->orWhere('perihal', 'like', "%{$search}%")
+                  ->orWhereHas('suratMasuk', function ($sm) use ($search) {
+                      $sm->where('dari', 'like', "%{$search}%")
+                         ->orWhere('perihal', 'like', "%{$search}%")
+                         ->orWhere('no_surat', 'like', "%{$search}%");
+                  });
             });
         }
 
@@ -83,10 +89,12 @@ class SuratKeluarController extends Controller
     {
         $jenisSurat = JenisSurat::where('aktif', true)->get();
         $anggotas = Anggota::orderBy('nama', 'asc')->get();
+        $suratMasukList = SuratMasuk::orderBy('tgl_diterima', 'desc')->get();
 
         return view('surat-keluar.create', [
-            'jenisSurat' => $jenisSurat,
-            'anggotas'   => $anggotas,
+            'jenisSurat'     => $jenisSurat,
+            'anggotas'       => $anggotas,
+            'suratMasukList' => $suratMasukList,
         ]);
     }
 
@@ -100,6 +108,7 @@ class SuratKeluarController extends Controller
     {
         $suratKeluar = SuratKeluar::with([
             'jenis',
+            'suratMasuk',
             'detailUndangan',
             'detailSph',
             'detailTugas',
@@ -148,13 +157,15 @@ class SuratKeluarController extends Controller
             })->all();
         }
 
-        $jenisSurat = JenisSurat::where('aktif', true)->get();
-        $anggotas   = Anggota::orderBy('nama', 'asc')->get();
+        $jenisSurat     = JenisSurat::where('aktif', true)->get();
+        $anggotas       = Anggota::orderBy('nama', 'asc')->get();
+        $suratMasukList = SuratMasuk::orderBy('tgl_diterima', 'desc')->get();
 
         return view('surat-keluar.edit', [
-            'suratKeluar' => $suratKeluar,
-            'jenisSurat'  => $jenisSurat,
-            'anggotas'    => $anggotas,
+            'suratKeluar'    => $suratKeluar,
+            'jenisSurat'     => $jenisSurat,
+            'anggotas'       => $anggotas,
+            'suratMasukList' => $suratMasukList,
         ]);
     }
 
@@ -246,6 +257,7 @@ class SuratKeluarController extends Controller
         // 2. Siapkan aturan validasi dasar
         $rules = [
             'jenis_surat_id' => 'required|exists:jenis_surat,id',
+            'surat_masuk_id' => 'nullable|exists:surat_masuk,id',
             'perihal'        => 'required|string|max:255',
             'tgl_surat'      => 'required|date',
             'tujuan'         => 'nullable|string|max:150',
@@ -318,9 +330,10 @@ class SuratKeluarController extends Controller
         $userId = Auth::id() ?? 1;
 
         // 4. Simpan induk dan detail dalam transaksi database
-        $surat = DB::transaction(function () use ($validated, $kode, $userId, $jenis) {
+        $surat = DB::transaction(function () use ($validated, $kode, $userId, $jenis, $request) {
             $surat = SuratKeluar::create([
                 'jenis_surat_id' => $validated['jenis_surat_id'],
+                'surat_masuk_id' => $request->filled('surat_masuk_id') ? (int)$request->input('surat_masuk_id') : null,
                 'tujuan'         => $validated['tujuan'] ?? null,
                 'perihal'        => $validated['perihal'],
                 'tgl_surat'      => $validated['tgl_surat'],
@@ -421,6 +434,7 @@ class SuratKeluarController extends Controller
         $suratKeluar = SuratKeluar::with([
             'jenis',
             'pembuat',
+            'suratMasuk',
             'detailUndangan',
             'detailSph',
             'detailTugas',
@@ -593,15 +607,17 @@ class SuratKeluarController extends Controller
         $surat = SuratKeluar::findOrFail($id);
 
         $validated = $request->validate([
-            'tujuan'        => 'required|string|max:255',
-            'tanggal_surat' => 'required|date',
-            'perihal'       => 'required|string',
+            'tujuan'         => 'required|string|max:255',
+            'tanggal_surat'  => 'required|date',
+            'perihal'        => 'required|string',
+            'surat_masuk_id' => 'nullable|exists:surat_masuk,id',
         ]);
 
         $surat->update([
-            'tujuan'    => $validated['tujuan'],
-            'tgl_surat' => $validated['tanggal_surat'],
-            'perihal'   => $validated['perihal'],
+            'tujuan'         => $validated['tujuan'],
+            'tgl_surat'      => $validated['tanggal_surat'],
+            'perihal'        => $validated['perihal'],
+            'surat_masuk_id' => $request->filled('surat_masuk_id') ? (int)$request->input('surat_masuk_id') : null,
         ]);
 
         $kodeJenis = strtoupper($surat->jenis ? $surat->jenis->kode : 'SU');

@@ -176,6 +176,35 @@
                 </div>
             </div>
 
+            <!-- Acuan Surat Masuk Box (Jika ada rujukan pemohon & perihal) -->
+            @if($item->suratMasuk)
+                <div style="margin-top: 16px; padding: 14px 16px; background: rgba(90, 14, 20, 0.04); border: 1px solid rgba(90, 14, 20, 0.2); border-radius: var(--radius-md);">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                        <span style="font-weight: 700; color: var(--hero1); font-size: 0.88rem; display: flex; align-items: center; gap: 6px;">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                            Acuan / Rujukan Surat Masuk (Pemohon & Perihal)
+                        </span>
+                        <a href="{{ route('surat-masuk.show', $item->suratMasuk->id) }}" class="btn btn-secondary btn-sm" style="font-size: 0.75rem; padding: 3px 8px;">
+                            Lihat Dokumen Masuk &rarr;
+                        </a>
+                    </div>
+                    <div class="meta-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
+                        <div class="meta-item">
+                            <span class="meta-label">Pemohon / Pengirim</span>
+                            <span class="meta-value" style="font-weight: 700; color: var(--ink);">{{ $item->suratMasuk->dari }}</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Nomor Surat Masuk</span>
+                            <span class="meta-value">{{ $item->suratMasuk->no_surat }}</span>
+                        </div>
+                        <div class="meta-item" style="grid-column: 1 / -1;">
+                            <span class="meta-label">Perihal Surat Masuk</span>
+                            <span class="meta-value" style="color: var(--ink);">{{ $item->suratMasuk->perihal }}</span>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
             <!-- Perihal Box -->
             <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border-light);">
                 <span class="meta-label" style="display: block; margin-bottom: 6px;">Perihal Surat</span>

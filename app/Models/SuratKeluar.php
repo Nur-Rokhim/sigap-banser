@@ -26,6 +26,7 @@ class SuratKeluar extends Model
      */
     protected $fillable = [
         'jenis_surat_id',
+        'surat_masuk_id',
         'no_urut',
         'bulan',
         'tahun',
@@ -45,12 +46,29 @@ class SuratKeluar extends Model
      */
     protected $casts = [
         'jenis_surat_id' => 'integer',
+        'surat_masuk_id' => 'integer',
         'no_urut' => 'integer',
         'bulan' => 'integer',
         'tahun' => 'integer',
         'tgl_surat' => 'date',
         'dibuat_oleh' => 'integer',
     ];
+
+    /**
+     * Relasi ke surat masuk yang menjadi acuan dasar penerbitan surat keluar.
+     */
+    public function suratMasuk(): BelongsTo
+    {
+        return $this->belongsTo(SuratMasuk::class, 'surat_masuk_id');
+    }
+
+    /**
+     * Alias relasi ke acuan surat masuk.
+     */
+    public function acuanSuratMasuk(): BelongsTo
+    {
+        return $this->belongsTo(SuratMasuk::class, 'surat_masuk_id');
+    }
 
     /**
      * Relasi ke jenis surat.
