@@ -24,9 +24,11 @@ class Disposisi extends Model
      */
     protected $fillable = [
         'surat_masuk_id',
+        'tujuan',
         'dari_user_id',
         'kepada_user_id',
         'instruksi',
+        'sifat',
         'status',
     ];
 
@@ -63,5 +65,70 @@ class Disposisi extends Model
     public function kepadaUser(): BelongsTo
     {
         return $this->belongsTo(User::class, 'kepada_user_id');
+    }
+
+    /**
+     * Dapatkan nama/label penerima disposisi secara konsisten.
+     */
+    public function getPenerimaLabelAttribute(): string
+    {
+        if (!empty($this->tujuan)) {
+            return $this->tujuan;
+        }
+
+        return $this->kepadaUser ? $this->kepadaUser->name : 'Penerima Disposisi';
+    }
+
+    /**
+     * Daftar referensi resmi tujuan tindak lanjut disposisi surat masuk.
+     *
+     * @return array<string, array<string>>
+     */
+    public static function daftarTujuan(): array
+    {
+        return [
+            'Komando Teritorial Keseluruhan' => [
+                'Seluruh Kasatkoryon Se- Kab. Blitar',
+            ],
+            'Satuan Khusus (Kasatsus)' => [
+                'Kasatsus Provost',
+                'Kasatsus Protokoler',
+                'Kasatsus Bagana',
+                'Kasatsus Basada',
+                'Kasatsus Baritim',
+                'Kasatsus Balakar',
+                'Kasatsus Balantas',
+            ],
+            'Biro-Biro Satkorcab' => [
+                'Ka. Biro Adminpers',
+                'Ka. Biro Asrendiklat',
+                'Ka. Biro Giat',
+                'Ka. Biro Logistik',
+            ],
+            'Kasatkoryon Kecamatan di Area Kab. Blitar' => [
+                'Kasatkoryon Kec. Bakung',
+                'Kasatkoryon Kec. Binangun',
+                'Kasatkoryon Kec. Doko',
+                'Kasatkoryon Kec. Gandusari',
+                'Kasatkoryon Kec. Garum',
+                'Kasatkoryon Kec. Kademangan',
+                'Kasatkoryon Kec. Kanigoro',
+                'Kasatkoryon Kec. Kesamben',
+                'Kasatkoryon Kec. Nglegok',
+                'Kasatkoryon Kec. Panggungrejo',
+                'Kasatkoryon Kec. Ponggok',
+                'Kasatkoryon Kec. Sanankulon',
+                'Kasatkoryon Kec. Selorejo',
+                'Kasatkoryon Kec. Selopuro',
+                'Kasatkoryon Kec. Srengat',
+                'Kasatkoryon Kec. Sutojayan',
+                'Kasatkoryon Kec. Talun',
+                'Kasatkoryon Kec. Udanawu',
+                'Kasatkoryon Kec. Wates',
+                'Kasatkoryon Kec. Wlingi',
+                'Kasatkoryon Kec. Wonodadi',
+                'Kasatkoryon Kec. Wonotirto',
+            ],
+        ];
     }
 }

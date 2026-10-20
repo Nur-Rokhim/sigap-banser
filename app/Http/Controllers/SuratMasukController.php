@@ -167,13 +167,15 @@ class SuratMasukController extends Controller
         $suratMasuk->tanggal_surat = $suratMasuk->tgl_surat;
         $suratMasuk->tanggal_diterima = $suratMasuk->tgl_diterima;
 
-        // Ambil daftar pengguna untuk pilihan penerima disposisi
+        // Ambil daftar pengguna dan daftar tujuan resmi untuk pilihan penerima disposisi
         $users = User::orderBy('name')->get();
+        $daftarTujuan = Disposisi::daftarTujuan();
 
         return view('surat-masuk.show', [
-            'suratMasuk' => $suratMasuk,
-            'surat'      => $suratMasuk,
-            'users'      => $users,
+            'suratMasuk'   => $suratMasuk,
+            'surat'        => $suratMasuk,
+            'users'        => $users,
+            'daftarTujuan' => $daftarTujuan,
         ]);
     }
 
@@ -302,18 +304,36 @@ class SuratMasukController extends Controller
     {
         $surat = SuratMasuk::findOrFail($id);
 
-        // Normalisasi nama field kepada_user_id dari form
+        $tujuan = $request->input('tujuan', $request->input('diteruskan_kepada'));
         $kepadaUserId = $request->input('kepada_user_id', $request->input('user_id'));
-        $request->merge(['kepada_user_id' => $kepadaUserId]);
+
+        // Jika tujuan diisi, coba hubungkan ke user jika ada yang cocok
+        if (!empty($tujuan) && (empty($kepadaUserId) || !is_numeric($kepadaUserId))) {
+            if (str_contains(strtolower($tujuan), 'adminpers')) {
+                $user = User::where('role', 'adminpers')->orWhere('role', 'admin_adminpers')->first();
+                if ($user) $kepadaUserId = $user->id;
+            } elseif (str_contains(strtolower($tujuan), 'kasetma')) {
+                $user = User::where('role', 'kasetma')->first();
+                if ($user) $kepadaUserId = $user->id;
+            } elseif (str_contains(strtolower($tujuan), 'kasatkorcab')) {
+                $user = User::where('role', 'kasatkorcab')->first();
+                if ($user) $kepadaUserId = $user->id;
+            }
+        }
+
+        $request->merge([
+            'tujuan'         => $tujuan,
+            'kepada_user_id' => is_numeric($kepadaUserId) ? (int) $kepadaUserId : null,
+        ]);
 
         $validated = $request->validate([
-            'kepada_user_id' => 'required|exists:users,id',
+            'tujuan'         => 'required|string|max:255',
             'instruksi'      => 'required|string',
             'sifat'          => 'nullable|string|max:50',
+            'kepada_user_id' => 'nullable|exists:users,id',
         ], [
-            'kepada_user_id.required' => 'Pejabat / petugas penerima disposisi wajib dipilih.',
-            'kepada_user_id.exists'   => 'Pejabat penerima disposisi yang dipilih tidak valid.',
-            'instruksi.required'      => 'Instruksi atau catatan disposisi wajib diisi.',
+            'tujuan.required'    => 'Tujuan / pejabat penerima disposisi wajib dipilih.',
+            'instruksi.required' => 'Instruksi atau catatan disposisi wajib diisi.',
         ]);
 
         $userId = Auth::id() ?? 1;
@@ -321,9 +341,11 @@ class SuratMasukController extends Controller
         // Buat record disposisi
         Disposisi::create([
             'surat_masuk_id' => $surat->id,
+            'tujuan'         => $validated['tujuan'],
             'dari_user_id'   => $userId,
-            'kepada_user_id' => $validated['kepada_user_id'],
+            'kepada_user_id' => $validated['kepada_user_id'] ?? null,
             'instruksi'      => $validated['instruksi'],
+            'sifat'          => $validated['sifat'] ?? 'Biasa',
             'status'         => 'diproses',
         ]);
 
@@ -335,11 +357,11 @@ class SuratMasukController extends Controller
         // Catat ke log aktivitas
         LogAktivitas::create([
             'user_id' => $userId,
-            'aksi'    => "Mendisposisikan surat masuk nomor {$surat->no_surat}",
+            'aksi'    => "Mendisposisikan surat masuk nomor {$surat->no_surat} kepada: {$validated['tujuan']}",
             'waktu'   => Carbon::now(),
         ]);
 
         return redirect()->route('surat-masuk.show', $surat->id)
-            ->with('success', 'Disposisi surat masuk berhasil dibuat.');
+            ->with('success', "Disposisi surat masuk berhasil diarahkan kepada {$validated['tujuan']}.");
     }
 }

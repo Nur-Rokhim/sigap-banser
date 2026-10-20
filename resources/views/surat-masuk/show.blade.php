@@ -217,21 +217,64 @@
                         @csrf
                         <div class="form-group">
                             <label for="diteruskan_kepada" class="form-label">Diteruskan Kepada <span class="required">*</span></label>
-                            <select name="user_id" id="diteruskan_kepada" class="form-control @error('user_id') is-invalid @enderror" required>
-                                <option value="">-- Pilih Pejabat / Satuan Penerima --</option>
-                                @if(isset($users) && count($users) > 0)
-                                    @foreach($users as $user)
-                                        <option value="{{ $user->id }}">{{ $user->name }} ({{ $user->role ?? 'Petugas' }})</option>
+                            <select name="tujuan" id="diteruskan_kepada" class="form-control @error('tujuan') is-invalid @enderror" required>
+                                <option value="">-- Pilih Pejabat / Satuan Penerima Disposisi --</option>
+                                @if(isset($daftarTujuan) && is_array($daftarTujuan))
+                                    @foreach($daftarTujuan as $grup => $list)
+                                        <optgroup label="{{ $grup }}">
+                                            @foreach($list as $tujuanItem)
+                                                <option value="{{ $tujuanItem }}" {{ old('tujuan') == $tujuanItem ? 'selected' : '' }}>
+                                                    {{ $tujuanItem }}
+                                                </option>
+                                            @endforeach
+                                        </optgroup>
                                     @endforeach
                                 @else
-                                    <option value="1">Kasatkorcab Banser Kab. Blitar</option>
-                                    <option value="2">Wakil Kasatkorcab</option>
-                                    <option value="3">Kepala Biro Administrasi & Personalia</option>
-                                    <option value="4">Biro Operasional Satkorcab</option>
-                                    <option value="5">Kasatkoryon Banser Kecamatan</option>
+                                    <optgroup label="1. Komando Teritorial Keseluruhan">
+                                        <option value="Seluruh Kasatkoryon Se- Kab. Blitar">1. Seluruh Kasatkoryon Se- Kab. Blitar</option>
+                                    </optgroup>
+                                    <optgroup label="2 - 8. Satuan Khusus (Kasatsus)">
+                                        <option value="Kasatsus Provost">2. Kasatsus Provost</option>
+                                        <option value="Kasatsus Protokoler">3. Kasatsus Protokoler</option>
+                                        <option value="Kasatsus Bagana">4. Kasatsus Bagana</option>
+                                        <option value="Kasatsus Basada">5. Kasatsus Basada</option>
+                                        <option value="Kasatsus Baritim">6. Kasatsus Baritim</option>
+                                        <option value="Kasatsus Balakar">7. Kasatsus Balakar</option>
+                                        <option value="Kasatsus Balantas">8. Kasatsus Balantas</option>
+                                    </optgroup>
+                                    <optgroup label="9 - 12. Biro Satkorcab">
+                                        <option value="Ka. Biro Adminpers">9. Ka. Biro Adminpers</option>
+                                        <option value="Ka. Biro Asrendiklat">10. Ka. Biro Asrendiklat</option>
+                                        <option value="Ka. Biro Giat">11. Ka. Biro Giat</option>
+                                        <option value="Ka. Biro Logistik">12. Ka. Biro Logistik</option>
+                                    </optgroup>
+                                    <optgroup label="13. Kasatkoryon Kecamatan se-Kabupaten Blitar">
+                                        <option value="Kasatkoryon Kec. Bakung">Kasatkoryon Kec. Bakung</option>
+                                        <option value="Kasatkoryon Kec. Binangun">Kasatkoryon Kec. Binangun</option>
+                                        <option value="Kasatkoryon Kec. Doko">Kasatkoryon Kec. Doko</option>
+                                        <option value="Kasatkoryon Kec. Gandusari">Kasatkoryon Kec. Gandusari</option>
+                                        <option value="Kasatkoryon Kec. Garum">Kasatkoryon Kec. Garum</option>
+                                        <option value="Kasatkoryon Kec. Kademangan">Kasatkoryon Kec. Kademangan</option>
+                                        <option value="Kasatkoryon Kec. Kanigoro">Kasatkoryon Kec. Kanigoro</option>
+                                        <option value="Kasatkoryon Kec. Kesamben">Kasatkoryon Kec. Kesamben</option>
+                                        <option value="Kasatkoryon Kec. Nglegok">Kasatkoryon Kec. Nglegok</option>
+                                        <option value="Kasatkoryon Kec. Panggungrejo">Kasatkoryon Kec. Panggungrejo</option>
+                                        <option value="Kasatkoryon Kec. Ponggok">Kasatkoryon Kec. Ponggok</option>
+                                        <option value="Kasatkoryon Kec. Sanankulon">Kasatkoryon Kec. Sanankulon</option>
+                                        <option value="Kasatkoryon Kec. Selorejo">Kasatkoryon Kec. Selorejo</option>
+                                        <option value="Kasatkoryon Kec. Selopuro">Kasatkoryon Kec. Selopuro</option>
+                                        <option value="Kasatkoryon Kec. Srengat">Kasatkoryon Kec. Srengat</option>
+                                        <option value="Kasatkoryon Kec. Sutojayan">Kasatkoryon Kec. Sutojayan</option>
+                                        <option value="Kasatkoryon Kec. Talun">Kasatkoryon Kec. Talun</option>
+                                        <option value="Kasatkoryon Kec. Udanawu">Kasatkoryon Kec. Udanawu</option>
+                                        <option value="Kasatkoryon Kec. Wates">Kasatkoryon Kec. Wates</option>
+                                        <option value="Kasatkoryon Kec. Wlingi">Kasatkoryon Kec. Wlingi</option>
+                                        <option value="Kasatkoryon Kec. Wonodadi">Kasatkoryon Kec. Wonodadi</option>
+                                        <option value="Kasatkoryon Kec. Wonotirto">Kasatkoryon Kec. Wonotirto</option>
+                                    </optgroup>
                                 @endif
                             </select>
-                            @error('user_id')
+                            @error('tujuan')
                                 <div class="form-error">{{ $message }}</div>
                             @enderror
                         </div>
@@ -286,9 +329,9 @@
                                 <div class="timeline-entry">
                                     <div class="timeline-entry-header">
                                         <strong style="font-size: 0.88rem; color: var(--ink);">
-                                            Kepada: {{ $disp->kepadaUser->name ?? 'Penerima Disposisi' }}
+                                            Kepada: {{ $disp->penerima_label }}
                                         </strong>
-                                        <span class="badge {{ ($disp->sifat ?? '') == 'Segera / Mendesak' ? 'badge-red' : 'badge-yellow' }}" style="font-size: 0.7rem;">
+                                        <span class="badge {{ ($disp->sifat ?? '') == 'Segera / Mendesak' ? 'badge-red' : (($disp->sifat ?? '') == 'Penting' ? 'badge-yellow' : 'badge-gray') }}" style="font-size: 0.7rem;">
                                             {{ $disp->sifat ?? 'Biasa' }}
                                         </span>
                                     </div>
