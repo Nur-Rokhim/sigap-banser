@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\SuratKeluarController;
 use App\Http\Controllers\SuratMasukController;
 use Illuminate\Support\Facades\Route;
@@ -56,4 +57,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/surat-keluar/{id}/setujui', [SuratKeluarController::class, 'setujui'])
         ->name('surat-keluar.setujui');
     Route::post('/surat-keluar/{id}/kirim', [SuratKeluarController::class, 'kirim'])->name('surat-keluar.kirim');
+
+    // Modul Profil Organisasi Satkorcab
+    Route::get('/profil', [ProfilController::class, 'index'])->name('profil.index');
+    Route::put('/profil', [ProfilController::class, 'update'])->name('profil.update');
+    Route::post('/profil', [ProfilController::class, 'update'])->name('profil.store');
 });
+
