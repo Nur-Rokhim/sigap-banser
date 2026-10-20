@@ -70,5 +70,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/pengaturan-akun', [\App\Http\Controllers\PengaturanAkunController::class, 'index'])->name('pengaturan.index');
     Route::put('/pengaturan-akun/password', [\App\Http\Controllers\PengaturanAkunController::class, 'updatePassword'])->name('pengaturan.password.update');
     Route::put('/pengaturan-akun/profil', [\App\Http\Controllers\PengaturanAkunController::class, 'updateProfil'])->name('pengaturan.profil.update');
+
+    // Manajemen Pengguna Khusus Superadmin (Pengatur Semua Akun)
+    Route::post('/pengaturan-akun/users', [\App\Http\Controllers\PengaturanAkunController::class, 'storeUser'])->name('pengaturan.users.store');
+    Route::put('/pengaturan-akun/users/{id}', [\App\Http\Controllers\PengaturanAkunController::class, 'updateUser'])->name('pengaturan.users.update');
+    Route::put('/pengaturan-akun/users/{id}/reset-password', [\App\Http\Controllers\PengaturanAkunController::class, 'resetPasswordUser'])->name('pengaturan.users.reset-password');
+    Route::delete('/pengaturan-akun/users/{id}', [\App\Http\Controllers\PengaturanAkunController::class, 'destroyUser'])->name('pengaturan.users.destroy');
 });
 
