@@ -42,6 +42,14 @@ class NomorCounter extends Model
     /**
      * Relasi ke jenis surat.
      */
+    public function jenis(): BelongsTo
+    {
+        return $this->belongsTo(JenisSurat::class, 'jenis_surat_id');
+    }
+
+    /**
+     * Alias relasi ke jenis surat.
+     */
     public function jenisSurat(): BelongsTo
     {
         return $this->belongsTo(JenisSurat::class, 'jenis_surat_id');
