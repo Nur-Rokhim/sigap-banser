@@ -795,6 +795,7 @@
     <!-- Tab Navigation -->
     <nav class="nav-tabs-wrapper" aria-label="Navigasi Utama">
         <div class="nav-tabs-container">
+            <!-- 1. Beranda -->
             <a href="{{ route('dashboard') }}" 
                class="nav-tab-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -803,6 +804,16 @@
                 <span>Beranda</span>
             </a>
 
+            <!-- 2. Profil -->
+            <a href="{{ route('profil.index') }}" 
+               class="nav-tab-item {{ request()->routeIs('profil.*') ? 'active' : '' }}">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                </svg>
+                <span>Profil</span>
+            </a>
+
+            <!-- 3. Surat Masuk -->
             <a href="{{ route('surat-masuk.index') }}" 
                class="nav-tab-item {{ request()->routeIs('surat-masuk.*') ? 'active' : '' }}">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -811,6 +822,7 @@
                 <span>Surat Masuk</span>
             </a>
 
+            <!-- 4. Surat Keluar -->
             <a href="{{ route('surat-keluar.index') }}" 
                class="nav-tab-item {{ request()->routeIs('surat-keluar.*') ? 'active' : '' }}">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -819,12 +831,19 @@
                 <span>Surat Keluar</span>
             </a>
 
-            <a href="{{ route('profil.index') }}" 
-               class="nav-tab-item {{ request()->routeIs('profil.*') ? 'active' : '' }}">
+            <!-- 5. SIPENA -->
+            <a href="https://sipena-banser-blitar.netlify.app" 
+               target="_blank" 
+               rel="noopener noreferrer"
+               class="nav-tab-item"
+               title="Buka Aplikasi SIPENA BANSER Blitar">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
                 </svg>
-                <span>Profil</span>
+                <span>SIPENA</span>
+                <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="opacity: 0.65; margin-left: -2px;">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                </svg>
             </a>
         </div>
     </nav>
