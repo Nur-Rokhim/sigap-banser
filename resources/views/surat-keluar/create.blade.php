@@ -459,7 +459,7 @@
                     <!-- Tombol Setujui dan Beri Nomor (Gold, only for Pimpinan / Adminpers) -->
                     @php
                         $userRole = Auth::user()->role ?? '';
-                        $isAuthorized = in_array(strtolower($userRole), ['pimpinan', 'admin_adminpers', 'kasatkorcab', 'admin']);
+                        $isAuthorized = in_array(strtolower($userRole), ['pimpinan', 'admin_adminpers', 'kasatkorcab', 'admin', 'super_admin', 'kasetma']);
                     @endphp
                     @if($isAuthorized)
                         <button type="submit" name="action_type" value="approve" class="btn btn-gold">

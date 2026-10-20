@@ -394,7 +394,7 @@ class SuratKeluarController extends Controller
 
         if ($actionType === 'approve') {
             $userRole = strtolower(Auth::user()->role ?? '');
-            if (in_array($userRole, ['pimpinan', 'admin_adminpers', 'kasatkorcab', 'super_admin', 'admin'])) {
+            if (in_array($userRole, ['pimpinan', 'admin_adminpers', 'kasatkorcab', 'super_admin', 'admin', 'kasetma'])) {
                 $surat = $nomorSuratService->terbitkan($surat);
                 LogAktivitas::create([
                     'user_id' => $userId,
@@ -505,8 +505,8 @@ class SuratKeluarController extends Controller
         $user = Auth::user();
         $role = strtolower($user->role ?? '');
 
-        // Hak akses pengesahan nomor dibatasi hanya untuk pimpinan dan admin personalia
-        if (!in_array($role, ['pimpinan', 'admin_adminpers', 'kasatkorcab', 'super_admin', 'admin'])) {
+        // Hak akses pengesahan nomor: Kasatkorcab, Superadmin, Kasetma, Pimpinan, Adminpers
+        if (!in_array($role, ['pimpinan', 'admin_adminpers', 'kasatkorcab', 'super_admin', 'admin', 'kasetma'])) {
             abort(403, 'Akses ditolak. Anda tidak memiliki hak akses untuk menyetujui surat keluar.');
         }
 

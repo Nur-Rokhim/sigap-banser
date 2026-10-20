@@ -782,9 +782,9 @@
                                 $r = strtolower(Auth::user()->role ?? '');
                                 echo match($r) {
                                     'kasatkorcab' => 'Kasatkorcab (Verifikator)',
-                                    'kasetma'     => 'Kasetma (User Edit)',
+                                    'kasetma'     => 'Kasetma (Verifikator)',
                                     'adminpers', 'admin_adminpers' => 'Ka. Biro Adminpers (User Edit)',
-                                    'super_admin' => 'Super Administrator',
+                                    'super_admin' => 'Superadmin (Verifikator)',
                                     'pimpinan'    => 'Pimpinan (Verifikator)',
                                     default       => ucfirst(Auth::user()->role ?? 'Anggota'),
                                 };

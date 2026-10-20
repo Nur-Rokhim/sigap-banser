@@ -29,7 +29,7 @@ Dokumen ini adalah bahan kerja untuk agen/IDE (Antigravity). Baca seluruhnya seb
 | `admin_satkoryon` | Input dan lihat data wilayahnya, ajukan surat |
 | `anggota` | Lihat dan ubah profil sendiri |
 
-Aturan: tombol **Setujui dan beri nomor** hanya untuk `pimpinan` dan `admin_adminpers`.
+Aturan: tombol **Setujui dan beri nomor** dapat diakses oleh verifikator (`super_admin`, `kasatkorcab`, `kasetma`, `pimpinan`, `admin_adminpers`).
 
 ## 4. Fitur Tahap 1 (MVP)
 

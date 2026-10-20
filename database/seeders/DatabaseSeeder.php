@@ -54,7 +54,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        // 5. Akun Kasetma Selaku User Edit
+        // 5. Akun Kasetma Selaku Verifikator
         User::firstOrCreate(
             ['username' => 'kasetma'],
             [

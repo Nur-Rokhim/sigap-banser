@@ -134,6 +134,22 @@ class User extends Authenticatable
     }
 
     /**
+     * Helper cek apakah pengguna berhak sebagai verifikator surat keluar.
+     * (Superadmin, Kasatkorcab, Kasetma, Pimpinan, Adminpers)
+     */
+    public function isVerifikator(): bool
+    {
+        return in_array(strtolower($this->role ?? ''), [
+            'super_admin',
+            'kasatkorcab',
+            'kasetma',
+            'pimpinan',
+            'admin_adminpers',
+            'admin',
+        ]);
+    }
+
+    /**
      * Helper cek status keaktifan user.
      */
     public function isAktif(): bool
