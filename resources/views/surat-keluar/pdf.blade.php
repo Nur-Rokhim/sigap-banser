@@ -8,180 +8,321 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'Times New Roman', Times, serif;
-            font-size: 11.5pt;
+            font-size: 11pt;
             color: #000000;
             background: #ffffff;
-            line-height: 1.5;
+            line-height: 1.35;
         }
         @page {
-            size: a4 portrait;
-            margin: 15mm 20mm 20mm 25mm;
+            size: 215mm 330mm portrait;
+            margin: 20mm 20mm 20mm 20mm;
         }
         .page {
             width: 100%;
         }
         
-        /* KOP SURAT RESMI */
-        .kop-wrapper {
-            width: 100%;
-            border-bottom: 3px double #000000;
-            padding-bottom: 8px;
-            margin-bottom: 18px;
-        }
-        .kop-inner { display: table; width: 100%; }
-        .kop-col-logo-left { display: table-cell; width: 80px; vertical-align: middle; text-align: left; }
-        .kop-col-logo-left img { max-width: 75px; max-height: 75px; height: auto; }
-        .kop-col-text { display: table-cell; vertical-align: middle; text-align: center; padding: 0 10px; }
-        .kop-col-logo-right { display: table-cell; width: 80px; vertical-align: middle; text-align: right; }
-        .kop-col-logo-right img { max-width: 80px; max-height: 65px; height: auto; }
-
-        .kop-ormas { font-size: 9.5pt; font-weight: bold; margin-bottom: 2px; letter-spacing: 0.5px; text-transform: uppercase; }
-        .kop-nama { font-size: 19pt; font-weight: bold; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 2px; }
-        .kop-satuan { font-size: 10pt; font-weight: bold; letter-spacing: 1px; margin-bottom: 2px; text-transform: uppercase; }
-        .kop-alamat { font-size: 8pt; color: #333; margin-top: 3px; font-style: italic; }
-
-        /* NOMOR & TANGGAL SURAT */
-        .header-meta-tbl { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
-        .header-meta-tbl td { font-size: 11pt; vertical-align: top; padding: 2px 0; }
-        .header-meta-tbl td.meta-left { width: 60%; }
-        .header-meta-tbl td.meta-right { width: 40%; text-align: right; }
-
-        .nomor-meta-tbl { border-collapse: collapse; }
-        .nomor-meta-tbl td { font-size: 11pt; vertical-align: top; padding: 2px 0; }
-        .nomor-meta-tbl td.label { width: 85px; }
-        .nomor-meta-tbl td.colon { width: 12px; }
-
-        /* TUJUAN */
-        .tujuan-box { margin-bottom: 16px; font-size: 11pt; line-height: 1.4; }
-        .tujuan-box .yth { margin-bottom: 2px; }
-        .tujuan-box .nama-penerima { font-weight: bold; }
-
-        /* JUDUL SURAT KHUSUS */
-        .judul-center-box { text-align: center; margin: 14px 0 18px; }
-        .judul-center-box h2 { font-size: 13.5pt; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; text-decoration: underline; margin-bottom: 3px; }
-        .judul-center-box .nomor-center { font-size: 11pt; }
-
-        /* BODY PARAGRAPH */
-        .body-para { font-size: 11pt; text-align: justify; line-height: 1.6; margin-bottom: 10px; text-indent: 28px; }
-        .salam-pembuka { font-size: 11pt; font-style: italic; margin-bottom: 10px; font-weight: bold; }
-        .salam-penutup { font-size: 11pt; font-style: italic; margin-top: 12px; margin-bottom: 14px; font-weight: bold; }
-
-        /* DETAIL UNDANGAN */
-        .undangan-tbl { width: 92%; margin: 8px auto 14px 28px; border-collapse: collapse; }
-        .undangan-tbl td { font-size: 11pt; padding: 3px 0; vertical-align: top; }
-        .undangan-tbl td.label { width: 140px; font-weight: bold; }
-        .undangan-tbl td.colon { width: 14px; }
-
-        /* DETAIL SPH */
-        .sph-row { margin-bottom: 10px; display: table; width: 100%; }
-        .sph-label { display: table-cell; width: 140px; font-weight: bold; font-size: 11pt; vertical-align: top; }
-        .sph-colon { display: table-cell; width: 14px; vertical-align: top; font-size: 11pt; }
-        .sph-val { display: table-cell; font-size: 11pt; text-align: justify; line-height: 1.6; vertical-align: top; }
-
-        /* DETAIL ST */
-        .penerima-tbl { width: 100%; border-collapse: collapse; margin: 8px 0 12px; }
-        .penerima-tbl th { font-size: 10pt; font-weight: bold; border: 1px solid #777; padding: 4px 8px; background: #eaeaea; text-align: left; }
-        .penerima-tbl td { font-size: 10pt; border: 1px solid #999; padding: 4px 8px; }
-        
-        .st-detail-tbl { width: 94%; margin: 6px auto 12px 28px; border-collapse: collapse; }
-        .st-detail-tbl td { font-size: 11pt; padding: 3px 0; vertical-align: top; }
-        .st-detail-tbl td.label { width: 140px; font-weight: bold; }
-        .st-detail-tbl td.colon { width: 14px; }
-
-        /* TANDA TANGAN KHUSUS SATKORCAB BANSER */
-        .ttd-container {
-            width: 100%;
-            margin-top: 22px;
-            page-break-inside: avoid;
-        }
-        .ttd-table {
+        /* KOP SURAT RESMI PERSIS CONTOH ACUAN */
+        .kop-table {
             width: 100%;
             border-collapse: collapse;
+            margin-bottom: 2px;
         }
-        .ttd-col {
-            width: 50%;
-            vertical-align: top;
+        .kop-table td {
+            vertical-align: middle;
+            padding: 0;
+        }
+        .kop-logo-kiri {
+            width: 85px;
             text-align: center;
-            font-size: 11pt;
-            position: relative;
+            vertical-align: middle;
         }
-        .ttd-instansi {
+        .kop-logo-kiri img {
+            max-width: 78px;
+            max-height: 80px;
+            height: auto;
+        }
+        .kop-kode-wilayah {
+            font-size: 9pt;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 3px;
+            letter-spacing: 0.5px;
+            font-family: 'Times New Roman', Times, serif;
+        }
+        .kop-center-text {
+            text-align: center;
+            padding: 0 6px;
+        }
+        .kop-satuan-1 {
+            font-size: 14pt;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            line-height: 1.15;
+            text-transform: uppercase;
+        }
+        .kop-satuan-2 {
+            font-size: 14pt;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            line-height: 1.15;
+            text-transform: uppercase;
+        }
+        .kop-satuan-3 {
+            font-size: 13.5pt;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            line-height: 1.15;
+            text-transform: uppercase;
+        }
+        .kop-satuan-4 {
+            font-size: 14pt;
+            font-weight: bold;
+            letter-spacing: 1px;
+            line-height: 1.25;
+            text-transform: uppercase;
+        }
+        .kop-alamat {
+            font-size: 8.5pt;
+            margin-top: 5px;
+            line-height: 1.2;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .kop-logo-kanan {
+            width: 95px;
+            text-align: center;
+            vertical-align: middle;
+        }
+        .kop-logo-kanan img {
+            max-width: 90px;
+            max-height: 75px;
+            height: auto;
+        }
+
+        /* GARIS PEMBATAS KOP GANDA (TEBAL ATAS, TIPIS BAWAH) */
+        .kop-divider {
+            width: 100%;
+            border-top: 2.5px solid #000000;
+            border-bottom: 1px solid #000000;
+            height: 3px;
+            margin-top: 4px;
+            margin-bottom: 14px;
+        }
+
+        /* TANGGAL DI KANAN ATAS */
+        .header-date-row {
+            text-align: right;
+            font-size: 11pt;
+            margin-bottom: 2px;
+        }
+
+        /* NOMOR, LAMPIRAN, HAL */
+        .meta-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 12px;
+        }
+        .meta-table td {
+            font-size: 11pt;
+            vertical-align: top;
+            padding: 1px 0;
+            line-height: 1.35;
+        }
+        .meta-table td.meta-label {
+            width: 80px;
+        }
+        .meta-table td.meta-colon {
+            width: 15px;
+            text-align: center;
+        }
+
+        /* KEPADA YTH */
+        .tujuan-container {
+            margin-bottom: 12px;
+            font-size: 11pt;
+            line-height: 1.35;
+        }
+        .tujuan-container .yth {
+            margin-bottom: 2px;
+        }
+        .tujuan-container .nama-penerima {
+            font-weight: bold;
+        }
+
+        /* SALAM PEMBUKA & PENUTUP */
+        .salam-pembuka {
+            font-size: 11pt;
+            margin-bottom: 6px;
+            line-height: 1.35;
+        }
+        .salam-pembuka .salam-arab {
+            font-style: italic;
+            font-weight: bold;
+        }
+        .salam-pembuka .basmalah {
+            font-style: italic;
+            font-weight: bold;
+        }
+
+        .salam-penutup {
+            font-size: 11pt;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            line-height: 1.35;
+        }
+        .salam-penutup .kalimat-1 {
+            font-style: italic;
+            font-weight: bold;
+            text-decoration: underline;
+        }
+        .salam-penutup .kalimat-2 {
+            font-style: italic;
+            font-weight: bold;
+        }
+
+        /* ISI PARAGRAF SURAT */
+        .body-p {
+            font-size: 11pt;
+            text-align: justify;
+            line-height: 1.4;
+            margin-bottom: 8px;
+        }
+
+        /* TABEL RINCIAN AGENDA / JADWAL */
+        .rincian-table {
+            width: 95%;
+            margin: 6px 0 10px 18px;
+            border-collapse: collapse;
+        }
+        .rincian-table td {
+            font-size: 11pt;
+            vertical-align: top;
+            padding: 2px 0;
+            line-height: 1.35;
+        }
+        .rincian-table td.col-label {
+            width: 130px;
+        }
+        .rincian-table td.col-colon {
+            width: 15px;
+            text-align: center;
+        }
+        .rincian-table td.col-val {
+            text-align: left;
+        }
+
+        /* FORMAT TANDA TANGAN PERSIS GAMBAR */
+        .ttd-section {
+            width: 100%;
+            margin-top: 14px;
+            page-break-inside: avoid;
+        }
+        .ttd-satuan-heading {
+            text-align: center;
             font-weight: bold;
             font-size: 10.5pt;
             text-transform: uppercase;
-            margin-bottom: 2px;
-        }
-        .ttd-jabatan {
-            font-weight: bold;
-            font-size: 11pt;
+            line-height: 1.2;
             margin-bottom: 6px;
         }
-        .ttd-box-visual {
-            height: 70px;
-            position: relative;
-            margin: 4px auto;
+
+        .ttd-table-two-cols {
+            width: 100%;
+            border-collapse: collapse;
         }
-        .ttd-img {
-            max-height: 65px;
+        .ttd-table-two-cols td {
+            width: 50%;
+            vertical-align: top;
+            text-align: center;
+            font-size: 10.5pt;
+            padding: 0 10px;
+        }
+
+        .ttd-jabatan-title {
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+
+        .ttd-visual-box {
+            position: relative;
+            height: 65px;
+            margin: 2px auto;
+        }
+        .ttd-img-sig {
+            max-height: 62px;
             max-width: 140px;
             object-fit: contain;
+            position: relative;
+            z-index: 2;
         }
-        .stempel-img {
+        .stempel-banser-pos {
             position: absolute;
-            left: 20px;
+            left: 50%;
             top: -10px;
-            max-height: 80px;
-            max-width: 80px;
-            opacity: 0.85;
-        }
-        .ttd-nama {
-            font-weight: bold;
-            font-size: 11pt;
-            text-decoration: underline;
-        }
-        .ttd-npa {
-            font-size: 9.5pt;
-            margin-top: 2px;
+            margin-left: -50px;
+            max-height: 85px;
+            max-width: 85px;
+            opacity: 0.9;
+            z-index: 3;
         }
 
-        /* TEMBUSAN */
-        .tembusan-box {
-            margin-top: 24px;
-            font-size: 9.5pt;
-            border-top: 1px dashed #999;
-            padding-top: 8px;
+        .ttd-pejabat-nama {
+            font-weight: bold;
+            font-size: 10.5pt;
+            text-transform: uppercase;
+        }
+
+        /* BLOK MENGETAHUI GP ANSOR */
+        .mengetahui-block {
+            margin-top: 10px;
+            text-align: center;
             page-break-inside: avoid;
         }
-        .tembusan-box strong { text-decoration: underline; }
-        .tembusan-box ol { margin-left: 20px; margin-top: 4px; }
+        .mengetahui-label {
+            font-size: 10.5pt;
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+        .mengetahui-instansi {
+            font-size: 10.5pt;
+            font-weight: bold;
+            text-transform: uppercase;
+            line-height: 1.2;
+        }
+        .mengetahui-jabatan {
+            font-size: 10.5pt;
+            font-weight: bold;
+            margin-top: 2px;
+        }
+        .mengetahui-visual-box {
+            position: relative;
+            height: 65px;
+            margin: 2px auto;
+            width: 260px;
+        }
+        .stempel-ansor-pos {
+            position: absolute;
+            left: 20px;
+            top: -15px;
+            max-height: 85px;
+            max-width: 85px;
+            opacity: 0.9;
+            z-index: 3;
+        }
 
-        /* STAMP DRAF */
+        /* WATERMARK DRAF */
         .stamp-draf {
             position: fixed;
-            top: 90mm;
+            top: 100mm;
             left: 15mm;
             width: 180mm;
             text-align: center;
-            font-size: 65pt;
+            font-size: 60pt;
             font-weight: bold;
             color: rgba(180, 0, 0, 0.08);
             text-transform: uppercase;
-            letter-spacing: 12px;
+            letter-spacing: 10px;
             transform: rotate(-35deg);
             z-index: -1;
-        }
-
-        /* FOOTER */
-        .pdf-footer {
-            position: fixed;
-            bottom: 6mm;
-            left: 25mm;
-            right: 20mm;
-            text-align: center;
-            font-size: 7.5pt;
-            color: #777;
-            border-top: 1px solid #ccc;
-            padding-top: 3px;
         }
     </style>
 </head>
@@ -203,16 +344,23 @@
     $tglCarbon = Carbon::parse($tglSurat);
     $tglFull   = $tglCarbon->day . ' ' . ($bulanId[$tglCarbon->month]) . ' ' . $tglCarbon->year;
 
-    // Logo Paths
-    $logoBanser = file_exists(public_path('images/banser-logo.png')) 
-        ? public_path('images/banser-logo.png') 
-        : (file_exists(public_path('images/banser.png')) ? public_path('images/banser.png') : public_path('images/banser-logo.svg'));
+    // Logo Kiri: Logo BANSER (beserta kode wilayah di bawahnya)
+    $logoBanser = file_exists(public_path('images/banser-emblem.png')) 
+        ? public_path('images/banser-emblem.png') 
+        : (file_exists(public_path('images/banser-logo-res.png'))
+            ? public_path('images/banser-logo-res.png')
+            : (file_exists(public_path('images/banser-logo.png')) 
+                ? public_path('images/banser-logo.png') 
+                : (file_exists(public_path('images/banser.png')) ? public_path('images/banser.png') : null)));
 
-    $logoAdmin = file_exists(public_path('images/LOGO_ADMIN_rev_2.png')) 
-        ? public_path('images/LOGO_ADMIN_rev_2.png') 
-        : (file_exists(public_path('images/adminpers-logo.png')) ? public_path('images/adminpers-logo.png') : public_path('images/LOGO_ADMIN_rev_2.svg'));
+    // Logo Kanan: Logo yang barusan diupload user (logo-banser-merahputih.png)
+    $logoKanan = file_exists(public_path('images/logo-banser-merahputih.png'))
+        ? public_path('images/logo-banser-merahputih.png')
+        : (file_exists(public_path('images/ansor-logo-res.png'))
+            ? public_path('images/ansor-logo-res.png')
+            : (file_exists(public_path('images/ansor-logo.png')) ? public_path('images/ansor-logo.png') : null));
 
-    // Digital Signature & Stamp Paths
+    // Signatures and Stamps
     $ttdKasatkorcabPath = ($profil->ttd_kasatkorcab && file_exists(storage_path('app/public/' . $profil->ttd_kasatkorcab))) 
         ? storage_path('app/public/' . $profil->ttd_kasatkorcab) 
         : null;
@@ -227,310 +375,288 @@
 
     $stempelBanserPath = ($profil->stempel_banser && file_exists(storage_path('app/public/' . $profil->stempel_banser))) 
         ? storage_path('app/public/' . $profil->stempel_banser) 
-        : null;
+        : (file_exists(public_path('images/stempel-banser.png')) ? public_path('images/stempel-banser.png') : null);
 
     $stempelAnsorPath = ($profil->stempel_ansor && file_exists(storage_path('app/public/' . $profil->stempel_ansor))) 
         ? storage_path('app/public/' . $profil->stempel_ansor) 
-        : null;
+        : (file_exists(public_path('images/stempel-ansor.png')) ? public_path('images/stempel-ansor.png') : null);
 
-    $namaSatkorcab = $profil->satkorcab ?: 'SATKORCAB BANSER KABUPATEN BLITAR';
-    $alamatSekretariat = $profil->alamat_sekretariat ?: 'Jl. Ahmad Yani No. 12, Blitar';
-    $emailResmi = $profil->email ?: 'adminpers.satkorcab@banser-blitar.id';
+    $kodeWilayah = $profil->kode_wilayah ?: 'XII-11';
+    $alamatSekretariat = $profil->alamat_sekretariat ?: 'Graha NU Kabupaten Blitar Jatinom Kanigoro Kode Pos: 66171';
 @endphp
 
 @if($isDraf)<div class="stamp-draf">DRAF</div>@endif
 
 <div class="page">
-    {{-- 1. KOP SURAT KHUSUS BANSER --}}
-    <div class="kop-wrapper">
-        <div class="kop-inner">
-            <div class="kop-col-logo-left">
-                @if(file_exists($logoBanser))
+    {{-- 1. KOP SURAT RESMI: KIRI LOGO BANSER, KANAN LOGO BARU UPLOAD --}}
+    <table class="kop-table">
+        <tr>
+            <td class="kop-logo-kiri">
+                @if($logoBanser)
                     <img src="{{ $logoBanser }}" alt="Logo BANSER">
                 @endif
-            </div>
-            <div class="kop-col-text">
-                <div class="kop-ormas">PENGURUS CABANG GERAKAN PEMUDA ANSOR KABUPATEN BLITAR</div>
-                <div class="kop-nama">BANSER</div>
-                <div class="kop-satuan">SATUAN KOORDINASI CABANG (SATKORCAB)</div>
-                <div class="kop-satuan">{{ strtoupper($namaSatkorcab) }}</div>
-                <div class="kop-alamat">{{ $alamatSekretariat }} &nbsp;|&nbsp; Surel: {{ $emailResmi }}</div>
-            </div>
-            <div class="kop-col-logo-right">
-                @if(file_exists($logoAdmin))
-                    <img src="{{ $logoAdmin }}" alt="Logo Adminpers">
+                <div class="kop-kode-wilayah">{{ $kodeWilayah }}</div>
+            </td>
+            <td class="kop-center-text">
+                <div class="kop-satuan-1">SATUAN KOORDINASI CABANG</div>
+                <div class="kop-satuan-2">BARISAN ANSOR SERBAGUNA</div>
+                <div class="kop-satuan-3">(SATKORCAB BANSER)</div>
+                <div class="kop-satuan-4">KABUPATEN BLITAR</div>
+                <div class="kop-alamat">Sekretariat : {{ $alamatSekretariat }}</div>
+            </td>
+            <td class="kop-logo-kanan">
+                @if($logoKanan)
+                    <img src="{{ $logoKanan }}" alt="Logo Header">
                 @endif
-            </div>
-        </div>
+            </td>
+        </tr>
+    </table>
+    <div class="kop-divider"></div>
+
+    {{-- 2. TANGGAL SURAT DI KANAN --}}
+    <div class="header-date-row">
+        Blitar, {{ $tglFull }}
     </div>
 
-    {{-- 2. FORMAT KHUSUS SESUAI JENIS SURAT --}}
-    @if($jenisKode === 'SU')
-        {{-- ================= FORMAT KHUSUS SURAT UNDANGAN (SU) ================= --}}
-        <table class="header-meta-tbl">
-            <tr>
-                <td class="meta-left">
-                    <table class="nomor-meta-tbl">
-                        <tr>
-                            <td class="label">Nomor</td>
-                            <td class="colon">:</td>
-                            <td><strong>{{ $isDraf ? 'DRAF (Menunggu Verifikasi)' : $nomorSurat }}</strong></td>
-                        </tr>
-                        <tr>
-                            <td class="label">Lampiran</td>
-                            <td class="colon">:</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td class="label">Perihal</td>
-                            <td class="colon">:</td>
-                            <td><strong><u>{{ $surat->perihal ?? 'UNDANGAN KEGIATAN' }}</u></strong></td>
-                        </tr>
-                    </table>
-                </td>
-                <td class="meta-right">
-                    Blitar, {{ $tglFull }}
-                </td>
-            </tr>
-        </table>
+    {{-- 3. NOMOR, LAMPIRAN, HAL --}}
+    <table class="meta-table">
+        <tr>
+            <td class="meta-label">Nomor</td>
+            <td class="meta-colon">:</td>
+            <td><strong>{{ $isDraf ? 'DRAF (Menunggu Verifikasi)' : $nomorSurat }}</strong></td>
+        </tr>
+        <tr>
+            <td class="meta-label">Lamp</td>
+            <td class="meta-colon">:</td>
+            <td>-</td>
+        </tr>
+        <tr>
+            <td class="meta-label">Hal</td>
+            <td class="meta-colon">:</td>
+            <td><strong>{{ strtoupper($surat->perihal ?? 'INSTRUKSI') }}</strong></td>
+        </tr>
+    </table>
 
-        <div class="tujuan-box">
-            <div class="yth">Kepada Yang Terhormat:</div>
-            <div class="nama-penerima">{{ $surat->tujuan ?? 'Sahabat-sahabat' }}</div>
-            <div class="tempat-penerima">Di Tempat</div>
-        </div>
+    {{-- 4. TUJUAN KEPADA YTH --}}
+    <div class="tujuan-container">
+        <div class="yth">Kepada Yth,</div>
+        <div class="nama-penerima">{{ $surat->tujuan ?? 'Kasatkoryon' }}</div>
+    </div>
 
-        <div class="salam-pembuka">
-            Bismillaahirrohmaanirrohiim<br>
-            Assalamu’alaikum Warahmatullahi Wabarakaatuh
-        </div>
+    {{-- 5. SALAM PEMBUKA --}}
+    <div class="salam-pembuka">
+        <div class="salam-arab">Assalamu’alaikum. Wr. Wb.</div>
+        <div class="basmalah">Bismillahhirrahmanirahim</div>
+    </div>
 
-        <div class="body-para">
-            Salam silaturahim teriring do’a kami sampaikan kepada Sahabat, semoga senantiasa dalam limpahan taufiq, hidayah, dan inayah Allah Subhanahu Wa Ta’ala serta sukses dalam menjalankan amanah organisasi.
-        </div>
+    <div class="body-p">
+        Salam silaturrahmi kami sampaikan, semoga kita senantiasa dalam keadaan sehat walafiat, serta diberi kesuksesan dalam menjalankan aktifitas sehari-hari. Amin.
+    </div>
 
-        <div class="body-para">
-            Sehubungan dengan agenda program kerja Satuan Koordinasi Cabang (SATKORCAB) BANSER Kabupaten Blitar, bersama ini kami mengharap dengan hormat kehadiran Sahabat pada kegiatan yang akan diselenggarakan besok pada:
-        </div>
-
-        <table class="undangan-tbl">
-            <tr>
-                <td class="label">Hari / Tanggal</td>
-                <td class="colon">:</td>
-                <td><strong>{{ $surat->hari_tanggal ?? $surat->acara_tanggal ?? '-' }}</strong></td>
-            </tr>
-            <tr>
-                <td class="label">Waktu</td>
-                <td class="colon">:</td>
-                <td>{{ $surat->waktu ?? $surat->acara_waktu ?? 'Selesai' }}</td>
-            </tr>
-            <tr>
-                <td class="label">Tempat</td>
-                <td class="colon">:</td>
-                <td>{{ $surat->tempat ?? $surat->acara_tempat ?? '-' }}</td>
-            </tr>
-            <tr>
-                <td class="label">Acara</td>
-                <td class="colon">:</td>
-                <td><strong>{{ $surat->acara ?? $surat->acara_nama ?? ($surat->perihal ?? '-') }}</strong></td>
-            </tr>
-            <tr>
-                <td class="label">Pakaian / Seragam</td>
-                <td class="colon">:</td>
-                <td>{{ $surat->pakaian ?? $surat->acara_pakaian ?? 'PDL BANSER Lengkap / Menyesuaikan' }}</td>
-            </tr>
-        </table>
-
-        <div class="body-para">
-            Mengingat pentingnya agenda tersebut, kami mohon Sahabat hadir tepat waktu demi kelancaran dan ketertiban tugas persyarikatan.
-        </div>
-
-        <div class="body-para">
-            Demikian surat undangan ini kami sampaikan, atas perhatian, kedisiplinan, dan dedikasi Sahabat diucapkan terima kasih.
-        </div>
-
-        <div class="salam-penutup">
-            Wallahul Muwaffiq Ila Aqwamith Thorieq<br>
-            Wassalamu’alaikum Warahmatullahi Wabarakaatuh
-        </div>
-
-    @elseif($jenisKode === 'SPH')
-        {{-- ================= FORMAT KHUSUS SURAT PERINTAH HARIAN (SPH) ================= --}}
-        <div class="judul-center-box">
-            <h2>SURAT PERINTAH HARIAN</h2>
-            <div class="nomor-center">
-                Nomor : {{ $isDraf ? 'DRAF / SPH / ' . date('Y') : $nomorSurat }}
+    {{-- 6. BODY TEXT SESUAI JENIS / DETAIL SURAT --}}
+    @if($jenisKode === 'SPH' || $jenisKode === 'SP')
+        @if(!empty($surat->dasar))
+            <div class="body-p">
+                Berdasarkan {{ $surat->dasar }}, maka dengan ini mengharap dengan hormat kepada sahabat untuk memerintahkan anggotanya{{ !empty($surat->untuk_satuan) ? ' ' . $surat->untuk_satuan : '' }} yang akan dilaksanakan :
             </div>
+        @else
+            <div class="body-p">
+                Berdasarkan koordinasi pimpinan dan program kerja Satuan Koordinasi Cabang (SATKORCAB) BANSER Kabupaten Blitar, bersama ini mengharap dengan hormat kepada sahabat untuk memerintahkan anggotanya{{ !empty($surat->untuk_satuan) ? ' ' . $surat->untuk_satuan : '' }} yang akan dilaksanakan :
+            </div>
+        @endif
+
+        {{-- ISI INSTRUKSI / PETUNJUK --}}
+        @if(!empty($surat->isi_perintah))
+            @php
+                $lines = preg_split('/\r\n|\r|\n/', trim($surat->isi_perintah));
+                $hasKeyValue = false;
+                foreach ($lines as $line) {
+                    if (str_contains($line, ':')) {
+                        $hasKeyValue = true;
+                        break;
+                    }
+                }
+            @endphp
+
+            @if($hasKeyValue)
+                <table class="rincian-table">
+                    @foreach($lines as $line)
+                        @if(str_contains($line, ':'))
+                            @php
+                                $parts = explode(':', $line, 2);
+                                $k = trim($parts[0]);
+                                $v = trim($parts[1] ?? '');
+                            @endphp
+                            <tr>
+                                <td class="col-label">{{ $k }}</td>
+                                <td class="col-colon">:</td>
+                                <td class="col-val">{!! nl2br(e($v)) !!}</td>
+                            </tr>
+                        @else
+                            @if(trim($line) !== '')
+                                <tr>
+                                    <td colspan="3" style="padding-top: 4px; padding-bottom: 2px;">{{ trim($line) }}</td>
+                                </tr>
+                            @endif
+                        @endif
+                    @endforeach
+                </table>
+            @else
+                <div class="body-p" style="margin-left: 18px; white-space: pre-line;">
+                    {!! nl2br(e($surat->isi_perintah)) !!}
+                </div>
+            @endif
+        @endif
+
+    @elseif($jenisKode === 'SU')
+        <div class="body-p">
+            Sehubungan dengan agenda kegiatan Satuan Koordinasi Cabang (SATKORCAB) BANSER Kabupaten Blitar, maka bersama ini kami mengharap dengan hormat kehadiran Sahabat besok pada :
         </div>
 
-        <div class="sph-row">
-            <div class="sph-label">Menimbang</div>
-            <div class="sph-colon">:</div>
-            <div class="sph-val">Bahwa demi tertib administrasi, kedisiplinan operasional, serta terwujudnya soliditas garis komando dalam pelaksanaan instruksi organisasi.</div>
-        </div>
-
-        <div class="sph-row">
-            <div class="sph-label">Dasar / Rujukan</div>
-            <div class="sph-colon">:</div>
-            <div class="sph-val">{{ $surat->dasar ?? 'Peraturan Organisasi GP Ansor & Pedoman Administrasi Satuan Koordinasi Nasional BANSER.' }}</div>
-        </div>
-
-        <div style="text-align: center; font-weight: bold; font-size: 11.5pt; margin: 12px 0; letter-spacing: 2px;">
-            MEMERINTAHKAN :
-        </div>
-
-        <div class="sph-row">
-            <div class="sph-label">Kepada Satuan</div>
-            <div class="sph-colon">:</div>
-            <div class="sph-val"><strong>{{ $surat->untuk_satuan ?? 'Seluruh Jajaran Satkoryon & Personel BANSER Se-Kabupaten Blitar' }}</strong></div>
-        </div>
-
-        <div class="sph-row">
-            <div class="sph-label">Isi Perintah</div>
-            <div class="sph-colon">:</div>
-            <div class="sph-val" style="white-space: pre-line;">{{ $surat->isi_perintah ?? $surat->perihal }}</div>
-        </div>
-
-        <div class="body-para" style="margin-top: 14px;">
-            Surat Perintah Harian ini dikeluarkan untuk dilaksanakan dengan penuh kesungguhan dan dedikasi, serta dilaporkan pelaksanaannya kepada pimpinan Satkorcab.
-        </div>
+        <table class="rincian-table">
+            <tr>
+                <td class="col-label">Hari / Tanggal</td>
+                <td class="col-colon">:</td>
+                <td class="col-val"><strong>{{ $surat->hari_tanggal ?? $surat->acara_tanggal ?? '-' }}</strong></td>
+            </tr>
+            <tr>
+                <td class="col-label">Pukul</td>
+                <td class="col-colon">:</td>
+                <td class="col-val">{{ $surat->waktu ?? $surat->acara_waktu ?? '-' }}</td>
+            </tr>
+            <tr>
+                <td class="col-label">Acara</td>
+                <td class="col-colon">:</td>
+                <td class="col-val"><strong>{{ $surat->acara ?? $surat->acara_nama ?? ($surat->perihal ?? '-') }}</strong></td>
+            </tr>
+            <tr>
+                <td class="col-label">Tempat</td>
+                <td class="col-colon">:</td>
+                <td class="col-val">{{ $surat->tempat ?? $surat->acara_tempat ?? '-' }}</td>
+            </tr>
+            @if(!empty($surat->pakaian ?? $surat->acara_pakaian))
+            <tr>
+                <td class="col-label">Catatan</td>
+                <td class="col-colon">:</td>
+                <td class="col-val">1. Memakai {{ $surat->pakaian ?? $surat->acara_pakaian }}<br>2. Karena pentingnya acara harap Hadir tepat waktu</td>
+            </tr>
+            @endif
+        </table>
 
     @elseif($jenisKode === 'ST')
-        {{-- ================= FORMAT KHUSUS SURAT TUGAS / MANDAT (ST) ================= --}}
-        <div class="judul-center-box">
-            <h2>SURAT TUGAS / MANDAT</h2>
-            <div class="nomor-center">
-                Nomor : {{ $isDraf ? 'DRAF / ST / ' . date('Y') : $nomorSurat }}
-            </div>
-        </div>
-
-        <div class="sph-row">
-            <div class="sph-label">Dasar Penugasan</div>
-            <div class="sph-colon">:</div>
-            <div class="sph-val">{{ $surat->dasar ?? 'Program kerja Satuan Koordinasi Cabang (SATKORCAB) BANSER dan arahan Pimpinan Cabang GP Ansor.' }}</div>
-        </div>
-
-        <div style="text-align: center; font-weight: bold; font-size: 11.5pt; margin: 12px 0; letter-spacing: 2px;">
-            MENUGASKAN :
+        <div class="body-p">
+            Berdasarkan {{ $surat->dasar ?? 'kebutuhan penugasan personel Satuan Koordinasi Cabang (SATKORCAB) BANSER Kabupaten Blitar' }}, dengan ini memberikan tugas kedinasan kepada sahabat :
         </div>
 
         @if(!empty($surat->penerima_list))
-            <table class="penerima-tbl">
-                <thead>
-                    <tr>
-                        <th style="width: 35px; text-align: center;">No.</th>
-                        <th>Nama Personel / Anggota BANSER</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($surat->penerima_list as $idx => $penerima)
-                        <tr>
-                            <td style="text-align: center;">{{ $idx + 1 }}</td>
-                            <td><strong>{{ $penerima }}</strong></td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            <div style="margin-left: 18px; margin-bottom: 8px;">
+                @foreach($surat->penerima_list as $idx => $penerima)
+                    <div>{{ $idx + 1 }}. <strong>{{ $penerima }}</strong></div>
+                @endforeach
+            </div>
         @elseif($surat->penerima_tugas)
-            <div style="margin: 6px 0 10px 10px; font-size: 10.5pt; white-space: pre-line;">
-                <strong>Personel:</strong><br>
-                {{ is_array($surat->penerima_tugas) ? implode(", ", $surat->penerima_tugas) : $surat->penerima_tugas }}
+            <div style="margin-left: 18px; margin-bottom: 8px;">
+                <strong>{{ is_array($surat->penerima_tugas) ? implode(", ", $surat->penerima_tugas) : $surat->penerima_tugas }}</strong>
             </div>
         @endif
 
-        <div class="body-para" style="margin-top: 6px;">Untuk melaksanakan tugas kedinasan sebagai berikut:</div>
-
-        <table class="st-detail-tbl">
+        <table class="rincian-table">
             <tr>
-                <td class="label">Uraian Tugas</td>
-                <td class="colon">:</td>
-                <td><strong>{{ $surat->uraian_tugas ?? $surat->perihal }}</strong></td>
+                <td class="col-label">Tugas</td>
+                <td class="col-colon">:</td>
+                <td class="col-val"><strong>{{ $surat->uraian_tugas ?? $surat->perihal }}</strong></td>
             </tr>
-            @if($surat->tgl_mulai)
-                <tr>
-                    <td class="label">Periode Tanggal</td>
-                    <td class="colon">:</td>
-                    <td>
-                        {{ Carbon::parse($surat->tgl_mulai)->day . ' ' . $bulanId[Carbon::parse($surat->tgl_mulai)->month] . ' ' . Carbon::parse($surat->tgl_mulai)->year }}
-                        @if($surat->tgl_selesai && $surat->tgl_selesai != $surat->tgl_mulai)
-                            s/d {{ Carbon::parse($surat->tgl_selesai)->day . ' ' . $bulanId[Carbon::parse($surat->tgl_selesai)->month] . ' ' . Carbon::parse($surat->tgl_selesai)->year }}
-                        @endif
-                    </td>
-                </tr>
+            @if(!empty($surat->tgl_mulai))
+            <tr>
+                <td class="col-label">Waktu Pelaksanaan</td>
+                <td class="col-colon">:</td>
+                <td class="col-val">
+                    {{ Carbon::parse($surat->tgl_mulai)->day . ' ' . $bulanId[Carbon::parse($surat->tgl_mulai)->month] . ' ' . Carbon::parse($surat->tgl_mulai)->year }}
+                    @if(!empty($surat->tgl_selesai) && $surat->tgl_selesai != $surat->tgl_mulai)
+                        s/d {{ Carbon::parse($surat->tgl_selesai)->day . ' ' . $bulanId[Carbon::parse($surat->tgl_selesai)->month] . ' ' . Carbon::parse($surat->tgl_selesai)->year }}
+                    @endif
+                </td>
+            </tr>
             @endif
-            @if($surat->tempat_tugas ?? $surat->st_tempat)
-                <tr>
-                    <td class="label">Lokasi Penugasan</td>
-                    <td class="colon">:</td>
-                    <td>{{ $surat->tempat_tugas ?? $surat->st_tempat }}</td>
-                </tr>
+            @if(!empty($surat->tempat_tugas ?? $surat->st_tempat))
+            <tr>
+                <td class="col-label">Tempat</td>
+                <td class="col-colon">:</td>
+                <td class="col-val">{{ $surat->tempat_tugas ?? $surat->st_tempat }}</td>
+            </tr>
             @endif
         </table>
-
-        <div class="body-para">
-            Demikian Surat Tugas ini dibuat agar dilaksanakan dengan sebaik-baiknya, penuh tanggung jawab, serta menjaga martabat dan kehormatan Korps BANSER.
-        </div>
     @endif
 
-    {{-- 3. FORMAT TANDA TANGAN KHUSUS SATKORCAB BANSER --}}
-    <div class="ttd-container">
-        @if($jenisKode !== 'SU')
-            <div style="text-align: right; margin-bottom: 8px; font-size: 11pt;">
-                Ditetapkan di : Blitar<br>
-                Pada tanggal : {{ $tglFull }}
-            </div>
-        @endif
+    <div class="body-p">
+        Demikian surat {{ $surat->perihal ?? 'Instruksi' }} ini kami buat, atas perhatian dan kehadiranya kami sampaikan terimakasih.
+    </div>
 
-        <table class="ttd-table">
+    {{-- 7. SALAM PENUTUP --}}
+    <div class="salam-penutup">
+        <div class="kalimat-1">Wallahul Muwafiq Ila Aqwamit Thariq</div>
+        <div class="kalimat-2">Wassalamu’alaikum Wr. Wb.</div>
+    </div>
+
+    {{-- 8. TANDA TANGAN (KEPALA & KASETMA + STEMPEL BANSER KANAN) --}}
+    <div class="ttd-section">
+        <div class="ttd-satuan-heading">
+            SATUAN KOORDINASI CABANG<br>
+            BARISAN ANSOR SERBAGUNA
+        </div>
+
+        <table class="ttd-table-two-cols">
             <tr>
-                <!-- SISI KIRI: KASETMA -->
-                <td class="ttd-col">
-                    <div class="ttd-instansi">SATUAN KOORDINASI CABANG</div>
-                    <div class="ttd-jabatan">Kepala Sekretariat Markas,</div>
-                    <div class="ttd-box-visual">
-                        @if($ttdKasetmaPath)
-                            <img src="{{ $ttdKasetmaPath }}" alt="TTD Kasetma" class="ttd-img">
+                <!-- KIRI: KEPALA SATKORCAB -->
+                <td>
+                    <div class="ttd-jabatan-title">Kepala</div>
+                    <div class="ttd-visual-box">
+                        @if($ttdKasatkorcabPath)
+                            <img src="{{ $ttdKasatkorcabPath }}" alt="TTD Kepala" class="ttd-img-sig">
                         @endif
                     </div>
-                    <div class="ttd-nama">{{ $profil->nama_kasetma ?: 'Sahabat Kasetma' }}</div>
-                    <div class="ttd-npa">NPA. {{ $profil->kode_wilayah ? $profil->kode_wilayah . '.002' : 'X-28.002' }}</div>
+                    <div class="ttd-pejabat-nama">{{ $profil->nama_kasatkorcab ?: 'M. KHOTIB ASHARI, S. Pd.' }}</div>
                 </td>
 
-                <!-- SISI KANAN: KASATKORCAB (VERIFIKATOR) DILENGKAPI STEMPEL RESMI -->
-                <td class="ttd-col">
-                    <div class="ttd-instansi">SATUAN KOORDINASI CABANG</div>
-                    <div class="ttd-jabatan">Kepala Satuan Koordinasi Cabang,</div>
-                    <div class="ttd-box-visual">
-                        {{-- Stempel Resmi Banser disematkan di sebelah tanda tangan --}}
+                <!-- KANAN: KASETMA + STEMPEL BANSER -->
+                <td>
+                    <div class="ttd-jabatan-title">Kasetma</div>
+                    <div class="ttd-visual-box">
                         @if($stempelBanserPath)
-                            <img src="{{ $stempelBanserPath }}" alt="Stempel BANSER" class="stempel-img">
+                            <img src="{{ $stempelBanserPath }}" alt="Stempel BANSER" class="stempel-banser-pos">
                         @endif
 
-                        @if($ttdKasatkorcabPath)
-                            <img src="{{ $ttdKasatkorcabPath }}" alt="TTD Kasatkorcab" class="ttd-img">
+                        @if($ttdKasetmaPath)
+                            <img src="{{ $ttdKasetmaPath }}" alt="TTD Kasetma" class="ttd-img-sig">
                         @endif
                     </div>
-                    <div class="ttd-nama">{{ $profil->nama_kasatkorcab ?: 'Nur Rokhim' }}</div>
-                    <div class="ttd-npa">NPA. {{ $profil->kode_wilayah ? $profil->kode_wilayah . '.001' : 'X-28.001' }}</div>
+                    <div class="ttd-pejabat-nama">{{ $profil->nama_kasetma ?: 'TATANG TENI SUNARKO' }}</div>
                 </td>
             </tr>
         </table>
-    </div>
 
-    {{-- 4. TEMBUSAN RESMI --}}
-    <div class="tembusan-box">
-        <strong>Tembusan Yth :</strong>
-        <ol>
-            <li>Ketua PC GP Ansor Kabupaten Blitar (sebagai laporan);</li>
-            <li>Satuan Koordinasi Wilayah (SATKORWIL) BANSER Jawa Timur;</li>
-            <li>Arsip Markas Komando Satkorcab.</li>
-        </ol>
-    </div>
-</div>
+        <!-- BAWAH TENGAH: MENGETAHUI GP ANSOR + STEMPEL ANSOR KIRI -->
+        <div class="mengetahui-block">
+            <div class="mengetahui-label">Mengetahui</div>
+            <div class="mengetahui-instansi">
+                PIMPINAN CABANG GERAKAN PEMUDA ANSOR<br>
+                KABUPATEN BLITAR
+            </div>
+            <div class="mengetahui-jabatan">Ketua</div>
 
-<div class="pdf-footer">
-    Dokumen Administrasi Resmi SIGAP BANSER – Satkorcab Kab. Blitar
-    @if(!$isDraf) &nbsp;|&nbsp; <strong>{{ $nomorSurat }}</strong> @endif
+            <div class="mengetahui-visual-box">
+                @if($stempelAnsorPath)
+                    <img src="{{ $stempelAnsorPath }}" alt="Stempel ANSOR" class="stempel-ansor-pos">
+                @endif
+
+                @if($ttdKetuaAnsorPath)
+                    <img src="{{ $ttdKetuaAnsorPath }}" alt="TTD Ketua Ansor" class="ttd-img-sig">
+                @endif
+            </div>
+
+            <div class="ttd-pejabat-nama">{{ $profil->nama_ketua_ansor ?: 'IMAM MALIKI' }}</div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

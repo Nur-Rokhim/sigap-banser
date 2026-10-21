@@ -221,7 +221,7 @@ class SuratKeluarController extends Controller
             'surat'       => $suratKeluar,
             'suratKeluar' => $suratKeluar,
             'profil'      => $profil,
-        ])->setPaper('a4', 'portrait');
+        ])->setPaper([0, 0, 609.45, 935.43], 'portrait'); // Ukuran F4 / Folio (21.5cm x 33.0cm)
 
         $namaFile = 'surat-keluar-' . ($suratKeluar->nomor_surat
             ? str_replace('/', '-', $suratKeluar->nomor_surat)
