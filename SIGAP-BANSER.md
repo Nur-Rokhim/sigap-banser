@@ -49,7 +49,7 @@ Jenis surat (tabel `jenis_surat`, mudah ditambah):
 Alur status: `draf` → `verifikasi` → `disetujui` → `terkirim`.
 Setiap jenis punya isian khusus (tabel detail):
 - **SU:** hari/tanggal acara, waktu, tempat, acara, pakaian
-- **SPH:** dasar, isi perintah, untuk satuan
+- **SPH (Surat Perintah Harian):** dasar, untuk satuan, jumlah personel, hari/tanggal kegiatan, waktu, acara, tempat, pakaian, catatan
 - **ST:** dasar, uraian tugas, tanggal mulai, tanggal selesai, tempat, daftar penerima tugas (anggota)
 
 ### C. Kode / Nomor Surat

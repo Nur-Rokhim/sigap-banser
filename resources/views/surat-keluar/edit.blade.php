@@ -195,8 +195,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="isi_perintah" class="form-label">Catatan Tambahan (Opsional)</label>
-                        <textarea id="isi_perintah" name="isi_perintah" rows="2" class="form-control" placeholder="Catatan atau instruksi tambahan...">{{ old('isi_perintah', $suratKeluar->isi_perintah) }}</textarea>
+                        <label for="isi_perintah" class="form-label">Catatan</label>
+                        <textarea id="isi_perintah" name="isi_perintah" rows="2" class="form-control" placeholder="Contoh: 1. Memakai PDL Lengkap&#10;2. Karena pentingnya acara harap Hadir tepat waktu">{{ old('isi_perintah', $suratKeluar->isi_perintah) }}</textarea>
                     </div>
                 @elseif($jenis === 'ST')
                     <div class="form-group">

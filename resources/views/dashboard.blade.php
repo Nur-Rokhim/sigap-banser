@@ -395,11 +395,11 @@
                         </div>
                     </div>
 
-                    <!-- Surat Pemberitahuan / Permohonan (SPH) -->
+                    <!-- Surat Perintah Harian (SPH) -->
                     <div class="nomor-terbit-item">
                         <div class="nomor-terbit-header">
                             <span class="nomor-jenis-tag">SPH</span>
-                            <span class="nomor-jenis-title">Surat Pemberitahuan / Edaran</span>
+                            <span class="nomor-jenis-title">Surat Perintah Harian</span>
                         </div>
                         <div class="nomor-code-display">
                             {{ $nomorTerakhir['SPH'] ?? 'Belum ada nomor terbit' }}

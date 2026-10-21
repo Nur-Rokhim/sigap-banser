@@ -106,7 +106,7 @@
                 @if($jenis === 'SU')
                     <span class="badge" style="background-color: rgba(90, 14, 20, 0.1); color: var(--hero1);">SU - Undangan</span>
                 @elseif($jenis === 'SPH')
-                    <span class="badge" style="background-color: rgba(201, 162, 74, 0.15); color: #8A6516;">SPH - Pemberitahuan</span>
+                    <span class="badge" style="background-color: rgba(201, 162, 74, 0.15); color: #8A6516;">SPH - Perintah Harian</span>
                 @elseif($jenis === 'ST')
                     <span class="badge" style="background-color: rgba(14, 155, 74, 0.12); color: var(--green);">ST - Tugas</span>
                 @endif
@@ -295,7 +295,7 @@
 
                     @if(!empty($item->isi_perintah))
                     <div>
-                        <span class="meta-label" style="display: block; margin-bottom: 4px;">Catatan Tambahan</span>
+                        <span class="meta-label" style="display: block; margin-bottom: 4px;">Catatan</span>
                         <div style="font-size: 0.92rem; white-space: pre-line; line-height: 1.6;">{{ $item->isi_perintah }}</div>
                     </div>
                     @endif

@@ -32,7 +32,7 @@
                     <select name="jenis" class="form-control">
                         <option value="">Semua Jenis</option>
                         <option value="SU" {{ request('jenis') === 'SU' ? 'selected' : '' }}>SU (Undangan)</option>
-                        <option value="SPH" {{ request('jenis') === 'SPH' ? 'selected' : '' }}>SPH (Pemberitahuan)</option>
+                        <option value="SPH" {{ request('jenis') === 'SPH' ? 'selected' : '' }}>SPH (Surat Perintah Harian)</option>
                         <option value="ST" {{ request('jenis') === 'ST' ? 'selected' : '' }}>ST (Surat Tugas)</option>
                     </select>
                 </div>
@@ -99,7 +99,7 @@
                                 @if($j === 'SU')
                                     <span class="badge" style="background-color: rgba(90, 14, 20, 0.1); color: var(--hero1); border: 1px solid rgba(90, 14, 20, 0.2);">SU - Undangan</span>
                                 @elseif($j === 'SPH')
-                                    <span class="badge" style="background-color: rgba(201, 162, 74, 0.15); color: #8A6516; border: 1px solid rgba(201, 162, 74, 0.3);">SPH - Pemberitahuan</span>
+                                    <span class="badge" style="background-color: rgba(201, 162, 74, 0.15); color: #8A6516; border: 1px solid rgba(201, 162, 74, 0.3);">SPH - Perintah Harian</span>
                                 @elseif($j === 'ST')
                                     <span class="badge" style="background-color: rgba(14, 155, 74, 0.12); color: var(--green); border: 1px solid rgba(14, 155, 74, 0.25);">ST - Tugas</span>
                                 @else

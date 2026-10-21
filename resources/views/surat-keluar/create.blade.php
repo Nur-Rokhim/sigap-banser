@@ -1,4 +1,4 @@
-﻿@extends('layouts.app')
+@extends('layouts.app')
 
 @section('title', 'Buat Surat Keluar Baru')
 
@@ -159,7 +159,7 @@
                         </label>
                     </div>
 
-                    <!-- Option 2: SPH (Surat Pemberitahuan / Instruksi) -->
+                    <!-- Option 2: SPH (Surat Perintah Harian) -->
                     <div class="jenis-radio-wrapper">
                         <input type="radio" 
                                name="jenis_surat" 
@@ -169,7 +169,7 @@
                                {{ old('jenis_surat') === 'SPH' ? 'checked' : '' }}>
                         <label for="jenis_SPH" class="jenis-card">
                             <span class="code">SPH</span>
-                            <span class="desc">Surat Pemberitahuan / Edaran</span>
+                            <span class="desc">Surat Perintah Harian</span>
                         </label>
                     </div>
 
@@ -415,8 +415,8 @@
                     </div>
 
                     <div class="form-group" style="margin-bottom: 0;">
-                        <label for="sph_isi" class="form-label">Catatan Tambahan (Opsional)</label>
-                        <textarea id="sph_isi" name="isi_perintah" rows="2" class="form-control" placeholder="Catatan atau instruksi tambahan...">{{ old('isi_perintah') }}</textarea>
+                        <label for="sph_isi" class="form-label">Catatan</label>
+                        <textarea id="sph_isi" name="isi_perintah" rows="2" class="form-control" placeholder="Contoh: 1. Memakai PDL Lengkap&#10;2. Karena pentingnya acara harap Hadir tepat waktu">{{ old('isi_perintah') }}</textarea>
                     </div>
                 </div>
                 <!-- Section 3: ST (Surat Tugas) -->

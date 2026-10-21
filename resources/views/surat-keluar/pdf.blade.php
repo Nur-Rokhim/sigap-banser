@@ -496,7 +496,13 @@
                 <td class="col-val">{{ $surat->sph_tempat }}</td>
             </tr>
             @endif
-            @if(!empty($surat->sph_pakaian))
+            @if(!empty($surat->isi_perintah))
+            <tr>
+                <td class="col-label">Catatan</td>
+                <td class="col-colon">:</td>
+                <td class="col-val" style="white-space: pre-line;">{!! nl2br(e($surat->isi_perintah)) !!}</td>
+            </tr>
+            @elseif(!empty($surat->sph_pakaian))
             <tr>
                 <td class="col-label">Catatan</td>
                 <td class="col-colon">:</td>
@@ -507,13 +513,6 @@
             </tr>
             @endif
         </table>
-
-        {{-- Catatan tambahan jika ada isi_perintah --}}
-        @if(!empty($surat->isi_perintah))
-            <div class="body-p" style="margin-left: 18px; white-space: pre-line;">
-                {!! nl2br(e($surat->isi_perintah)) !!}
-            </div>
-        @endif
 
     @elseif($jenisKode === 'SU')
         <div class="body-p">
