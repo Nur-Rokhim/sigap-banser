@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
 @section('title', 'Buat Surat Keluar Baru')
 
@@ -221,7 +221,7 @@
                                     data-perihal="{{ $sm->perihal }}"
                                     data-nomor="{{ $sm->no_surat }}"
                                     {{ old('surat_masuk_id') == $sm->id ? 'selected' : '' }}>
-                                [No: {{ $sm->no_surat }}] Pemohon: {{ $sm->dari }} — Perihal: {{ Str::limit($sm->perihal, 60) }}
+                                [No: {{ $sm->no_surat }}] Pemohon: {{ $sm->dari }} â€” Perihal: {{ Str::limit($sm->perihal, 60) }}
                             </option>
                         @endforeach
                     </select>
@@ -363,42 +363,62 @@
                     </div>
                 </div>
 
-                <!-- Section 2: SPH (Surat Pemberitahuan) -->
+                <!-- Section 2: SPH (Surat Perintah Harian) -->
                 <div id="section_SPH" class="dynamic-section" style="display: none;">
                     <div class="dynamic-section-title">
                         <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                        <span>Rincian Pemberitahuan / Instruksi</span>
+                        <span>Rincian Perintah Harian (SPH)</span>
                     </div>
 
                     <div class="form-group">
                         <label for="sph_dasar" class="form-label">Dasar Surat / Regulasi</label>
-                        <textarea id="sph_dasar" 
-                                  name="dasar" 
-                                  rows="2" 
-                                  class="form-control" 
-                                  placeholder="Contoh: Peraturan Organisasi Banser No. 03 Tahun 2024 tentang Kedisiplinan Anggota...">{{ old('dasar') }}</textarea>
+                        <textarea id="sph_dasar" name="dasar" rows="2" class="form-control" placeholder="Contoh: hasil Undangan Rapat Bersama PCNU dan PEMKAB Kab.Blitar tentang Hari Santri Nasional...">{{ old('dasar') }}</textarea>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label for="sph_untuk_satuan" class="form-label">Instruksi Kepada Satuan</label>
+                            <input type="text" id="sph_untuk_satuan" name="untuk_satuan" class="form-control" value="{{ old('untuk_satuan') }}" placeholder="Contoh: memerintahkan anggotanya sebanyak 10 Personel untuk membantu pengamanan HSN 2026">
+                            <div class="form-hint">Kalimat instruksi ke satuan (muncul di paragraf pembuka PDF).</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="sph_jumlah_personel" class="form-label">Jumlah Personel</label>
+                            <input type="text" id="sph_jumlah_personel" name="jumlah_personel" class="form-control" value="{{ old('jumlah_personel') }}" placeholder="Contoh: 10 Personel">
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label for="sph_hari_tanggal" class="form-label">Hari / Tanggal Kegiatan <span class="required">*</span></label>
+                            <input type="text" id="sph_hari_tanggal" name="sph_hari_tanggal" class="form-control" value="{{ old('sph_hari_tanggal') }}" placeholder="Contoh: Kamis, 22 Oktober 2026">
+                        </div>
+                        <div class="form-group">
+                            <label for="sph_waktu" class="form-label">Pukul</label>
+                            <input type="text" id="sph_waktu" name="sph_waktu" class="form-control" value="{{ old('sph_waktu') }}" placeholder="Contoh: 18.00 WIB - Selesai">
+                        </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="sph_isi" class="form-label">Isi Perintah / Petunjuk Pelaksanaan</label>
-                        <textarea id="sph_isi" 
-                                  name="isi_perintah" 
-                                  rows="4" 
-                                  class="form-control" 
-                                  placeholder="Tuliskan butir-butir instruksi, arahan komando, atau materi pemberitahuan secara runtut...">{{ old('isi_perintah') }}</textarea>
+                        <label for="sph_acara" class="form-label">Acara / Nama Kegiatan</label>
+                        <input type="text" id="sph_acara" name="sph_acara" class="form-control" value="{{ old('sph_acara') }}" placeholder="Contoh: Pengamanan Hari Santri Nasional Tahun 2026">
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label for="sph_tempat" class="form-label">Tempat</label>
+                            <input type="text" id="sph_tempat" name="sph_tempat" class="form-control" value="{{ old('sph_tempat') }}" placeholder="Contoh: Aloon-aloon Kanigoro">
+                        </div>
+                        <div class="form-group">
+                            <label for="sph_pakaian" class="form-label">Seragam / Pakaian</label>
+                            <input type="text" id="sph_pakaian" name="sph_pakaian" class="form-control" value="{{ old('sph_pakaian', 'PDL Lengkap') }}" placeholder="Contoh: PDL Lengkap / DSH">
+                        </div>
                     </div>
 
                     <div class="form-group" style="margin-bottom: 0;">
-                        <label for="sph_satuan" class="form-label">Diberlakukan Untuk Satuan</label>
-                        <input type="text" 
-                               id="sph_satuan" 
-                               name="untuk_satuan" 
-                               class="form-control" 
-                               value="{{ old('untuk_satuan') }}" 
-                               placeholder="Contoh: Seluruh Satkoryon & Provost Banser se-Kabupaten Blitar">
+                        <label for="sph_isi" class="form-label">Catatan Tambahan (Opsional)</label>
+                        <textarea id="sph_isi" name="isi_perintah" rows="2" class="form-control" placeholder="Catatan atau instruksi tambahan...">{{ old('isi_perintah') }}</textarea>
                     </div>
                 </div>
-
                 <!-- Section 3: ST (Surat Tugas) -->
                 <div id="section_ST" class="dynamic-section" style="display: none;">
                     <div class="dynamic-section-title">

@@ -137,9 +137,15 @@ class SuratKeluarController extends Controller
         }
 
         if ($suratKeluar->detailSph) {
-            $suratKeluar->dasar        = $suratKeluar->detailSph->dasar;
-            $suratKeluar->isi_perintah = $suratKeluar->detailSph->isi_perintah;
-            $suratKeluar->untuk_satuan = $suratKeluar->detailSph->untuk_satuan;
+            $suratKeluar->dasar            = $suratKeluar->detailSph->dasar;
+            $suratKeluar->isi_perintah     = $suratKeluar->detailSph->isi_perintah;
+            $suratKeluar->untuk_satuan     = $suratKeluar->detailSph->untuk_satuan;
+            $suratKeluar->jumlah_personel  = $suratKeluar->detailSph->jumlah_personel;
+            $suratKeluar->sph_hari_tanggal = $suratKeluar->detailSph->hari_tanggal;
+            $suratKeluar->sph_waktu        = $suratKeluar->detailSph->waktu;
+            $suratKeluar->sph_acara        = $suratKeluar->detailSph->acara;
+            $suratKeluar->sph_tempat       = $suratKeluar->detailSph->tempat;
+            $suratKeluar->sph_pakaian      = $suratKeluar->detailSph->pakaian;
         }
 
         if ($suratKeluar->detailTugas) {
@@ -198,9 +204,16 @@ class SuratKeluarController extends Controller
             $suratKeluar->pakaian       = $suratKeluar->detailUndangan->pakaian;
         }
         if ($suratKeluar->detailSph) {
-            $suratKeluar->dasar         = $suratKeluar->detailSph->dasar;
-            $suratKeluar->isi_perintah  = $suratKeluar->detailSph->isi_perintah;
-            $suratKeluar->untuk_satuan  = $suratKeluar->detailSph->untuk_satuan;
+            $suratKeluar->dasar           = $suratKeluar->detailSph->dasar;
+            $suratKeluar->isi_perintah    = $suratKeluar->detailSph->isi_perintah;
+            $suratKeluar->untuk_satuan    = $suratKeluar->detailSph->untuk_satuan;
+            $suratKeluar->jumlah_personel = $suratKeluar->detailSph->jumlah_personel;
+            // Field terstruktur kegiatan SPH
+            $suratKeluar->sph_hari_tanggal = $suratKeluar->detailSph->hari_tanggal;
+            $suratKeluar->sph_waktu        = $suratKeluar->detailSph->waktu;
+            $suratKeluar->sph_acara        = $suratKeluar->detailSph->acara;
+            $suratKeluar->sph_tempat       = $suratKeluar->detailSph->tempat;
+            $suratKeluar->sph_pakaian      = $suratKeluar->detailSph->pakaian;
         }
         if ($suratKeluar->detailTugas) {
             $suratKeluar->dasar         = $suratKeluar->detailTugas->dasar;
@@ -297,9 +310,23 @@ class SuratKeluarController extends Controller
             $rules['acara']        = 'nullable|string|max:200';
             $rules['pakaian']      = 'nullable|string|max:100';
         } elseif ($kode === 'SPH') {
-            $rules['dasar']        = 'nullable|string';
-            $rules['isi_perintah'] = 'required|string';
-            $rules['untuk_satuan'] = 'nullable|string|max:150';
+            // Normalisasi field SPH terstruktur
+            $request->merge([
+                'sph_hari_tanggal' => $request->input('sph_hari_tanggal', $request->input('hari_tanggal')),
+                'sph_waktu'        => $request->input('sph_waktu', $request->input('waktu')),
+                'sph_acara'        => $request->input('sph_acara', $request->input('acara')),
+                'sph_tempat'       => $request->input('sph_tempat', $request->input('tempat')),
+                'sph_pakaian'      => $request->input('sph_pakaian', $request->input('pakaian')),
+            ]);
+            $rules['dasar']            = 'nullable|string';
+            $rules['isi_perintah']     = 'nullable|string';
+            $rules['untuk_satuan']     = 'nullable|string|max:255';
+            $rules['jumlah_personel']  = 'nullable|string|max:50';
+            $rules['sph_hari_tanggal'] = 'nullable|string|max:150';
+            $rules['sph_waktu']        = 'nullable|string|max:100';
+            $rules['sph_acara']        = 'nullable|string|max:250';
+            $rules['sph_tempat']       = 'nullable|string|max:200';
+            $rules['sph_pakaian']      = 'nullable|string|max:100';
         } elseif ($kode === 'ST') {
             // Normalisasi penerima tugas
             $penerima = $request->input('penerima', $request->input('penerima_tugas'));
@@ -354,8 +381,14 @@ class SuratKeluarController extends Controller
                 DetailSph::create([
                     'surat_keluar_id' => $surat->id,
                     'dasar'           => $validated['dasar'] ?? null,
-                    'isi_perintah'    => $validated['isi_perintah'],
+                    'isi_perintah'    => $validated['isi_perintah'] ?? null,
                     'untuk_satuan'    => $validated['untuk_satuan'] ?? null,
+                    'hari_tanggal'    => $validated['sph_hari_tanggal'] ?? null,
+                    'waktu'           => $validated['sph_waktu'] ?? null,
+                    'acara'           => $validated['sph_acara'] ?? null,
+                    'tempat'          => $validated['sph_tempat'] ?? null,
+                    'pakaian'         => $validated['sph_pakaian'] ?? null,
+                    'jumlah_personel' => $validated['jumlah_personel'] ?? null,
                 ]);
             } elseif ($kode === 'ST') {
                 DetailTugas::create([
@@ -454,9 +487,15 @@ class SuratKeluarController extends Controller
         }
 
         if ($suratKeluar->detailSph) {
-            $suratKeluar->dasar = $suratKeluar->detailSph->dasar;
-            $suratKeluar->isi_perintah = $suratKeluar->detailSph->isi_perintah;
-            $suratKeluar->untuk_satuan = $suratKeluar->detailSph->untuk_satuan;
+            $suratKeluar->dasar            = $suratKeluar->detailSph->dasar;
+            $suratKeluar->isi_perintah     = $suratKeluar->detailSph->isi_perintah;
+            $suratKeluar->untuk_satuan     = $suratKeluar->detailSph->untuk_satuan;
+            $suratKeluar->jumlah_personel  = $suratKeluar->detailSph->jumlah_personel;
+            $suratKeluar->sph_hari_tanggal = $suratKeluar->detailSph->hari_tanggal;
+            $suratKeluar->sph_waktu        = $suratKeluar->detailSph->waktu;
+            $suratKeluar->sph_acara        = $suratKeluar->detailSph->acara;
+            $suratKeluar->sph_tempat       = $suratKeluar->detailSph->tempat;
+            $suratKeluar->sph_pakaian      = $suratKeluar->detailSph->pakaian;
         }
 
         if ($suratKeluar->detailTugas) {
@@ -637,9 +676,15 @@ class SuratKeluarController extends Controller
             \App\Models\DetailSph::updateOrCreate(
                 ['surat_keluar_id' => $surat->id],
                 [
-                    'dasar'        => $request->input('dasar'),
-                    'isi_perintah' => $request->input('isi_perintah'),
-                    'untuk_satuan' => $request->input('untuk_satuan'),
+                    'dasar'           => $request->input('dasar'),
+                    'isi_perintah'    => $request->input('isi_perintah'),
+                    'untuk_satuan'    => $request->input('untuk_satuan'),
+                    'hari_tanggal'    => $request->input('sph_hari_tanggal', $request->input('hari_tanggal')),
+                    'waktu'           => $request->input('sph_waktu', $request->input('waktu')),
+                    'acara'           => $request->input('sph_acara', $request->input('acara')),
+                    'tempat'          => $request->input('sph_tempat', $request->input('tempat')),
+                    'pakaian'         => $request->input('sph_pakaian', $request->input('pakaian')),
+                    'jumlah_personel' => $request->input('sph_jumlah_personel', $request->input('jumlah_personel')),
                 ]
             );
         } elseif ($kodeJenis === 'ST') {

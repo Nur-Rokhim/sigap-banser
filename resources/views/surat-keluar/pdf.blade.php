@@ -445,7 +445,7 @@
 
     {{-- 5. SALAM PEMBUKA --}}
     <div class="salam-pembuka">
-        <div class="salam-arab">Assalamu’alaikum. Wr. Wb.</div>
+        <div class="salam-arab">Assalamu'alaikum Wr. Wb.</div>
         <div class="basmalah">Bismillahhirrahmanirahim</div>
     </div>
 
@@ -455,57 +455,64 @@
 
     {{-- 6. BODY TEXT SESUAI JENIS / DETAIL SURAT --}}
     @if($jenisKode === 'SPH' || $jenisKode === 'SP')
+        {{-- Paragraf pembuka berdasarkan dasar surat --}}
         @if(!empty($surat->dasar))
             <div class="body-p">
-                Berdasarkan {{ $surat->dasar }}, maka dengan ini mengharap dengan hormat kepada sahabat untuk memerintahkan anggotanya{{ !empty($surat->untuk_satuan) ? ' ' . $surat->untuk_satuan : '' }} yang akan dilaksanakan :
+                Berdasarkan {{ $surat->dasar }}, maka dengan ini mengharap dengan hormat kepada sahabat untuk {{ !empty($surat->untuk_satuan) ? $surat->untuk_satuan : 'memerintahkan anggotanya' }} yang akan dilaksanakan :
             </div>
         @else
             <div class="body-p">
-                Berdasarkan koordinasi pimpinan dan program kerja Satuan Koordinasi Cabang (SATKORCAB) BANSER Kabupaten Blitar, bersama ini mengharap dengan hormat kepada sahabat untuk memerintahkan anggotanya{{ !empty($surat->untuk_satuan) ? ' ' . $surat->untuk_satuan : '' }} yang akan dilaksanakan :
+                Berdasarkan koordinasi pimpinan dan program kerja Satuan Koordinasi Cabang (SATKORCAB) BANSER Kabupaten Blitar, bersama ini mengharap dengan hormat kepada sahabat untuk {{ !empty($surat->untuk_satuan) ? $surat->untuk_satuan : 'memerintahkan anggotanya' }} yang akan dilaksanakan :
             </div>
         @endif
 
-        {{-- ISI INSTRUKSI / PETUNJUK --}}
-        @if(!empty($surat->isi_perintah))
-            @php
-                $lines = preg_split('/\r\n|\r|\n/', trim($surat->isi_perintah));
-                $hasKeyValue = false;
-                foreach ($lines as $line) {
-                    if (str_contains($line, ':')) {
-                        $hasKeyValue = true;
-                        break;
-                    }
-                }
-            @endphp
-
-            @if($hasKeyValue)
-                <table class="rincian-table">
-                    @foreach($lines as $line)
-                        @if(str_contains($line, ':'))
-                            @php
-                                $parts = explode(':', $line, 2);
-                                $k = trim($parts[0]);
-                                $v = trim($parts[1] ?? '');
-                            @endphp
-                            <tr>
-                                <td class="col-label">{{ $k }}</td>
-                                <td class="col-colon">:</td>
-                                <td class="col-val">{!! nl2br(e($v)) !!}</td>
-                            </tr>
-                        @else
-                            @if(trim($line) !== '')
-                                <tr>
-                                    <td colspan="3" style="padding-top: 4px; padding-bottom: 2px;">{{ trim($line) }}</td>
-                                </tr>
-                            @endif
-                        @endif
-                    @endforeach
-                </table>
-            @else
-                <div class="body-p" style="margin-left: 18px; white-space: pre-line;">
-                    {!! nl2br(e($surat->isi_perintah)) !!}
-                </div>
+        {{-- Tabel rincian kegiatan terstruktur (format acuan resmi SPH) --}}
+        <table class="rincian-table">
+            @if(!empty($surat->sph_hari_tanggal))
+            <tr>
+                <td class="col-label">Hari / Tanggal</td>
+                <td class="col-colon">:</td>
+                <td class="col-val"><strong>{{ $surat->sph_hari_tanggal }}</strong></td>
+            </tr>
             @endif
+            @if(!empty($surat->sph_waktu))
+            <tr>
+                <td class="col-label">Pukul</td>
+                <td class="col-colon">:</td>
+                <td class="col-val">{{ $surat->sph_waktu }}</td>
+            </tr>
+            @endif
+            @if(!empty($surat->sph_acara))
+            <tr>
+                <td class="col-label">Acara</td>
+                <td class="col-colon">:</td>
+                <td class="col-val"><strong>{{ $surat->sph_acara }}</strong></td>
+            </tr>
+            @endif
+            @if(!empty($surat->sph_tempat))
+            <tr>
+                <td class="col-label">Tempat</td>
+                <td class="col-colon">:</td>
+                <td class="col-val">{{ $surat->sph_tempat }}</td>
+            </tr>
+            @endif
+            @if(!empty($surat->sph_pakaian))
+            <tr>
+                <td class="col-label">Catatan</td>
+                <td class="col-colon">:</td>
+                <td class="col-val">
+                    1. Memakai {{ $surat->sph_pakaian }}<br>
+                    2. Karena pentingnya acara harap Hadir tepat waktu
+                </td>
+            </tr>
+            @endif
+        </table>
+
+        {{-- Catatan tambahan jika ada isi_perintah --}}
+        @if(!empty($surat->isi_perintah))
+            <div class="body-p" style="margin-left: 18px; white-space: pre-line;">
+                {!! nl2br(e($surat->isi_perintah)) !!}
+            </div>
         @endif
 
     @elseif($jenisKode === 'SU')
@@ -595,7 +602,7 @@
     {{-- 7. SALAM PENUTUP --}}
     <div class="salam-penutup">
         <div class="kalimat-1">Wallahul Muwafiq Ila Aqwamit Thariq</div>
-        <div class="kalimat-2">Wassalamu’alaikum Wr. Wb.</div>
+        <div class="kalimat-2">Wassalamu'alaikum Wr. Wb.</div>
     </div>
 
     {{-- 8. TANDA TANGAN (KEPALA & KASETMA + STEMPEL BANSER KANAN) --}}

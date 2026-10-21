@@ -249,7 +249,7 @@
                 <div class="detail-section-box">
                     <div class="detail-section-title">
                         <svg width="18" height="18" fill="none" stroke="var(--gold)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                        <span>Substansi Instruksi / Surat Pemberitahuan</span>
+                        <span>Substansi Instruksi / Surat Perintah Harian (SPH)</span>
                     </div>
 
                     <div style="margin-bottom: 14px;">
@@ -257,15 +257,48 @@
                         <div style="font-size: 0.92rem;">{{ $item->dasar ?? '-' }}</div>
                     </div>
 
-                    <div style="margin-bottom: 14px;">
-                        <span class="meta-label" style="display: block; margin-bottom: 4px;">Isi Instruksi / Perintah</span>
-                        <div style="font-size: 0.92rem; white-space: pre-line; line-height: 1.6;">{{ $item->isi_perintah ?? '-' }}</div>
+                    <div class="meta-grid" style="margin-bottom: 14px;">
+                        <div class="meta-item">
+                            <span class="meta-label">Instruksi Kepada Satuan</span>
+                            <span class="meta-value" style="font-weight: 600;">{{ $item->untuk_satuan ?? '-' }}</span>
+                        </div>
+                        @if(!empty($item->jumlah_personel))
+                        <div class="meta-item">
+                            <span class="meta-label">Jumlah Personel</span>
+                            <span class="meta-value">{{ $item->jumlah_personel }}</span>
+                        </div>
+                        @endif
                     </div>
 
-                    <div>
-                        <span class="meta-label" style="display: block; margin-bottom: 4px;">Diberlakukan Untuk Satuan</span>
-                        <div style="font-size: 0.92rem; font-weight: 600;">{{ $item->untuk_satuan ?? '-' }}</div>
+                    <div class="meta-grid" style="margin-bottom: 14px;">
+                        <div class="meta-item">
+                            <span class="meta-label">Hari / Tanggal</span>
+                            <span class="meta-value">{{ $item->sph_hari_tanggal ?? '-' }}</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Pukul / Waktu</span>
+                            <span class="meta-value">{{ $item->sph_waktu ?? '-' }}</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Acara Kegiatan</span>
+                            <span class="meta-value">{{ $item->sph_acara ?? '-' }}</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Tempat</span>
+                            <span class="meta-value">{{ $item->sph_tempat ?? '-' }}</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Seragam / Pakaian</span>
+                            <span class="meta-value">{{ $item->sph_pakaian ?? 'PDL Lengkap' }}</span>
+                        </div>
                     </div>
+
+                    @if(!empty($item->isi_perintah))
+                    <div>
+                        <span class="meta-label" style="display: block; margin-bottom: 4px;">Catatan Tambahan</span>
+                        <div style="font-size: 0.92rem; white-space: pre-line; line-height: 1.6;">{{ $item->isi_perintah }}</div>
+                    </div>
+                    @endif
                 </div>
             @elseif($jenis === 'ST')
                 <div class="detail-section-box">

@@ -48,6 +48,12 @@ class DetailSph extends Model
         'dasar',
         'isi_perintah',
         'untuk_satuan',
+        'hari_tanggal',
+        'waktu',
+        'acara',
+        'tempat',
+        'pakaian',
+        'jumlah_personel',
     ];
 
     /**
