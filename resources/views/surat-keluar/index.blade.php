@@ -34,6 +34,7 @@
                         <option value="SU" {{ request('jenis') === 'SU' ? 'selected' : '' }}>SU (Undangan)</option>
                         <option value="SPH" {{ request('jenis') === 'SPH' ? 'selected' : '' }}>SPH (Surat Perintah Harian)</option>
                         <option value="ST" {{ request('jenis') === 'ST' ? 'selected' : '' }}>ST (Surat Tugas)</option>
+                        <option value="SK" {{ request('jenis') === 'SK' ? 'selected' : '' }}>SK (Surat Keputusan)</option>
                     </select>
                 </div>
 

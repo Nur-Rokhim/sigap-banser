@@ -28,6 +28,11 @@ class JenisSuratSeeder extends Seeder
                 'nama' => 'Surat Tugas / Mandat',
                 'aktif' => true,
             ],
+            [
+                'kode' => 'SK',
+                'nama' => 'Surat Keputusan',
+                'aktif' => true,
+            ],
         ];
 
         foreach ($jenisSurat as $data) {

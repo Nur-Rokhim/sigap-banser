@@ -186,6 +186,14 @@
                             <span class="desc">Surat Tugas Operasional</span>
                         </label>
                     </div>
+
+                    <!-- Option 4: SK (Surat Keputusan) -->
+                    <div class="jenis-radio-wrapper">
+                        <a href="{{ route('surat-keputusan.create') }}" class="jenis-card" style="text-decoration: none; border-style: dashed; border-color: var(--gold);" title="Buka Formulir Khusus Surat Keputusan">
+                            <span class="code" style="color: var(--gold);">SK</span>
+                            <span class="desc" style="color: var(--ink);">Surat Keputusan (KOP SPH) &rarr;</span>
+                        </a>
+                    </div>
                 </div>
 
                 <!-- Nomor Contoh Box (Maroon Gradient, Yellow Text) -->

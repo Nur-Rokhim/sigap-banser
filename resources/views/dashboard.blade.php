@@ -422,6 +422,20 @@
                             Terakhir: {{ $tanggalNomorTerakhir['ST'] ?? 'Periode berjalan' }}
                         </div>
                     </div>
+
+                    <!-- Surat Keputusan (SK) -->
+                    <div class="nomor-terbit-item">
+                        <div class="nomor-terbit-header">
+                            <span class="nomor-jenis-tag" style="background: rgba(229, 35, 43, 0.15); color: var(--red); border-color: rgba(229, 35, 43, 0.3);">SK</span>
+                            <span class="nomor-jenis-title">Surat Keputusan</span>
+                        </div>
+                        <div class="nomor-code-display">
+                            {{ $nomorTerakhir['SK'] ?? 'Belum ada nomor terbit' }}
+                        </div>
+                        <div class="nomor-date-info">
+                            Terakhir: {{ $tanggalNomorTerakhir['SK'] ?? 'Periode berjalan' }}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

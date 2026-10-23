@@ -97,11 +97,15 @@
             </a>
             <h2>Detail Surat Masuk</h2>
         </div>
-        <div style="display: flex; gap: 10px;">
-            <button onclick="window.print()" class="btn btn-secondary">
+        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+            <a href="{{ route('surat-masuk.disposisi.cetak', $item->id) }}" target="_blank" class="btn btn-secondary" title="Buka dan Cetak Formulir Lembar Disposisi Resmi">
                 <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
                 <span>Cetak Lembar Disposisi</span>
-            </button>
+            </a>
+            <a href="{{ route('surat-masuk.disposisi.pdf', $item->id) }}" target="_blank" class="btn btn-secondary" title="Unduh Berkas PDF Lembar Disposisi">
+                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                <span>PDF Disposisi</span>
+            </a>
             @if(Route::has('surat-masuk.edit'))
                 <a href="{{ route('surat-masuk.edit', $item->id) }}" class="btn btn-secondary">
                     <span>Edit Surat</span>

@@ -141,4 +141,12 @@ class SuratKeluar extends Model
     {
         return $this->hasMany(PenerimaTugas::class, 'surat_keluar_id');
     }
+
+    /**
+     * Relasi one-to-one ke detail surat keputusan (SK).
+     */
+    public function detailSk(): HasOne
+    {
+        return $this->hasOne(DetailSk::class, 'surat_keluar_id');
+    }
 }

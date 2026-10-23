@@ -54,17 +54,19 @@ class DashboardController extends Controller
             return $item;
         });
 
-        // 5. Ambil nomor terakhir terbit per jenis surat (SU, SPH, ST)
+        // 5. Ambil nomor terakhir terbit per jenis surat (SU, SPH, ST, SK)
         $nomorTerakhir = [
             'SU'  => 'Belum ada nomor terbit',
             'SPH' => 'Belum ada nomor terbit',
             'ST'  => 'Belum ada nomor terbit',
+            'SK'  => 'Belum ada nomor terbit',
         ];
 
         $tanggalNomorTerakhir = [
             'SU'  => 'Tahun ' . $now->year,
             'SPH' => 'Tahun ' . $now->year,
             'ST'  => 'Tahun ' . $now->year,
+            'SK'  => 'Tahun ' . $now->year,
         ];
 
         // Ambil jenis surat yang terdaftar di basis data

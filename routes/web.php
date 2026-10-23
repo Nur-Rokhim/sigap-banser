@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\SuratKeluarController;
+use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\SuratMasukController;
 use Illuminate\Support\Facades\Route;
 
@@ -45,6 +46,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/surat-masuk/{id}', [SuratMasukController::class, 'destroy'])->name('surat-masuk.destroy');
     Route::post('/surat-masuk/{id}/disposisi', [SuratMasukController::class, 'disposisi'])->name('surat-masuk.disposisi');
     Route::post('/surat-masuk/{id}/disposisi/store', [SuratMasukController::class, 'disposisi'])->name('surat-masuk.disposisi.store');
+    Route::get('/surat-masuk/{id}/disposisi/cetak', [SuratMasukController::class, 'cetakDisposisi'])->name('surat-masuk.disposisi.cetak');
+    Route::get('/surat-masuk/{id}/disposisi/pdf', [SuratMasukController::class, 'pdfDisposisi'])->name('surat-masuk.disposisi.pdf');
 
     // Modul Surat Keluar
     Route::get('/surat-keluar', [SuratKeluarController::class, 'index'])->name('surat-keluar.index');
@@ -59,6 +62,19 @@ Route::middleware('auth')->group(function () {
     Route::post('/surat-keluar/{id}/setujui', [SuratKeluarController::class, 'setujui'])
         ->name('surat-keluar.setujui');
     Route::post('/surat-keluar/{id}/kirim', [SuratKeluarController::class, 'kirim'])->name('surat-keluar.kirim');
+
+    // Modul Surat Keputusan (SK)
+    Route::get('/surat-keputusan', [\App\Http\Controllers\SuratKeputusanController::class, 'index'])->name('surat-keputusan.index');
+    Route::get('/surat-keputusan/create', [\App\Http\Controllers\SuratKeputusanController::class, 'create'])->name('surat-keputusan.create');
+    Route::post('/surat-keputusan', [\App\Http\Controllers\SuratKeputusanController::class, 'store'])->name('surat-keputusan.store');
+    Route::get('/surat-keputusan/{id}', [\App\Http\Controllers\SuratKeputusanController::class, 'show'])->name('surat-keputusan.show');
+    Route::get('/surat-keputusan/{id}/edit', [\App\Http\Controllers\SuratKeputusanController::class, 'edit'])->name('surat-keputusan.edit');
+    Route::put('/surat-keputusan/{id}', [\App\Http\Controllers\SuratKeputusanController::class, 'update'])->name('surat-keputusan.update');
+    Route::delete('/surat-keputusan/{id}', [\App\Http\Controllers\SuratKeputusanController::class, 'destroy'])->name('surat-keputusan.destroy');
+    Route::get('/surat-keputusan/{id}/pdf', [\App\Http\Controllers\SuratKeputusanController::class, 'pdf'])->name('surat-keputusan.pdf');
+    Route::post('/surat-keputusan/{id}/ajukan', [\App\Http\Controllers\SuratKeputusanController::class, 'ajukan'])->name('surat-keputusan.ajukan');
+    Route::post('/surat-keputusan/{id}/setujui', [\App\Http\Controllers\SuratKeputusanController::class, 'setujui'])->name('surat-keputusan.setujui');
+    Route::post('/surat-keputusan/{id}/kirim', [\App\Http\Controllers\SuratKeputusanController::class, 'kirim'])->name('surat-keputusan.kirim');
 
     // Modul Profil Organisasi Satkorcab
     Route::get('/profil', [ProfilController::class, 'index'])->name('profil.index');
@@ -76,5 +92,13 @@ Route::middleware('auth')->group(function () {
     Route::put('/pengaturan-akun/users/{id}', [\App\Http\Controllers\PengaturanAkunController::class, 'updateUser'])->name('pengaturan.users.update');
     Route::put('/pengaturan-akun/users/{id}/reset-password', [\App\Http\Controllers\PengaturanAkunController::class, 'resetPasswordUser'])->name('pengaturan.users.reset-password');
     Route::delete('/pengaturan-akun/users/{id}', [\App\Http\Controllers\PengaturanAkunController::class, 'destroyUser'])->name('pengaturan.users.destroy');
+
+    // Modul Notifikasi Pengguna
+    Route::get('/notifikasi', [NotifikasiController::class, 'index'])->name('notifikasi.index');
+    Route::get('/notifikasi/count', [NotifikasiController::class, 'count'])->name('notifikasi.count');
+    Route::post('/notifikasi/tandai-semua-baca', [NotifikasiController::class, 'tandaiSemuaBaca'])->name('notifikasi.tandai-semua-baca');
+    Route::get('/notifikasi/{id}', [NotifikasiController::class, 'show'])->name('notifikasi.show');
+    Route::post('/notifikasi/{id}/tandai-baca', [NotifikasiController::class, 'tandaiBaca'])->name('notifikasi.tandai-baca');
+    Route::delete('/notifikasi/{id}', [NotifikasiController::class, 'destroy'])->name('notifikasi.destroy');
 });
 

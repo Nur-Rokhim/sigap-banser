@@ -45,12 +45,17 @@ Jenis surat (tabel `jenis_surat`, mudah ditambah):
 | `SU` | Surat Undangan |
 | `SPH` | Surat Perintah Harian |
 | `ST` | Surat Tugas / Mandat |
+| `SK` | Surat Keputusan |
 
 Alur status: `draf` → `verifikasi` → `disetujui` → `terkirim`.
 Setiap jenis punya isian khusus (tabel detail):
 - **SU:** hari/tanggal acara, waktu, tempat, acara, pakaian
 - **SPH (Surat Perintah Harian):** dasar, untuk satuan, jumlah personel, hari/tanggal kegiatan, waktu, acara, tempat, pakaian, catatan
 - **ST:** dasar, uraian tugas, tanggal mulai, tanggal selesai, tempat, daftar penerima tugas (anggota)
+- **SK (Surat Keputusan):** tentang, konsiderans menimbang, konsiderans mengingat, konsiderans memperhatikan, diktum keputusan (pertama s/d kelima), lampiran SK susunan personil, tembusan, tempat/tanggal penetapan Masehi dan Hijriyah (dengan KOP Surat resmi sama persis dengan SPH).
+
+### Lembar Disposisi Surat Masuk
+Pada modul Surat Masuk bagian cetak, tersedia formulir cetak resmi **Lembar Disposisi** dengan KOP Surat sama persis dengan SPH, tabel data registrasi surat masuk, kotak sifat surat, checklist tujuan disposisi pimpinan Satkorcab, checklist petunjuk/instruksi, kotak catatan tambahan pimpinan, dan tanda tangan pimpinan/stempel resmi.
 
 ### C. Kode / Nomor Surat
 

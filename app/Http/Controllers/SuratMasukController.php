@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Disposisi;
 use App\Models\LogAktivitas;
+use App\Models\Notifikasi;
+use App\Models\Profil;
 use App\Models\SuratMasuk;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -142,6 +145,26 @@ class SuratMasukController extends Controller
             'aksi'    => "Mencatat surat masuk nomor {$surat->no_surat} dari {$surat->dari}",
             'waktu'   => Carbon::now(),
         ]);
+
+        // Kirim notifikasi ke semua verifikator / pimpinan
+        try {
+            Notifikasi::kirimKeVerifikator([
+                'dari_user_id' => $userId,
+                'tipe'         => 'surat_masuk_baru',
+                'judul'        => 'Surat Masuk Baru: ' . $surat->no_surat,
+                'pesan'        => "Surat masuk baru telah dicatat:\n"
+                               . "Nomor  : {$surat->no_surat}\n"
+                               . "Dari   : {$surat->dari}\n"
+                               . "Perihal: {$surat->perihal}\n"
+                               . "Tgl Diterima: " . \Carbon\Carbon::parse($surat->tgl_diterima)->translatedFormat('d F Y') . "\n\n"
+                               . "Harap segera ditindaklanjuti sesuai prosedur.",
+                'url_tujuan'   => route('surat-masuk.show', $surat->id),
+                'entitas_tipe' => 'surat_masuk',
+                'entitas_id'   => $surat->id,
+            ]);
+        } catch (\Throwable $e) {
+            // Notifikasi tidak boleh menghentikan proses utama
+        }
 
         return redirect()->route('surat-masuk.index')
             ->with('success', 'Surat masuk berhasil dicatat ke dalam buku agenda.');
@@ -361,8 +384,44 @@ class SuratMasukController extends Controller
             'waktu'   => Carbon::now(),
         ]);
 
+        // Kirim notifikasi ke penerima disposisi jika ada user yang dipilih
+        try {
+            $pengirimName = Auth::user()->name ?? 'Admin';
+            if (!empty($validated['kepada_user_id'])) {
+                Notifikasi::create([
+                    'user_id'      => $validated['kepada_user_id'],
+                    'dari_user_id' => $userId,
+                    'tipe'         => 'disposisi_baru',
+                    'judul'        => 'Disposisi Surat Masuk: ' . $surat->no_surat,
+                    'pesan'        => "Anda mendapat disposisi dari {$pengirimName}:\n"
+                                   . "Nomor Surat : {$surat->no_surat}\n"
+                                   . "Dari        : {$surat->dari}\n"
+                                   . "Perihal     : {$surat->perihal}\n\n"
+                                   . "Instruksi   : {$validated['instruksi']}\n\n"
+                                   . "Segera tindaklanjuti disposisi ini.",
+                    'url_tujuan'   => route('surat-masuk.show', $surat->id),
+                    'entitas_tipe' => 'surat_masuk',
+                    'entitas_id'   => $surat->id,
+                ]);
+            } else {
+                // Broadcast ke semua verifikator jika tidak ada user spesifik
+                Notifikasi::kirimKeVerifikator([
+                    'dari_user_id' => $userId,
+                    'tipe'         => 'disposisi_baru',
+                    'judul'        => 'Disposisi Baru untuk: ' . $validated['tujuan'],
+                    'pesan'        => "Surat masuk {$surat->no_surat} dari {$surat->dari} telah didisposisikan kepada: {$validated['tujuan']}\n"
+                                   . "Instruksi: {$validated['instruksi']}",
+                    'url_tujuan'   => route('surat-masuk.show', $surat->id),
+                    'entitas_tipe' => 'surat_masuk',
+                    'entitas_id'   => $surat->id,
+                ]);
+            }
+        } catch (\Throwable $e) {
+            // Notifikasi tidak boleh menghentikan proses utama
+        }
+
         return redirect()->route('surat-masuk.show', $surat->id)
-            ->with('success', "Disposisi surat masuk berhasil diarahkan kepada {$validated['tujuan']}.");
+            ->with('success', "Disposisi surat masuk berhasil diarahkan kepada {$validated['tujuan']}.\nNotifikasi telah dikirimkan kepada pihak terkait.");
     }
 
     /**
@@ -398,5 +457,57 @@ class SuratMasukController extends Controller
 
         return redirect()->route('surat-masuk.index')
             ->with('success', "Surat masuk nomor {$nomorSurat} berhasil dihapus dari Buku Agenda.");
+    }
+
+    /**
+     * Tampilkan formulir Lembar Disposisi Surat Masuk siap cetak (KOP Surat sama dengan SPH).
+     *
+     * @param  int  $id
+     * @return \Illuminate\View\View
+     */
+    public function cetakDisposisi($id)
+    {
+        $suratMasuk = SuratMasuk::with([
+            'dicatatOleh',
+            'disposisi.dariUser',
+            'disposisi.kepadaUser',
+        ])->findOrFail($id);
+
+        $profil = Profil::getProfil();
+
+        return view('surat-masuk.cetak-disposisi', [
+            'suratMasuk' => $suratMasuk,
+            'surat'      => $suratMasuk,
+            'profil'     => $profil,
+        ]);
+    }
+
+    /**
+     * Unduh / tampilkan PDF resmi Lembar Disposisi Surat Masuk.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function pdfDisposisi($id)
+    {
+        $suratMasuk = SuratMasuk::with([
+            'dicatatOleh',
+            'disposisi.dariUser',
+            'disposisi.kepadaUser',
+        ])->findOrFail($id);
+
+        $profil = Profil::getProfil();
+
+        $pdf = Pdf::loadView('surat-masuk.disposisi-pdf', [
+            'suratMasuk' => $suratMasuk,
+            'surat'      => $suratMasuk,
+            'profil'     => $profil,
+        ])->setPaper([0, 0, 609.45, 935.43], 'portrait'); // Ukuran F4 / Folio
+
+        $namaFile = 'lembar-disposisi-' . ($suratMasuk->no_surat
+            ? str_replace(['/', ' '], '-', $suratMasuk->no_surat)
+            : 'id-' . $id) . '.pdf';
+
+        return $pdf->stream($namaFile);
     }
 }

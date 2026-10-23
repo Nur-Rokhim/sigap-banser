@@ -8,6 +8,7 @@ use App\Models\DetailTugas;
 use App\Models\DetailUndangan;
 use App\Models\JenisSurat;
 use App\Models\LogAktivitas;
+use App\Models\Notifikasi;
 use App\Models\PenerimaTugas;
 use App\Models\Profil;
 use App\Models\SuratKeluar;
@@ -119,6 +120,10 @@ class SuratKeluarController extends Controller
         $userRole = strtolower(Auth::user()->role ?? '');
         $canEdit  = in_array($userRole, ['super_admin', 'admin_adminpers', 'admin', 'kasetma', 'adminpers', 'kasatkorcab']);
 
+        if ($suratKeluar->jenis && $suratKeluar->jenis->kode === 'SK') {
+            return redirect()->route('surat-keputusan.edit', $id);
+        }
+
         if (!$canEdit && $suratKeluar->status !== 'draf') {
             return redirect()->route('surat-keluar.show', $id)
                 ->with('error', 'Surat keluar yang sudah diajukan / disetujui tidak dapat diedit lagi.');
@@ -191,6 +196,11 @@ class SuratKeluarController extends Controller
             'detailTugas',
             'penerimaTugas.anggota',
         ])->findOrFail($id);
+
+        // Jika surat bertipe SK, arahkan ke modul PDF SK khusus
+        if ($suratKeluar->jenis && $suratKeluar->jenis->kode === 'SK') {
+            return redirect()->route('surat-keputusan.pdf', $id);
+        }
 
         // Siapkan alias
         $suratKeluar->jenis_surat    = $suratKeluar->jenis ? $suratKeluar->jenis->kode : 'SU';
@@ -474,6 +484,10 @@ class SuratKeluarController extends Controller
             'penerimaTugas.anggota',
         ])->findOrFail($id);
 
+        if ($suratKeluar->jenis && $suratKeluar->jenis->kode === 'SK') {
+            return redirect()->route('surat-keputusan.show', $id);
+        }
+
         // Alias atribut untuk kemudahan tampilan di view Blade
         $suratKeluar->jenis_surat = $suratKeluar->jenis ? $suratKeluar->jenis->kode : 'SU';
         $suratKeluar->tanggal_surat = $suratKeluar->tgl_surat;
@@ -541,6 +555,24 @@ class SuratKeluarController extends Controller
             'waktu'   => Carbon::now(),
         ]);
 
+        // Kirim notifikasi ke pimpinan/verifikator
+        try {
+            $pengaju = Auth::user()->name ?? 'Petugas';
+            Notifikasi::kirimKeVerifikator([
+                'dari_user_id' => Auth::id(),
+                'tipe'         => 'surat_keluar_diajukan',
+                'judul'        => 'Surat Keluar Perlu Verifikasi',
+                'pesan'        => "{$pengaju} mengajukan surat keluar untuk diverifikasi:\n"
+                               . "Perihal : {$surat->perihal}\n"
+                               . "Jenis   : " . ($surat->jenis->nama ?? 'Surat Keluar') . "\n"
+                               . "Tanggal : " . \Carbon\Carbon::parse($surat->tgl_surat)->translatedFormat('d F Y') . "\n\n"
+                               . "Harap segera diperiksa dan disetujui.",
+                'url_tujuan'   => route('surat-keluar.show', $surat->id),
+                'entitas_tipe' => 'surat_keluar',
+                'entitas_id'   => $surat->id,
+            ]);
+        } catch (\Throwable $e) {}
+
         return redirect()->route('surat-keluar.show', $surat->id)
             ->with('success', 'Surat keluar berhasil diajukan untuk verifikasi pimpinan.');
     }
@@ -580,6 +612,25 @@ class SuratKeluarController extends Controller
             'aksi'    => "Menyetujui dan menerbitkan nomor resmi surat keluar: {$surat->nomor_surat}",
             'waktu'   => Carbon::now(),
         ]);
+
+        // Notifikasi ke pembuat surat bahwa surat telah disetujui
+        try {
+            if ($surat->dibuat_oleh) {
+                Notifikasi::create([
+                    'user_id'      => $surat->dibuat_oleh,
+                    'dari_user_id' => Auth::id(),
+                    'tipe'         => 'sk_disetujui',
+                    'judul'        => 'Surat Keluar Disetujui: ' . $surat->nomor_surat,
+                    'pesan'        => "Surat keluar yang Anda ajukan telah disetujui oleh pimpinan dan mendapatkan nomor resmi:\n"
+                                   . "Nomor  : {$surat->nomor_surat}\n"
+                                   . "Perihal: {$surat->perihal}\n"
+                                   . "Surat siap untuk dicetak dan dikirim.",
+                    'url_tujuan'   => route('surat-keluar.show', $surat->id),
+                    'entitas_tipe' => 'surat_keluar',
+                    'entitas_id'   => $surat->id,
+                ]);
+            }
+        } catch (\Throwable $e) {}
 
         return redirect()->route('surat-keluar.show', $surat->id)
             ->with('success', "Surat keluar berhasil disetujui dengan nomor resmi: {$surat->nomor_surat}");

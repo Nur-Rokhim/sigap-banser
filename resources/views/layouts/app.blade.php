@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -856,6 +856,62 @@
             font-size: 0.85rem;
         }
 
+        /* Notification Bell */
+        .notif-bell-btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.18);
+            color: #FFFFFF;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.2s ease, transform 0.2s ease;
+            flex-shrink: 0;
+        }
+        .notif-bell-btn:hover {
+            background: rgba(255,255,255,0.22);
+            color: #FFFFFF;
+            transform: scale(1.07);
+        }
+        .notif-bell-btn:hover svg {
+            animation: bellShake 0.5s ease;
+        }
+        .notif-badge {
+            position: absolute;
+            top: -3px;
+            right: -3px;
+            min-width: 18px;
+            height: 18px;
+            border-radius: 9px;
+            background: var(--red);
+            color: #FFFFFF;
+            font-size: 0.65rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 4px;
+            border: 2px solid var(--hero2);
+            line-height: 1;
+            animation: badgePop 0.3s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        @keyframes badgePop {
+            from { transform: scale(0); }
+            to   { transform: scale(1); }
+        }
+        @keyframes bellShake {
+            0%,100% { transform: rotate(0deg); }
+            20%      { transform: rotate(-12deg); }
+            40%      { transform: rotate(10deg); }
+            60%      { transform: rotate(-8deg); }
+            80%      { transform: rotate(6deg); }
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-4px); }
             to { opacity: 1; transform: translateY(0); }
@@ -955,7 +1011,15 @@
                         </span>
                     </div>
                     <div style="display: flex; gap: 6px; align-items: center;">
-                        <a href="{{ route('pengaturan.index') }}" class="btn-logout" title="Pengaturan Akun & Ganti Sandi" style="background-color: rgba(201, 162, 74, 0.2); border-color: rgba(201, 162, 74, 0.4); color: var(--yellow); text-decoration: none; display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px;">
+                                                {{-- Tombol Notifikasi --}}
+                        @php $jumlahNotifBelumBaca = \App\Models\Notifikasi::untukUser(Auth::id())->belumDibaca()->count(); @endphp
+                        <a href="{{ route('notifikasi.index') }}" class="notif-bell-btn" id="notifBellBtn" title="Notifikasi ({{ $jumlahNotifBelumBaca }} belum dibaca)">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+                            @if($jumlahNotifBelumBaca > 0)
+                                <span class="notif-badge" id="notifBadge">{{ $jumlahNotifBelumBaca > 99 ? '99+' : $jumlahNotifBelumBaca }}</span>
+                            @endif
+                        </a>
+<a href="{{ route('pengaturan.index') }}" class="btn-logout" title="Pengaturan Akun & Ganti Sandi" style="background-color: rgba(201, 162, 74, 0.2); border-color: rgba(201, 162, 74, 0.4); color: var(--yellow); text-decoration: none; display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px;">
                             <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                             <span>Sandi</span>
                         </a>
@@ -1012,7 +1076,17 @@
                 <span>Surat Keluar</span>
             </a>
 
-            <!-- 5. SIPENA -->
+            <!-- 5. Surat Keputusan (SK) -->
+            <a href="{{ route('surat-keputusan.index') }}" 
+               class="nav-tab-item {{ request()->routeIs('surat-keputusan.*') ? 'active' : '' }}"
+               title="Buku Surat Keputusan (SK) Satkorcab">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                <span>Surat Keputusan (SK)</span>
+            </a>
+
+            <!-- 6. SIPENA -->
             <a href="https://sipena-banser-blitar.netlify.app" 
                target="_blank" 
                rel="noopener noreferrer"
@@ -1027,7 +1101,24 @@
                 </svg>
             </a>
 
-            <!-- 6. Pengaturan Akun & Sandi -->
+            <!-- 6. Notifikasi -->
+            @php $navNotifCount = \App\Models\Notifikasi::untukUser(Auth::id())->belumDibaca()->count(); @endphp
+            <a href="{{ route('notifikasi.index') }}" 
+               class="nav-tab-item {{ request()->routeIs('notifikasi.*') ? 'active' : '' }}"
+               title="Notifikasi ({{ $navNotifCount }} belum dibaca)"
+               style="position: relative;">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                </svg>
+                <span>Notifikasi</span>
+                @if($navNotifCount > 0)
+                    <span style="display: inline-flex; align-items: center; justify-content: center; min-width: 18px; height: 18px; border-radius: 9px; background: var(--red); color: #FFFFFF; font-size: 0.65rem; font-weight: 800; padding: 0 4px; line-height: 1; margin-left: -4px;">
+                        {{ $navNotifCount > 99 ? '99+' : $navNotifCount }}
+                    </span>
+                @endif
+            </a>
+
+            <!-- 7. Pengaturan Akun & Sandi -->
             <a href="{{ route('pengaturan.index') }}" 
                class="nav-tab-item {{ request()->routeIs('pengaturan.*') ? 'active' : '' }}"
                title="Pengaturan Akun & Ganti Kata Sandi">
@@ -1191,6 +1282,35 @@
                 window.closeDeleteModal();
             }
         });
+
+        // Auto-refresh jumlah notifikasi belum dibaca setiap 60 detik
+        (function pollNotifCount() {
+            setInterval(function() {
+                fetch('{{ route('notifikasi.count') }}', {
+                    headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json' }
+                })
+                .then(r => r.json())
+                .then(data => {
+                    var badge   = document.getElementById('notifBadge');
+                    var bellBtn = document.getElementById('notifBellBtn');
+                    var count   = data.count || 0;
+                    if (count > 0) {
+                        if (badge) {
+                            badge.textContent = count > 99 ? '99+' : count;
+                        } else if (bellBtn) {
+                            var span = document.createElement('span');
+                            span.className = 'notif-badge';
+                            span.id = 'notifBadge';
+                            span.textContent = count > 99 ? '99+' : count;
+                            bellBtn.appendChild(span);
+                        }
+                    } else {
+                        if (badge) badge.remove();
+                    }
+                })
+                .catch(function() {});
+            }, 60000);
+        })();
     </script>
     @stack('scripts')
 </body>
