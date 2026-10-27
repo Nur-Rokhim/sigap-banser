@@ -56,12 +56,29 @@ class LogAktivitas extends Model
     /**
      * Helper untuk mencatat aktivitas secara ringkas.
      */
-    public static function rekam(int $userId, string $aksi): self
+    public static function rekam(?int $userId, string $aksi): self
     {
         return self::create([
-            'user_id' => $userId,
-            'aksi' => $aksi,
-            'waktu' => now(),
+            'user_id' => $userId ?? (auth()->id() ?? 1),
+            'aksi'    => \Illuminate\Support\Str::limit($aksi, 250),
+            'waktu'   => now(),
+        ]);
+    }
+
+    /**
+     * Helper alternatif catat aktivitas dengan aksi & keterangan opsional.
+     */
+    public static function catat(string $aksi, ?string $keterangan = null): self
+    {
+        $teks = $aksi;
+        if (!empty($keterangan)) {
+            $teks .= ' - ' . $keterangan;
+        }
+
+        return self::create([
+            'user_id' => auth()->id() ?? 1,
+            'aksi'    => \Illuminate\Support\Str::limit($teks, 250),
+            'waktu'   => now(),
         ]);
     }
 }
