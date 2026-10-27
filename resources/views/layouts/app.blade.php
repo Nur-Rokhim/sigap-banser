@@ -113,32 +113,41 @@
             transition: width 0.28s cubic-bezier(0.4, 0, 0.2, 1),
                         transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
             overflow: hidden;
-            box-shadow: 4px 0 24px rgba(0,0,0,0.35);
+            box-shadow: 6px 0 32px rgba(0,0,0,0.45), 2px 0 0 rgba(229,35,43,0.12);
         }
 
-        /* Decorative gradient top stripe */
+        /* Gradient top stripe — animated shimmer */
         .sidebar::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0;
             height: 3px;
-            background: linear-gradient(90deg, var(--red) 0%, var(--yellow) 50%, var(--green) 100%);
-            z-index: 1;
+            background: linear-gradient(90deg,
+                var(--red) 0%, var(--yellow) 40%, var(--green) 70%, var(--blue) 100%);
+            background-size: 200% 100%;
+            z-index: 10;
+            animation: shimmerStripe 6s ease infinite;
+        }
+        @keyframes shimmerStripe {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
 
-        /* Subtle background texture */
+        /* Radial glow texture */
         .sidebar::after {
             content: '';
             position: absolute;
             inset: 0;
-            background: radial-gradient(ellipse at 30% 10%, rgba(229,35,43,0.08) 0%, transparent 60%),
-                        radial-gradient(ellipse at 80% 90%, rgba(90,14,20,0.3) 0%, transparent 60%);
+            background:
+                radial-gradient(ellipse at 20% 5%, rgba(229,35,43,0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 85% 95%, rgba(90,14,20,0.4) 0%, transparent 55%),
+                radial-gradient(ellipse at 60% 50%, rgba(201,162,74,0.02) 0%, transparent 70%);
             pointer-events: none;
         }
 
         /* ── Sidebar Brand Area ── */
         .sidebar-brand {
-            padding: 20px 16px 16px;
+            padding: 18px 14px 16px;
             display: flex;
             align-items: center;
             gap: 12px;
@@ -146,18 +155,41 @@
             flex-shrink: 0;
             position: relative;
             z-index: 2;
-            min-height: 82px;
+            min-height: 80px;
+            background: linear-gradient(180deg, rgba(229,35,43,0.07) 0%, transparent 100%);
         }
 
+        .sidebar-logo-wrap {
+            position: relative;
+            flex-shrink: 0;
+        }
         .sidebar-logo {
             width: 44px;
             height: 44px;
             object-fit: contain;
-            flex-shrink: 0;
-            filter: drop-shadow(0 2px 8px rgba(229,35,43,0.4));
-            transition: transform 0.3s ease;
+            border-radius: 50%;
+            display: block;
+            filter: drop-shadow(0 2px 10px rgba(229,35,43,0.5));
+            transition: transform 0.3s ease, filter 0.3s ease;
         }
-        .sidebar-logo:hover { transform: scale(1.08); }
+        .sidebar-logo-wrap::after {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: 50%;
+            background: conic-gradient(var(--red) 0deg, var(--yellow) 120deg, var(--green) 240deg, var(--red) 360deg);
+            z-index: -1;
+            opacity: 0.55;
+            animation: rotateConic 8s linear infinite;
+        }
+        @keyframes rotateConic {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+        }
+        .sidebar-logo:hover {
+            transform: scale(1.1) rotate(-5deg);
+            filter: drop-shadow(0 4px 14px rgba(229,35,43,0.7));
+        }
 
         .sidebar-brand-text {
             overflow: hidden;
@@ -167,18 +199,21 @@
             font-family: 'Archivo', sans-serif;
             font-weight: 900;
             font-size: 1.1rem;
-            color: #FFFFFF;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
             line-height: 1;
             white-space: nowrap;
+            background: linear-gradient(135deg, #FFFFFF 0%, rgba(255,220,200,0.85) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         .sidebar-brand-sub {
-            font-size: 0.67rem;
-            color: rgba(255,255,255,0.5);
-            margin-top: 3px;
+            font-size: 0.66rem;
+            color: rgba(255,255,255,0.45);
+            margin-top: 4px;
             white-space: nowrap;
-            letter-spacing: 0.02em;
+            letter-spacing: 0.04em;
         }
 
         /* ── Sidebar Nav ── */
@@ -186,88 +221,118 @@
             flex: 1;
             overflow-y: auto;
             overflow-x: hidden;
-            padding: 12px 8px;
+            padding: 10px 8px;
             position: relative;
             z-index: 2;
             scrollbar-width: thin;
-            scrollbar-color: rgba(255,255,255,0.1) transparent;
+            scrollbar-color: rgba(255,255,255,0.08) transparent;
         }
-        .sidebar-nav::-webkit-scrollbar { width: 4px; }
+        .sidebar-nav::-webkit-scrollbar { width: 3px; }
         .sidebar-nav::-webkit-scrollbar-thumb {
-            background: rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.1);
             border-radius: 4px;
         }
 
         .sidebar-section-label {
-            font-size: 0.62rem;
-            font-weight: 700;
+            font-size: 0.6rem;
+            font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: rgba(255,255,255,0.28);
-            padding: 12px 12px 6px;
+            letter-spacing: 0.12em;
+            color: rgba(255,255,255,0.22);
+            padding: 14px 10px 5px;
             white-space: nowrap;
             overflow: hidden;
             transition: opacity 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .sidebar-section-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255,255,255,0.08);
         }
 
         .sidebar-item {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 10px 12px;
+            gap: 11px;
+            padding: 9px 11px;
             border-radius: var(--radius-md);
             color: var(--sidebar-text);
             text-decoration: none;
-            font-size: 0.88rem;
+            font-size: 0.875rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.18s ease;
+            transition: all 0.2s cubic-bezier(0.4,0,0.2,1);
             position: relative;
             white-space: nowrap;
-            margin-bottom: 2px;
+            margin-bottom: 1px;
             border: 1px solid transparent;
+            overflow: hidden;
+        }
+
+        /* Hover shimmer effect */
+        .sidebar-item::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.04) 50%, transparent 100%);
+            transform: translateX(-100%);
+            transition: transform 0.4s ease;
+            pointer-events: none;
+        }
+        .sidebar-item:hover::before {
+            transform: translateX(100%);
         }
 
         .sidebar-item:hover {
-            background: var(--sidebar-item-hover);
+            background: rgba(255,255,255,0.07);
             color: #FFFFFF;
-            border-color: rgba(255,255,255,0.06);
+            border-color: rgba(255,255,255,0.08);
+            transform: translateX(2px);
         }
 
         .sidebar-item.active {
-            background: var(--sidebar-item-active-bg);
-            color: var(--sidebar-text-active);
-            border-color: rgba(229,35,43,0.3);
-            box-shadow: inset 3px 0 0 var(--red), 0 2px 8px rgba(229,35,43,0.15);
+            background: linear-gradient(90deg, rgba(229,35,43,0.22) 0%, rgba(229,35,43,0.08) 100%);
+            color: #FFFFFF;
+            border-color: rgba(229,35,43,0.35);
+            box-shadow: inset 3px 0 0 var(--red),
+                        0 4px 16px rgba(229,35,43,0.12),
+                        0 0 0 1px rgba(229,35,43,0.08) inset;
         }
+        .sidebar-item.active:hover { transform: none; }
 
         .sidebar-item.active .sidebar-item-icon {
-            color: var(--red);
-            filter: drop-shadow(0 0 6px rgba(229,35,43,0.5));
+            color: #FF6B70;
+            filter: drop-shadow(0 0 8px rgba(229,35,43,0.6));
         }
 
         .sidebar-item-icon {
-            width: 20px;
-            height: 20px;
+            width: 19px;
+            height: 19px;
             flex-shrink: 0;
-            color: rgba(255,255,255,0.5);
-            transition: color 0.18s ease, filter 0.18s ease;
+            color: rgba(255,255,255,0.42);
+            transition: color 0.2s ease, filter 0.2s ease, transform 0.2s ease;
         }
         .sidebar-item:hover .sidebar-item-icon {
-            color: rgba(255,255,255,0.9);
+            color: rgba(255,255,255,0.88);
+            transform: scale(1.1);
         }
 
         .sidebar-item-text {
             flex: 1;
             overflow: hidden;
+            text-overflow: ellipsis;
             transition: opacity 0.15s ease;
         }
 
         .sidebar-item-badge {
-            background: var(--red);
+            background: linear-gradient(135deg, #E5232B, #C01920);
             color: #fff;
-            font-size: 0.62rem;
-            font-weight: 800;
+            font-size: 0.6rem;
+            font-weight: 900;
             min-width: 18px;
             height: 18px;
             border-radius: 9px;
@@ -276,60 +341,109 @@
             justify-content: center;
             padding: 0 4px;
             flex-shrink: 0;
+            box-shadow: 0 2px 6px rgba(229,35,43,0.5);
             animation: badgePop 0.3s cubic-bezier(0.34,1.56,0.64,1);
         }
 
+        /* ── SIPENA Special Item ── */
+        .sidebar-item.sipena-item {
+            background: linear-gradient(90deg, rgba(201,162,74,0.08) 0%, transparent 100%);
+            border-color: rgba(201,162,74,0.12);
+        }
+        .sidebar-item.sipena-item:hover {
+            background: linear-gradient(90deg, rgba(201,162,74,0.15) 0%, rgba(201,162,74,0.05) 100%);
+            border-color: rgba(201,162,74,0.3);
+            transform: translateX(2px);
+        }
+        .sipena-icon-wrap {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            overflow: hidden;
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .sidebar-item:hover .sipena-icon-wrap {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(201,162,74,0.4);
+        }
+        .sipena-icon-img {
+            width: 24px;
+            height: 24px;
+            object-fit: cover;
+            display: block;
+        }
+        .sipena-ext-badge {
+            font-size: 0.58rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            color: var(--gold);
+            opacity: 0.7;
+            text-transform: uppercase;
+            flex-shrink: 0;
+            border: 1px solid rgba(201,162,74,0.35);
+            padding: 1px 5px;
+            border-radius: 4px;
+            background: rgba(201,162,74,0.1);
+            transition: opacity 0.2s ease;
+        }
+        .sidebar-item:hover .sipena-ext-badge { opacity: 1; }
+
         .sidebar-item-ext {
-            width: 14px;
-            height: 14px;
-            opacity: 0.4;
+            width: 12px;
+            height: 12px;
+            opacity: 0.35;
             flex-shrink: 0;
         }
 
         .sidebar-divider {
             height: 1px;
-            background: var(--sidebar-border);
-            margin: 8px 4px;
+            background: linear-gradient(90deg, transparent 0%, var(--sidebar-border) 20%, var(--sidebar-border) 80%, transparent 100%);
+            margin: 6px 8px;
         }
 
         /* ── Sidebar Footer (User) ── */
         .sidebar-footer {
             border-top: 1px solid var(--sidebar-border);
-            padding: 12px 8px;
+            padding: 10px 8px;
             flex-shrink: 0;
             position: relative;
             z-index: 2;
+            background: linear-gradient(0deg, rgba(0,0,0,0.2) 0%, transparent 100%);
         }
 
         .sidebar-user {
             display: flex;
             align-items: center;
             gap: 10px;
-            padding: 10px 10px;
+            padding: 9px 10px;
             border-radius: var(--radius-md);
-            border: 1px solid var(--sidebar-border);
-            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(201,162,74,0.15);
+            background: rgba(201,162,74,0.05);
             cursor: pointer;
-            transition: background 0.18s ease;
-            margin-bottom: 6px;
+            transition: all 0.2s ease;
+            margin-bottom: 8px;
+            text-decoration: none;
         }
         .sidebar-user:hover {
-            background: rgba(255,255,255,0.08);
+            background: rgba(201,162,74,0.1);
+            border-color: rgba(201,162,74,0.3);
         }
 
         .sidebar-avatar {
             width: 34px;
             height: 34px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--gold), #a07830);
+            background: linear-gradient(135deg, #D4A843 0%, #8C6B28 100%);
             color: #1A0608;
             font-weight: 900;
-            font-size: 0.85rem;
+            font-size: 0.88rem;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
-            box-shadow: 0 0 0 2px rgba(201,162,74,0.35);
+            box-shadow: 0 0 0 2px rgba(201,162,74,0.4), 0 2px 8px rgba(0,0,0,0.4);
         }
 
         .sidebar-user-info {
@@ -339,9 +453,9 @@
         }
 
         .sidebar-user-name {
-            font-size: 0.82rem;
+            font-size: 0.81rem;
             font-weight: 700;
-            color: #FFFFFF;
+            color: rgba(255,255,255,0.9);
             line-height: 1.2;
             white-space: nowrap;
             overflow: hidden;
@@ -349,36 +463,39 @@
         }
 
         .sidebar-user-role {
-            font-size: 0.68rem;
-            color: var(--yellow);
+            font-size: 0.66rem;
+            color: var(--gold);
             text-transform: uppercase;
-            letter-spacing: 0.04em;
-            font-weight: 600;
+            letter-spacing: 0.06em;
+            font-weight: 700;
             white-space: nowrap;
+            margin-top: 1px;
         }
 
         .sidebar-logout-btn {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 7px;
             width: 100%;
-            padding: 8px 12px;
+            padding: 7px 12px;
             border-radius: var(--radius-sm);
-            background: rgba(229,35,43,0.12);
-            border: 1px solid rgba(229,35,43,0.25);
-            color: rgba(255,100,100,0.9);
-            font-size: 0.8rem;
+            background: transparent;
+            border: 1px solid rgba(229,35,43,0.2);
+            color: rgba(255,120,120,0.75);
+            font-size: 0.79rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.18s ease;
+            transition: all 0.2s ease;
             white-space: nowrap;
             overflow: hidden;
+            font-family: inherit;
         }
         .sidebar-logout-btn:hover {
-            background: rgba(229,35,43,0.22);
+            background: rgba(229,35,43,0.15);
             border-color: rgba(229,35,43,0.5);
-            color: #FF8080;
+            color: #FF8888;
+            box-shadow: 0 2px 12px rgba(229,35,43,0.15);
         }
 
         /* ── Sidebar Collapsed State ── */
@@ -1064,10 +1181,12 @@
 
         {{-- Brand --}}
         <div class="sidebar-brand">
-            <img src="{{ asset('images/banser-logo.png') }}"
-                 onerror="this.src='{{ asset('images/banser.png') }}'"
-                 alt="Logo BANSER"
-                 class="sidebar-logo">
+            <div class="sidebar-logo-wrap">
+                <img src="{{ asset('images/banser-logo.png') }}"
+                     onerror="this.src='{{ asset('images/banser.png') }}'"
+                     alt="Logo BANSER"
+                     class="sidebar-logo">
+            </div>
             <div class="sidebar-brand-text">
                 <div class="sidebar-brand-title">SIGAP BANSER</div>
                 <div class="sidebar-brand-sub">Satkorcab Kab. Blitar</div>
@@ -1153,16 +1272,17 @@
             <a href="https://sipena-banser-blitar.netlify.app"
                target="_blank"
                rel="noopener noreferrer"
-               class="sidebar-item"
+               class="sidebar-item sipena-item"
                data-label="SIPENA"
                title="Buka Aplikasi SIPENA BANSER Blitar">
-                <svg class="sidebar-item-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-                </svg>
-                <span class="sidebar-item-text">SIPENA</span>
-                <svg class="sidebar-item-ext" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-                </svg>
+                <div class="sipena-icon-wrap">
+                    <img src="{{ asset('images/sipena-icon.jpg') }}"
+                         onerror="this.parentElement.innerHTML='<svg width=\'24\' height=\'24\' fill=\'none\' stroke=\'currentColor\' viewBox=\'0 0 24 24\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'2\' d=\'M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14\'/></svg>'"
+                         alt="SIPENA"
+                         class="sipena-icon-img">
+                </div>
+                <span class="sidebar-item-text" style="color: rgba(255,220,160,0.9); font-weight: 700;">SIPENA</span>
+                <span class="sipena-ext-badge">APP ↗</span>
             </a>
 
             <div class="sidebar-divider"></div>
