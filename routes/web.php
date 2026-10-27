@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\SuratKeluarController;
+use App\Http\Controllers\AnggotaController;
 use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\SuratMasukController;
 use Illuminate\Support\Facades\Route;
@@ -34,6 +36,10 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::middleware('auth')->group(function () {
     // Pusat Komando & Beranda
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Laporan Rekap Persuratan
+    Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
+    Route::get('/laporan/pdf', [LaporanController::class, 'pdf'])->name('laporan.pdf');
 
     // Modul Surat Masuk
     Route::get('/surat-masuk', [SuratMasukController::class, 'index'])->name('surat-masuk.index');
@@ -92,6 +98,15 @@ Route::middleware('auth')->group(function () {
     Route::put('/pengaturan-akun/users/{id}', [\App\Http\Controllers\PengaturanAkunController::class, 'updateUser'])->name('pengaturan.users.update');
     Route::put('/pengaturan-akun/users/{id}/reset-password', [\App\Http\Controllers\PengaturanAkunController::class, 'resetPasswordUser'])->name('pengaturan.users.reset-password');
     Route::delete('/pengaturan-akun/users/{id}', [\App\Http\Controllers\PengaturanAkunController::class, 'destroyUser'])->name('pengaturan.users.destroy');
+
+    // Modul Anggota BANSER
+    Route::get('/anggota', [AnggotaController::class, 'index'])->name('anggota.index');
+    Route::get('/anggota/create', [AnggotaController::class, 'create'])->name('anggota.create');
+    Route::post('/anggota', [AnggotaController::class, 'store'])->name('anggota.store');
+    Route::get('/anggota/{id}/edit', [AnggotaController::class, 'edit'])->name('anggota.edit');
+    Route::put('/anggota/{id}', [AnggotaController::class, 'update'])->name('anggota.update');
+    Route::delete('/anggota/{id}', [AnggotaController::class, 'destroy'])->name('anggota.destroy');
+    Route::get('/api/anggota', [AnggotaController::class, 'apiList'])->name('anggota.api');
 
     // Modul Notifikasi Pengguna
     Route::get('/notifikasi', [NotifikasiController::class, 'index'])->name('notifikasi.index');
