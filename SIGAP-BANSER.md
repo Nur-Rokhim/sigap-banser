@@ -57,6 +57,15 @@ Setiap jenis punya isian khusus (tabel detail):
 ### Lembar Disposisi Surat Masuk
 Pada modul Surat Masuk bagian cetak, tersedia formulir cetak resmi **Lembar Disposisi** dengan KOP Surat sama persis dengan SPH, tabel data registrasi surat masuk, kotak sifat surat, checklist tujuan disposisi pimpinan Satkorcab, checklist petunjuk/instruksi, kotak catatan tambahan pimpinan, dan tanda tangan pimpinan/stempel resmi.
 
+### Modul Struktur Organisasi Satkorcab
+Terletak di sidebar tepat setelah **Profil Organisasi**, memuat 17 unit hierarki komando Banser Satkorcab Kab. Blitar:
+1. **KASATKORCAB** (Kepala Satuan Koordinasi Cabang)
+2. **WAKASATKORCAB** (Wakil Kepala Satkorcab, dinamis: dapat ditambah dan dikurangi sesuai kebutuhan)
+3. **KASETMA** (Kepala Sekretariat Markas)
+4. **7 Biro Markas:** Biro Adminpers, Biro Asrendiklat, Biro Kegiatan, Biro Informasi & Komunikasi, Biro Kerjasama, Biro Penelitian & Pengembangan, Biro Logistik. *(Dapat diedit nama Ketua & daftar Anggota).*
+5. **7 Satuan Khusus (SATSUS):** SATSUS PROVOST, SATSUS PROTOKOLER, SATSUS BAGANA, SATSUS BASADA, SATSUS BALANTAS, SATSUS BARITIM, SATSUS BALAKAR. *(Dapat diedit nama Ketua/Komandan, Wakil Ketua/Komandan, & daftar Anggota).*
+Fitur: Bagan visual hierarki, modal edit cepat per unit, formulir edit massal terpadu, penambahan/penghapusan baris wakil secara dinamis, dan cetak bagan organisasi.
+
 ### C. Kode / Nomor Surat
 
 **Format:** `000/SKC-<KODE JENIS>/<BULAN ROMAWI>/<TAHUN>`

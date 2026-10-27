@@ -88,6 +88,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/profil', [ProfilController::class, 'update'])->name('profil.store');
     Route::get('/profil/berkas/{field}', [ProfilController::class, 'berkas'])->name('profil.berkas');
 
+    // Modul Struktur Organisasi Satkorcab
+    Route::get('/struktur-organisasi', [\App\Http\Controllers\StrukturOrganisasiController::class, 'index'])->name('struktur-organisasi.index');
+    Route::get('/struktur-organisasi/edit', [\App\Http\Controllers\StrukturOrganisasiController::class, 'edit'])->name('struktur-organisasi.edit');
+    Route::put('/struktur-organisasi', [\App\Http\Controllers\StrukturOrganisasiController::class, 'update'])->name('struktur-organisasi.update');
+    Route::post('/struktur-organisasi/wakil', [\App\Http\Controllers\StrukturOrganisasiController::class, 'storeWakil'])->name('struktur-organisasi.wakil.store');
+    Route::delete('/struktur-organisasi/wakil/{id}', [\App\Http\Controllers\StrukturOrganisasiController::class, 'destroyWakil'])->name('struktur-organisasi.wakil.destroy');
+    Route::put('/struktur-organisasi/unit/{id}', [\App\Http\Controllers\StrukturOrganisasiController::class, 'updateUnit'])->name('struktur-organisasi.unit.update');
+
     // Modul Pengaturan Akun & Ganti Kata Sandi
     Route::get('/pengaturan-akun', [\App\Http\Controllers\PengaturanAkunController::class, 'index'])->name('pengaturan.index');
     Route::put('/pengaturan-akun/password', [\App\Http\Controllers\PengaturanAkunController::class, 'updatePassword'])->name('pengaturan.password.update');
