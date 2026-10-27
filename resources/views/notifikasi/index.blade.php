@@ -194,31 +194,37 @@
 @section('content')
 <div class="page-container">
 
-    {{-- Header --}}
-    <div class="notif-page-header">
-        <div>
-            <div style="font-size: 0.82rem; font-weight: 700; text-transform: uppercase; color: var(--gold); letter-spacing: 0.05em; margin-bottom: 4px;">
-                Pusat Pemberitahuan
+    {{-- Header Banner --}}
+    <div class="page-hero" style="background: linear-gradient(135deg, var(--hero1) 0%, #3D0A0E 60%, var(--hero2) 100%); border-radius: var(--radius-lg); padding: 24px 28px; margin-bottom: 22px; position: relative; overflow: hidden; box-shadow: 0 8px 28px rgba(90, 14, 20, 0.35); border: 1px solid rgba(255, 255, 255, 0.08);">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; position: relative; z-index: 1;">
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <div style="width: 52px; height: 52px; border-radius: var(--radius-md); background: linear-gradient(135deg, rgba(229,35,43,0.3) 0%, rgba(201,162,74,0.2) 100%); border: 1px solid rgba(201,162,74,0.3); display: flex; align-items: center; justify-content: center; color: #FFFFFF; box-shadow: 0 4px 14px rgba(0,0,0,0.3); flex-shrink: 0;">
+                    <svg width="26" height="26" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 style="font-size: 1.45rem; font-weight: 900; color: #FFFFFF; margin-bottom: 3px; text-shadow: 0 2px 6px rgba(0,0,0,0.35);">
+                        Pusat Notifikasi & Disposisi
+                    </h1>
+                    <p style="color: rgba(255,255,255,0.72); font-size: 0.88rem; margin: 0;">
+                        Pemberitahuan surat dinas, tindak lanjut disposisi, dan peringatan operasional
+                    </p>
+                </div>
             </div>
-            <h1 style="font-size: 1.6rem; font-weight: 800; color: var(--ink); margin: 0;">
-                Notifikasi
-            </h1>
-            <p style="font-size: 0.88rem; color: var(--ink-muted); margin: 4px 0 0;">
-                Pemberitahuan dan informasi penting yang memerlukan respons Anda
-            </p>
-        </div>
 
-        @if($totalBelumDibaca > 0)
-        <form action="{{ route('notifikasi.tandai-semua-baca') }}" method="POST" style="margin: 0;">
-            @csrf
-            <button type="submit" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 8px;">
-                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                </svg>
-                Tandai Semua Sudah Dibaca
-            </button>
-        </form>
-        @endif
+            @if($totalBelumDibaca > 0)
+            <form action="{{ route('notifikasi.tandai-semua-baca') }}" method="POST" style="margin: 0;">
+                @csrf
+                <button type="submit" class="btn btn-gold btn-lg">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <span>Tandai Semua Dibaca</span>
+                </button>
+            </form>
+            @endif
+        </div>
     </div>
 
     {{-- Stats Mini --}}

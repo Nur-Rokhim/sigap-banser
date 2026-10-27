@@ -4,13 +4,63 @@
 
 @push('styles')
 <style>
-    .laporan-header-row {
+    /* ── Header Banner ── */
+    .page-hero {
+        background: linear-gradient(135deg, var(--hero1) 0%, #3D0A0E 60%, var(--hero2) 100%);
+        border-radius: var(--radius-lg);
+        padding: 24px 28px;
+        margin-bottom: 22px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 8px 28px rgba(90, 14, 20, 0.35);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .page-hero::after {
+        content: '';
+        position: absolute;
+        top: -40px; right: -40px;
+        width: 180px; height: 180px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(201,162,74,0.18) 0%, transparent 70%);
+        pointer-events: none;
+    }
+    .hero-flex {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 16px;
-        margin-bottom: 24px;
+        gap: 18px;
         flex-wrap: wrap;
+        position: relative;
+        z-index: 1;
+    }
+    .hero-title-group {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+    .hero-icon-box {
+        width: 52px;
+        height: 52px;
+        border-radius: var(--radius-md);
+        background: linear-gradient(135deg, rgba(229,35,43,0.3) 0%, rgba(201,162,74,0.2) 100%);
+        border: 1px solid rgba(201,162,74,0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #FFFFFF;
+        box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+        flex-shrink: 0;
+    }
+    .hero-text h1 {
+        font-size: 1.45rem;
+        font-weight: 900;
+        color: #FFFFFF;
+        margin-bottom: 3px;
+        text-shadow: 0 2px 6px rgba(0,0,0,0.35);
+    }
+    .hero-text p {
+        color: rgba(255,255,255,0.72);
+        font-size: 0.88rem;
     }
 
     /* Filter Bar */
@@ -233,29 +283,29 @@
 <div class="page-container">
 
     {{-- Header --}}
-    <div class="laporan-header-row">
-        <div>
-            <h2 style="margin:0; font-size:1.45rem; font-weight:800; color:var(--ink);">
-                Laporan Rekap Persuratan
-            </h2>
-            <p style="margin:4px 0 0; color:var(--ink-muted); font-size:0.88rem;">
-                Statistik surat masuk dan keluar —
-                @if($bulan)
-                    {{ $namaBulan[(int)$bulan] ?? '' }}
-                @endif
-                Tahun {{ $tahun }}
-            </p>
+    <div class="page-hero">
+        <div class="hero-flex">
+            <div class="hero-title-group">
+                <div class="hero-icon-box">
+                    <svg width="26" height="26" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                    </svg>
+                </div>
+                <div class="hero-text">
+                    <h1>Laporan Rekap Persuratan</h1>
+                    <p>Statistik kedinasan surat masuk dan keluar — {{ $bulan ? ($namaBulan[(int)$bulan] ?? '') . ' ' : '' }}Tahun {{ $tahun }}</p>
+                </div>
+            </div>
+            <a href="{{ route('laporan.pdf', ['tahun' => $tahun, 'bulan' => $bulan, 'jenis' => $jenis]) }}"
+               target="_blank"
+               class="btn btn-gold btn-lg"
+               id="btn-cetak-laporan">
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+                </svg>
+                <span>Cetak Rekap PDF</span>
+            </a>
         </div>
-        <a href="{{ route('laporan.pdf', ['tahun' => $tahun, 'bulan' => $bulan, 'jenis' => $jenis]) }}"
-           target="_blank"
-           class="btn btn-primary"
-           style="background-color: #8E1B22;"
-           id="btn-cetak-laporan">
-            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
-            </svg>
-            <span>Cetak PDF</span>
-        </a>
     </div>
 
     {{-- Filter --}}
