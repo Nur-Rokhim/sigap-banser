@@ -641,6 +641,15 @@
 
     <!-- Centerpiece Login Box -->
     <div class="login-container">
+        <!-- Navigation Back to Landing Page -->
+        <div style="margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center;">
+            <a href="{{ url('/') }}" style="color: var(--neon-gold); text-decoration: none; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono', monospace; padding: 6px 14px; background: rgba(18, 7, 12, 0.75); border: 1px solid rgba(201, 162, 74, 0.3); border-radius: 999px; backdrop-filter: blur(12px); transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.5);">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                <span>Beranda SIGAP</span>
+            </a>
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--text-muted); letter-spacing: 0.05em;">KODAL XII-11</span>
+        </div>
+
         <div class="cyber-card">
             <!-- 4 Sci-Fi Tactical Corner Brackets -->
             <div class="corner-bracket corner-tl"></div>

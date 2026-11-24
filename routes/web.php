@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LandingController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\SuratKeluarController;
@@ -18,10 +19,8 @@ use Illuminate\Support\Facades\Route;
 | Banser Kabupaten Blitar.
 */
 
-// Pengalihan rute akar ke Beranda / Dashboard
-Route::get('/', function () {
-    return redirect()->route('dashboard');
-});
+// Halaman Utama / Landing Page Publik
+Route::get('/', [LandingController::class, 'index'])->name('landing');
 
 // Rute Autentikasi (Guest)
 Route::middleware('guest')->group(function () {

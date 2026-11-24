@@ -94,7 +94,7 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login')
+        return redirect()->route('landing')
             ->with('success', 'Anda telah berhasil keluar dari sistem SIGAP BANSER.');
     }
 }
